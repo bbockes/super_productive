@@ -4,11 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "npx vite",
-    "build": "npx vite build",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "preview": "npx vite preview",
-    "deploy": "gh-pages -d dist"
+  "dev": "npx vite",
+  "build": "npx vite build",
+  "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+  "preview": "npx vite preview",
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "lucide-react": "^0.441.0",
