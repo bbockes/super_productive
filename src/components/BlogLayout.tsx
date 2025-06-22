@@ -1,0 +1,284 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { BlogCard } from './BlogCard';
+import { BlogModal } from './BlogModal';
+import { CategorySidebar } from './CategorySidebar';
+import { MobileHeader } from './MobileHeader';
+import { DarkModeToggle } from './DarkModeToggle';
+import { NewsletterForm } from './NewsletterForm';
+import { aboutPost } from '../data/blogData';
+import { LinkedinIcon } from 'lucide-react';
+import { sanityClient, POSTS_QUERY, CATEGORIES_QUERY } from '../lib/sanityClient';
+import { slugify, findPostBySlug } from '../utils/slugify';
+
+export function BlogLayout() {
+  const navigate = useNavigate();
+  const { slug } = useParams();
+  const location = useLocation();
+  
+  const [posts, setPosts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Function to get category color based on name
+  const getCategoryColor = (categoryName) => {
+    const colorMap = {
+      'All': 'bg-gray-800',
+      'Writing': 'bg-blue-500',
+      'Learning': 'bg-red-500',
+      'Planning': 'bg-green-500',
+      'Building': 'bg-pink-500',
+      'Creativity': 'bg-yellow-500',
+      'Growth': 'bg-purple-500',
+      'Focus': 'bg-orange-500',
+      'Communication': 'bg-indigo-500',
+      'Thinking': 'bg-teal-500',
+      'Shortcuts': 'bg-emerald-500'
+    };
+    return colorMap[categoryName] || 'bg-gray-500';
+  };
+
+  // Fetch blog posts and categories from Supabase
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      
+      try {
+        // Fetch posts from Sanity
+        const postsData = await sanityClient.fetch(POSTS_QUERY);
+        
+        // Transform Sanity data to match expected format
+        const transformedPosts = postsData.map(post => ({
+          ...post,
+          id: post._id,
+          read_time: post.readTime,
+          created_at: post.publishedAt,
+          slug: post.slug?.current || slugify(post.title)
+        }));
+
+        setPosts(transformedPosts);
+
+        // Fetch categories from Sanity
+        const categoriesData = await sanityClient.fetch(CATEGORIES_QUERY);
+        
+        // Extract unique categories and format them with colors
+        const uniqueCategories = [...new Set(categoriesData.map(item => item.category).filter(Boolean))];
+        const formattedCategories = [
+          { name: 'All', color: getCategoryColor('All') },
+          ...uniqueCategories.map(categoryName => ({
+            name: categoryName,
+            color: getCategoryColor(categoryName)
+          }))
+        ];
+
+        setCategories(formattedCategories);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  // Handle URL-based post selection
+  useEffect(() => {
+    console.log('🔍 Current pathname:', location.pathname);
+    console.log('🔍 URL slug from params:', slug);
+    console.log('📝 Posts available:', posts.length);
+    
+    // Check if we're on the about page
+    if (location.pathname.endsWith('/about')) {
+      console.log('✅ On about page, setting selectedPost to aboutPost');
+      setSelectedPost(aboutPost);
+      console.log('📄 aboutPost content:', aboutPost);
+    } else if (slug && posts.length > 0) {
+      console.log('🔎 Looking for post with slug:', slug);
+      const post = findPostBySlug(posts, slug);
+      if (post) {
+        console.log('✅ Found post, setting selectedPost:', post.title);
+        setSelectedPost(post);
+      } else {
+        console.log('❌ Post not found, redirecting to home');
+        // Post not found, redirect to home
+        navigate('/', { replace: true });
+        setSelectedPost(null);
+      }
+    } else if (location.pathname === '/' || location.pathname === '/super_productive/' || location.pathname === '/super_productive') {
+      console.log('🏠 On home page, clearing selectedPost');
+      setSelectedPost(null);
+    }
+  }, [slug, posts, navigate, location.pathname]);
+
+  // Debug selectedPost changes
+  useEffect(() => {
+    console.log('🎯 selectedPost state changed:', selectedPost ? selectedPost.title : 'null');
+    console.log('🎯 selectedPost full object:', selectedPost);
+  }, [selectedPost]);
+
+  const filteredPosts = selectedCategory === 'All' 
+    ? posts 
+    : posts.filter(post => post.category === selectedCategory);
+
+  const handlePostClick = post => {
+    console.log('🖱️ Post clicked:', post.title);
+    const postSlug = slugify(post.title);
+    console.log('🔗 Navigating to slug:', postSlug);
+    navigate(`/posts/${postSlug}`);
+  };
+
+  const handleAboutClick = () => {
+    console.log('ℹ️ About button clicked, navigating to /about');
+    navigate('/about');
+  };
+
+  const handleCloseModal = () => {
+    console.log('❌ Modal close requested, navigating to home');
+    navigate('/');
+  };
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setIsMobileMenuOpen(false);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  return (
+    <div className="flex h-screen w-full overflow-x-hidden">
+      {/* Desktop/Tablet Sidebar - shows on medium screens and up */}
+      <div className="hidden md:block flex-shrink-0">
+        <CategorySidebar 
+          categories={categories} 
+          selectedCategory={selectedCategory} 
+          onCategorySelect={handleCategorySelect} 
+          onAboutClick={handleAboutClick} 
+        />
+      </div>
+
+      {/* Mobile Menu Overlay - only shows on small screens */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40" onClick={toggleMobileMenu}>
+          <div className="fixed right-0 top-0 h-full w-80 bg-white dark:bg-gray-800 shadow-lg" onClick={(e) => e.stopPropagation()}>
+            <CategorySidebar 
+              categories={categories} 
+              selectedCategory={selectedCategory} 
+              onCategorySelect={handleCategorySelect} 
+              onAboutClick={handleAboutClick}
+              isMobile={true}
+              onClose={toggleMobileMenu}
+            />
+          </div>
+        </div>
+      )}
+
+      <main className="flex-1 flex flex-col min-w-0 w-full">
+        {/* Mobile Header - only shows on small screens */}
+        <div className="md:hidden flex-shrink-0">
+          <MobileHeader onMenuToggle={toggleMobileMenu} />
+        </div>
+
+        <div className="flex-1 p-4 md:p-8 overflow-y-auto w-full">
+          <div className="max-w-7xl mx-auto w-full">
+            {/* Desktop Header - shows on large screens and up only */}
+            <div className="hidden lg:flex justify-between items-center mb-8">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center overflow-hidden" style={{ width: '580px', maxWidth: '580px' }}>
+                <div className="px-4 py-4 w-full">
+                  <NewsletterForm className="w-full" />
+                </div>
+              </div>
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0">
+                <div className="flex items-center gap-3">
+                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                    <LinkedinIcon className="w-5 h-5" />
+                  </a>
+                  <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
+                  <DarkModeToggle />
+                </div>
+              </div>
+            </div>
+
+            {/* Tablet Subscribe Section - shows on medium screens only */}
+            <div className="hidden md:block lg:hidden mb-8">
+              <div className="flex items-start gap-6">
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden max-w-md flex-1">
+                  <div className="px-4 py-4">
+                    <NewsletterForm className="w-full" />
+                  </div>
+                </div>
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex-shrink-0">
+                  <div className="flex items-center gap-3">
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                      <LinkedinIcon className="w-5 h-5" />
+                    </a>
+                    <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
+                    <DarkModeToggle />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile Subscribe Section - only shows on small screens */}
+            <div className="md:hidden mb-6">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
+                <div className="px-4 py-4">
+                  <NewsletterForm 
+                    className="w-full"
+                    placeholder="Get free weekly updates"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Loading and Error States */}
+            {loading && (
+              <div className="flex justify-center items-center py-12">
+                <div className="text-gray-600 dark:text-gray-400">Loading posts...</div>
+              </div>
+            )}
+
+            {error && (
+              <div className="flex justify-center items-center py-12">
+                <div className="text-red-500">Error loading posts: {error}</div>
+              </div>
+            )}
+
+            {/* Blog Cards Grid */}
+            {!loading && !error && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
+                {filteredPosts.map(post => (
+                  <BlogCard key={post.id} post={post} onClick={() => handlePostClick(post)} />
+                ))}
+              </div>
+            )}
+
+            {/* No posts message */}
+            {!loading && !error && filteredPosts.length === 0 && (
+              <div className="flex justify-center items-center py-12">
+                <div className="text-gray-600 dark:text-gray-400">
+                  {selectedCategory === 'All' ? 'No posts found.' : `No posts found in "${selectedCategory}" category.`}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </main>
+
+      {/* Modal - This should render when selectedPost is set */}
+      {console.log('🎭 Rendering modal check - selectedPost exists:', !!selectedPost)}
+      {selectedPost && (
+        <>
+          {console.log('🎭 Actually rendering BlogModal component')}
+          <BlogModal post={selectedPost} onClose={handleCloseModal} />
+        </>
+      )}
+    </div>
+  );
+}
