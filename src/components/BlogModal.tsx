@@ -143,7 +143,7 @@ export function BlogModal({
                     <div className="md:hidden">
                       <NewsletterForm 
                         className="w-full"
-                        placeholder="Get free weekly updates"
+                        placeholder="Enter your email address"
                         buttonText="Subscribe"
                       />
                     </div>
@@ -151,7 +151,7 @@ export function BlogModal({
                     <div className="hidden md:block">
                       <NewsletterForm 
                         className="w-full"
-                        placeholder="Get 3 new tips in your inbox every Wednesday"
+                        placeholder="Enter your email address"
                         buttonText="Subscribe"
                       />
                     </div>
