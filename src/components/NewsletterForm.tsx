@@ -46,31 +46,33 @@ export function NewsletterForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className={className}>
-      <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">
-        <div className="flex-1">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder={placeholder}
-            disabled={isLoading}
-            className={`w-full px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed ${inputClassName}`}
-            required
-          />
-          {error && (
-            <p className="text-red-500 text-sm mt-1">{error}</p>
-          )}
+    <div className={className}>
+      <form onSubmit={handleSubmit}>
+        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">
+          <div className="flex-1">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={placeholder}
+              disabled={isLoading}
+              className={`w-full px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed ${inputClassName}`}
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={isLoading || !email}
+            className={`px-6 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap ${buttonClassName}`}
+          >
+            {isLoading && <LoaderIcon className="w-4 h-4 animate-spin" />}
+            {buttonText}
+          </button>
         </div>
-        <button
-          type="submit"
-          disabled={isLoading || !email}
-          className={`px-6 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap ${buttonClassName}`}
-        >
-          {isLoading && <LoaderIcon className="w-4 h-4 animate-spin" />}
-          {buttonText}
-        </button>
-      </div>
-    </form>
+      </form>
+      {error && (
+        <p className="text-red-500 text-sm mt-2">{error}</p>
+      )}
+    </div>
   );
 }
