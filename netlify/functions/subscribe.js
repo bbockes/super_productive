@@ -46,8 +46,19 @@ exports.handler = async (event, context) => {
       hasApiKey: !!apiKey,
       hasFormId: !!formId,
       apiKeyLength: apiKey ? apiKey.length : 0,
-      formIdValue: formId // Form ID is not sensitive, safe to log
+      formIdValue: formId, // Form ID is not sensitive, safe to log
+      formIdType: typeof formId
     });
+
+    // Validate form ID format (should be numeric)
+    if (formId && !/^\d+$/.test(formId)) {
+      console.error('Form ID should be numeric, got:', formId);
+      return {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({ error: 'Invalid form ID format - should be numeric' })
+      };
+    }
 
     if (!apiKey || !formId) {
       console.error('ConvertKit credentials missing:', { 
