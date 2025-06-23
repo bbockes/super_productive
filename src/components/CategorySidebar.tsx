@@ -87,7 +87,6 @@ export function CategorySidebar({
                     style={{ maxHeight: '80px' }}
                     onError={handleLogoError}
                   />
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">Tech tips to level up your productivity</p>
                   <p className="text-gray-600 dark:text-gray-400 text-sm">Bite-sized tech tips to level up your productivity</p>
                 </div>
               ) : (
