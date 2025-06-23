@@ -6,7 +6,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 export function App() {
   return (
     <ThemeProvider>
-      <BrowserRouter basename="/super_productive">
+      <BrowserRouter>
         <div className="w-full min-h-screen bg-gray-50 dark:bg-gray-900 overflow-x-hidden">
           <Routes>
             <Route path="/" element={<BlogLayout />} />
