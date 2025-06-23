@@ -24,39 +24,57 @@ export function useNewsletter(): UseNewsletterReturn {
         throw new Error('Please enter a valid email address');
       }
 
-      // Check if we're in test mode (development environment)
-      const isTestMode = import.meta.env.DEV && !import.meta.env.VITE_CONVERTKIT_API_KEY;
-      
-      if (isTestMode) {
-        // Simulate API call delay
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        // Simulate different responses for testing
-        if (email.includes('error')) {
-          throw new Error('Test error: Invalid email address');
-        }
-        
-        console.log('🧪 TEST MODE: Newsletter subscription simulated for:', email);
-        setIsSuccess(true);
-        return;
+      // Get ConvertKit credentials from environment
+      const apiKey = import.meta.env.VITE_CONVERTKIT_API_KEY;
+      const formId = import.meta.env.VITE_CONVERTKIT_FORM_ID;
+
+      if (!apiKey || !formId) {
+        throw new Error('Newsletter service configuration is missing');
       }
 
-      // Determine the correct URL based on environment
-      // Since we're using Sanity now, we'll need to set up a different newsletter service
-      // For now, we'll simulate the newsletter signup
-      console.log('Newsletter signup for:', email);
-      
-      // You can replace this with your preferred newsletter service (ConvertKit, Mailchimp, etc.)
-      // For demonstration, we'll simulate success
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Make request to ConvertKit API
+      const response = await fetch(`https://api.convertkit.com/v3/forms/${formId}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          api_key: apiKey,
+          email: email,
+        }),
+      });
 
-      setIsSuccess(true);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        
+        // Handle specific ConvertKit error messages
+        if (response.status === 400) {
+          throw new Error('Invalid email address or already subscribed');
+        } else if (response.status === 401) {
+          throw new Error('Newsletter service authentication failed');
+        } else if (response.status === 422) {
+          throw new Error('Email address is invalid');
+        } else {
+          throw new Error(errorData.message || 'Failed to subscribe to newsletter');
+        }
+      }
+
+      const result = await response.json();
+      
+      // ConvertKit returns a subscription object on success
+      if (result.subscription) {
+        setIsSuccess(true);
+        console.log('✅ Successfully subscribed to newsletter:', email);
+      } else {
+        throw new Error('Unexpected response from newsletter service');
+      }
+
     } catch (err) {
-      // Handle connection errors gracefully
+      console.error('Newsletter subscription error:', err);
+      
+      // Handle network errors gracefully
       if (err instanceof TypeError && err.message.includes('fetch')) {
-        // This is likely a network/connection error
-        console.warn('Newsletter service temporarily unavailable. Email:', email);
-        setIsSuccess(true); // Show success to user for demo purposes
+        setError('Unable to connect to newsletter service. Please try again.');
       } else {
         setError(err instanceof Error ? err.message : 'An unexpected error occurred');
       }
