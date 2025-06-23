@@ -11,22 +11,43 @@ import { LinkedinIcon } from 'lucide-react';
 import { sanityClient, POSTS_QUERY, CATEGORIES_QUERY } from '../lib/sanityClient';
 import { slugify, findPostBySlug } from '../utils/slugify';
 
+// Add type definitions for posts and categories
+interface Post {
+  id: string;
+  title: string;
+  image?: string;
+  read_time?: number | string;
+  readTime?: number | string;
+  created_at?: string;
+  publishedAt?: string;
+  slug: string;
+  category?: string;
+  subheader?: string;
+  excerpt?: string;
+  [key: string]: any;
+}
+
+interface Category {
+  name: string;
+  color: string;
+}
+
 export function BlogLayout() {
   const navigate = useNavigate();
-  const { slug } = useParams();
+  const { slug } = useParams<{ slug?: string }>();
   const location = useLocation();
   
-  const [posts, setPosts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedPost, setSelectedPost] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   // Function to get category color based on name
-  const getCategoryColor = (categoryName) => {
-    const colorMap = {
+  const getCategoryColor = (categoryName: string): string => {
+    const colorMap: Record<string, string> = {
       'All': 'bg-gray-800',
       'Writing': 'bg-blue-500',
       'Learning': 'bg-red-500',
@@ -42,7 +63,7 @@ export function BlogLayout() {
     return colorMap[categoryName] || 'bg-gray-500';
   };
 
-  // Fetch blog posts and categories from Supabase
+  // Fetch blog posts and categories from Sanity
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
@@ -52,7 +73,7 @@ export function BlogLayout() {
         const postsData = await sanityClient.fetch(POSTS_QUERY);
         
         // Transform Sanity data to match expected format
-        const transformedPosts = postsData.map(post => ({
+        const transformedPosts: Post[] = postsData.map((post: any) => ({
           ...post,
           id: post._id,
           read_time: post.readTime,
@@ -66,17 +87,17 @@ export function BlogLayout() {
         const categoriesData = await sanityClient.fetch(CATEGORIES_QUERY);
         
         // Extract unique categories and format them with colors
-        const uniqueCategories = [...new Set(categoriesData.map(item => item.category).filter(Boolean))];
-        const formattedCategories = [
+        const uniqueCategories = [...new Set(categoriesData.map((item: any) => item.category).filter(Boolean))] as string[];
+        const formattedCategories: Category[] = [
           { name: 'All', color: getCategoryColor('All') },
-          ...uniqueCategories.map(categoryName => ({
+          ...uniqueCategories.map((categoryName) => ({
             name: categoryName,
             color: getCategoryColor(categoryName)
           }))
         ];
 
         setCategories(formattedCategories);
-      } catch (err) {
+      } catch (err: any) {
         setError(err.message);
       } finally {
         setLoading(false);
@@ -123,11 +144,11 @@ export function BlogLayout() {
 
   const filteredPosts = selectedCategory === 'All' 
     ? posts 
-    : posts.filter(post => post.category === selectedCategory);
+    : posts.filter((post: Post) => post.category === selectedCategory);
 
-  const handlePostClick = post => {
+  const handlePostClick = (post: Post) => {
     console.log('🖱️ Post clicked:', post.title);
-    const postSlug = slugify(post.title);
+    const postSlug = post.slug; // Use the actual slug from Sanity
     console.log('🔗 Navigating to slug:', postSlug);
     navigate(`/posts/${postSlug}`);
   };
@@ -142,7 +163,7 @@ export function BlogLayout() {
     navigate('/');
   };
 
-  const handleCategorySelect = (category) => {
+  const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
     setIsMobileMenuOpen(false);
   };
