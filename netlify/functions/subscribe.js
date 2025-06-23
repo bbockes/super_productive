@@ -41,6 +41,14 @@ exports.handler = async (event, context) => {
     const apiKey = process.env.CONVERTKIT_API_KEY;
     const formId = process.env.CONVERTKIT_FORM_ID;
 
+    // Debug logging to help troubleshoot
+    console.log('Environment variables check:', {
+      hasApiKey: !!apiKey,
+      hasFormId: !!formId,
+      apiKeyLength: apiKey ? apiKey.length : 0,
+      formIdValue: formId // Form ID is not sensitive, safe to log
+    });
+
     if (!apiKey || !formId) {
       console.error('ConvertKit credentials missing:', { 
         hasApiKey: !!apiKey, 
