@@ -229,7 +229,7 @@ export const aboutPost = {
         },
         {
           _type: 'span',
-          marks: ['em'],
+          marks: ['em', 'strong'],
           text: 'supercharge'
         },
         {
