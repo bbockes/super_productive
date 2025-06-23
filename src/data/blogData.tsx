@@ -24,7 +24,7 @@ export const aboutPost = {
         {
           _type: 'span',
           marks: [],
-          text: 'It might feel like progress, but it's just motion without direction—'
+          text: 'It might feel like progress, but it\'s just motion without direction—'
         },
         {
           _type: 'span',
@@ -40,7 +40,7 @@ export const aboutPost = {
         {
           _type: 'span',
           marks: ['strong'],
-          text: 'And using the wrong tools? That's like trying to hammer nails with a screwdriver.'
+          text: 'And using the wrong tools? That\'s like trying to hammer nails with a screwdriver.'
         }
       ]
     },
@@ -89,7 +89,7 @@ export const aboutPost = {
         {
           _type: 'span',
           marks: [],
-          text: ' Most pick what's familiar or popular—leading them to overlook better options and waste time reinventing the wheel.'
+          text: ' Most pick what\'s familiar or popular—leading them to overlook better options and waste time reinventing the wheel.'
         }
       ]
     },
@@ -100,7 +100,7 @@ export const aboutPost = {
         {
           _type: 'span',
           marks: [],
-          text: 'You don't need another endless list of apps or a mixed bag of AI tricks.'
+          text: 'You don\'t need another endless list of apps or a mixed bag of AI tricks.'
         }
       ]
     },
