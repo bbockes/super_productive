@@ -24,45 +24,24 @@ export function useNewsletter(): UseNewsletterReturn {
         throw new Error('Please enter a valid email address');
       }
 
-      // Get ConvertKit credentials from environment
-      const apiKey = import.meta.env.VITE_CONVERTKIT_API_KEY;
-      const formId = import.meta.env.VITE_CONVERTKIT_FORM_ID;
-
-      if (!apiKey || !formId) {
-        throw new Error('Newsletter service configuration is missing');
-      }
-
-      // Make request to ConvertKit API
-      const response = await fetch(`https://api.convertkit.com/v3/forms/${formId}/subscribe`, {
+      // Make request to our secure Netlify function
+      const response = await fetch('/.netlify/functions/subscribe', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          api_key: apiKey,
           email: email,
         }),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        
-        // Handle specific ConvertKit error messages
-        if (response.status === 400) {
-          throw new Error('Invalid email address or already subscribed');
-        } else if (response.status === 401) {
-          throw new Error('Newsletter service authentication failed');
-        } else if (response.status === 422) {
-          throw new Error('Email address is invalid');
-        } else {
-          throw new Error(errorData.message || 'Failed to subscribe to newsletter');
-        }
+        throw new Error(result.error || 'Failed to subscribe to newsletter');
       }
 
-      const result = await response.json();
-      
-      // ConvertKit returns a subscription object on success
-      if (result.subscription) {
+      if (result.success) {
         setIsSuccess(true);
         console.log('✅ Successfully subscribed to newsletter:', email);
       } else {
