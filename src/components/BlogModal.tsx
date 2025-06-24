@@ -124,17 +124,16 @@ export function BlogModal({
                     strong: ({children}) => <strong className="font-bold text-gray-900 dark:text-white">{children}</strong>,
                     em: ({children}) => <em className="italic text-gray-800 dark:text-gray-200">{children}</em>,
                     code: ({children}) => (
-                      <span className="inline-flex items-center group">
+                      <span className="relative inline group">
                         <code className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded text-sm group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition-colors">
                           {children}
                         </code>
-                        <span className="w-5"></span>
                         <button
                           onClick={() => {
                             const text = typeof children === 'string' ? children : children?.toString() || '';
                             navigator.clipboard.writeText(text);
                           }}
-                          className="opacity-0 group-hover:opacity-100 p-1 bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 text-gray-600 dark:text-gray-400 rounded transition-all duration-200"
+                          className="opacity-0 group-hover:opacity-100 p-1 ml-5 bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 text-gray-600 dark:text-gray-400 rounded transition-all duration-200 inline-flex items-center"
                           title="Copy code"
                         >
                           <CopyIcon className="w-3.5 h-3.5" />
