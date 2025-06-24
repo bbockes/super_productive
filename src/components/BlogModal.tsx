@@ -54,9 +54,13 @@ function InlineCodeBlock({ children }: { children: React.ReactNode }) {
           copied 
             ? 'bg-green-200 dark:bg-green-400 text-green-900 dark:text-gray-900' 
             : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 group-hover:bg-gray-200 dark:group-hover:bg-gray-600'
-        } my-0.5`}
+        } my-1`}
         onClick={handleCopy}
-        style={{ fontFamily: 'inherit' }}
+        style={{ 
+          fontFamily: 'inherit',
+          lineHeight: '1.8',
+          display: 'inline-block'
+        }}
       >
         {children}
       </code>

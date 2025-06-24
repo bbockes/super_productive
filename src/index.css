@@ -104,9 +104,4 @@
   .dark * {
     scrollbar-color: theme('colors.gray.600') theme('colors.gray.800');
   }
-
-  /* Prevent inline code overlap on adjacent lines */
-  .markdown-content p:has(code) + p:has(code) {
-    margin-top: 1.5rem;
-  }
 }
