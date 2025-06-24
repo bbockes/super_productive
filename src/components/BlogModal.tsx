@@ -138,7 +138,7 @@ export function BlogModal({
               {/* Newsletter form for About page - placed at bottom of content */}
               {post.id === 'about' && (
                 <div className="mt-2 pt-2">
-                  <div style={{ width: '530px', maxWidth: '530px' }}>
+                  <div className="w-full max-w-[530px]">
                     {/* Mobile version with shorter placeholder */}
                     <div className="md:hidden">
                       <NewsletterForm 
