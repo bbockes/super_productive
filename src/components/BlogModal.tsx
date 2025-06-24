@@ -48,21 +48,20 @@ function InlineCodeBlock({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <span className="relative inline-block group">
+    <span className="inline-code-wrapper relative inline-block group">
       <code 
         className={`px-2 py-1 rounded transition-all duration-200 cursor-pointer text-17px ${
           copied 
             ? 'bg-green-200 dark:bg-green-400 text-green-900 dark:text-gray-900' 
             : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 group-hover:bg-gray-200 dark:group-hover:bg-gray-600'
-        } my-1`}
+        }`}
         onClick={handleCopy}
         style={{ 
           fontFamily: 'inherit',
-          lineHeight: '1.8',
           display: 'inline-block'
         }}
       >
-        {children}
+        "{children}"
       </code>
       <button
         onClick={handleCopy}
