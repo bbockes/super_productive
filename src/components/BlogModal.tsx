@@ -50,12 +50,13 @@ function InlineCodeBlock({ children }: { children: React.ReactNode }) {
   return (
     <span className="relative inline-block group">
       <code 
-        className={`px-2 py-1 rounded text-sm transition-all duration-200 cursor-pointer ${
+        className={`px-2 py-1 rounded transition-all duration-200 cursor-pointer text-17px ${
           copied 
             ? 'bg-green-200 dark:bg-green-400 text-green-900 dark:text-gray-900' 
             : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 group-hover:bg-gray-200 dark:group-hover:bg-gray-600'
         }`}
         onClick={handleCopy}
+        style={{ fontFamily: 'inherit' }}
       >
         {children}
       </code>
@@ -210,8 +211,8 @@ export function BlogModal({
                         <div className="relative">
                           <pre className={`bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-4 ${
                             value?.filename ? 'rounded-b-lg' : 'rounded-lg'
-                          } overflow-x-auto text-sm leading-relaxed`}>
-                            <code>{value?.code}</code>
+                          } overflow-x-auto text-17px leading-relaxed`} style={{ fontFamily: 'inherit' }}>
+                            <code style={{ fontFamily: 'inherit' }}>{value?.code}</code>
                           </pre>
                           <CopyButton 
                             code={value?.code || ''} 
@@ -232,8 +233,8 @@ export function BlogModal({
                         <div className="relative">
                           <pre className={`bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-4 ${
                             value?.filename ? 'rounded-b-lg' : 'rounded-lg'
-                          } overflow-x-auto text-sm leading-relaxed`}>
-                            <code>{value?.code}</code>
+                          } overflow-x-auto text-17px leading-relaxed`} style={{ fontFamily: 'inherit' }}>
+                            <code style={{ fontFamily: 'inherit' }}>{value?.code}</code>
                           </pre>
                           <CopyButton 
                             code={value?.code || ''} 
