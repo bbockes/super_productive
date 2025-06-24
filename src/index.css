@@ -104,4 +104,19 @@
   .dark * {
     scrollbar-color: theme('colors.gray.600') theme('colors.gray.800');
   }
+
+  /* Add spacing between paragraphs with inline code */
+  .markdown-content .inline-code-wrapper + br + .inline-code-wrapper,
+  .markdown-content p .inline-code-wrapper {
+    margin-bottom: 0.1875rem;
+  }
+  
+  /* Add extra spacing between consecutive paragraphs containing inline code */
+  .markdown-content p:nth-child(n) {
+    position: relative;
+  }
+  
+  .markdown-content p + p .inline-code-wrapper:first-child {
+    margin-top: 0.25rem;
+  }
 }

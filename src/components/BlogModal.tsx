@@ -1,7 +1,99 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { PortableText } from '@portabletext/react';
-import { XIcon, ClockIcon } from 'lucide-react';
+import { XIcon, ClockIcon, CopyIcon, CheckIcon } from 'lucide-react';
 import { NewsletterForm } from './NewsletterForm';
+
+// Copy button component for code blocks
+function CopyButton({ code, filename }: { code: string; filename?: string }) {
+  const [copied, setCopied] = React.useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy code:', err);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      className="absolute top-3 right-3 p-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors group"
+      title={`Copy ${filename ? filename : 'code'}`}
+    >
+      {copied ? (
+        <CheckIcon className="w-4 h-4 text-green-400" />
+      ) : (
+        <CopyIcon className="w-4 h-4" />
+      )}
+    </button>
+  );
+}
+
+// Inline code component with copy feedback
+function InlineCodeBlock({ children }: { children: React.ReactNode }) {
+  const [copied, setCopied] = React.useState(false);
+  const codeRef = useRef<HTMLElement>(null);
+
+  const handleCopy = async () => {
+    // Get the actual text content from the rendered code element
+    let text = codeRef.current?.textContent || '';
+    
+    // Remove the surrounding quotes that are added for display purposes
+    if (text.startsWith('"') && text.endsWith('"')) {
+      text = text.slice(1, -1);
+    }
+    
+    // Always append a trailing space to the copied text
+    text = text + ' ';
+    
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy code:', err);
+    }
+  };
+
+  return (
+    <span className="inline-code-wrapper relative inline-block group">
+      <code 
+        ref={codeRef}
+        className={`px-2 py-1 rounded transition-all duration-200 cursor-pointer text-17px ${
+          copied 
+            ? 'bg-green-200 dark:bg-green-400 text-green-900 dark:text-gray-900' 
+            : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 group-hover:bg-gray-200 dark:group-hover:bg-gray-600'
+        }`}
+        onClick={handleCopy}
+        style={{ 
+          fontFamily: 'inherit',
+          display: 'inline-block'
+        }}
+      >
+        "{children}"
+      </code>
+      <button
+        onClick={handleCopy}
+        className={`absolute opacity-0 group-hover:opacity-100 p-1 rounded transition-all duration-200 inline-flex items-center ${
+          copied
+            ? 'bg-green-200 dark:bg-green-400 text-green-700 dark:text-gray-900 opacity-100'
+            : 'bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 text-gray-600 dark:text-gray-400'
+        }`}
+        style={{ left: 'calc(100% + 20px)', top: '50%', transform: 'translateY(-50%)' }}
+        title="Copy code"
+      >
+        {copied ? (
+          <CheckIcon className="w-3.5 h-3.5" />
+        ) : (
+          <CopyIcon className="w-3.5 h-3.5" />
+        )}
+      </button>
+    </span>
+  );
+}
 
 export function BlogModal({
   post,
@@ -94,11 +186,7 @@ export function BlogModal({
                   marks: {
                     strong: ({children}) => <strong className="font-bold text-gray-900 dark:text-white">{children}</strong>,
                     em: ({children}) => <em className="italic text-gray-800 dark:text-gray-200">{children}</em>,
-                    code: ({children}) => (
-                      <code className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-1 py-0.5 rounded text-sm">
-                        {children}
-                      </code>
-                    ),
+                    code: ({children}) => <InlineCodeBlock>{children}</InlineCodeBlock>,
                     link: ({children, value}) => (
                       <a 
                         href={value?.href}
@@ -127,9 +215,48 @@ export function BlogModal({
                       />
                     ),
                     code: ({value}) => (
-                      <pre className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 p-4 rounded-lg mb-4 overflow-x-auto">
-                        <code className="text-sm">{value?.code}</code>
-                      </pre>
+                      <div className="relative mb-6">
+                        {value?.filename && (
+                          <div className="bg-gray-200 dark:bg-gray-600 px-4 py-2 rounded-t-lg border-b border-gray-300 dark:border-gray-500">
+                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                              {value.filename}
+                            </span>
+                          </div>
+                        )}
+                        <div className="relative">
+                          <pre className={`bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-4 ${
+                            value?.filename ? 'rounded-b-lg' : 'rounded-lg'
+                          } overflow-x-auto text-17px leading-relaxed`} style={{ fontFamily: 'inherit' }}>
+                            <code style={{ fontFamily: 'inherit' }}>{value?.code}</code>
+                          </pre>
+                          <CopyButton 
+                            code={value?.code || ''} 
+                            filename={value?.filename}
+                          />
+                        </div>
+                      </div>
+                    ),
+                    codeBlock: ({value}) => (
+                      <div className="relative mb-6">
+                        {value?.filename && (
+                          <div className="bg-gray-200 dark:bg-gray-600 px-4 py-2 rounded-t-lg border-b border-gray-300 dark:border-gray-500">
+                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                              {value.filename}
+                            </span>
+                          </div>
+                        )}
+                        <div className="relative">
+                          <pre className={`bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-4 ${
+                            value?.filename ? 'rounded-b-lg' : 'rounded-lg'
+                          } overflow-x-auto text-17px leading-relaxed`} style={{ fontFamily: 'inherit' }}>
+                            <code style={{ fontFamily: 'inherit' }}>{value?.code}</code>
+                          </pre>
+                          <CopyButton 
+                            code={value?.code || ''} 
+                            filename={value?.filename}
+                          />
+                        </div>
+                      </div>
                     ),
                   },
                 }}

@@ -99,33 +99,6 @@ export const aboutPost = {
       children: [
         {
           _type: 'span',
-          marks: [],
-          text: 'You don\'t need another endless list of apps or a mixed bag of AI tricks.'
-        }
-      ]
-    },
-    {
-      _type: 'block',
-      style: 'normal',
-      children: [
-        {
-          _type: 'span',
-          marks: ['strong'],
-          text: 'You need a guide'
-        },
-        {
-          _type: 'span',
-          marks: [],
-          text: ' — someone who turns guesswork into strategy, confusion into clarity, and scattered effort into real results.'
-        }
-      ]
-    },
-    {
-      _type: 'block',
-      style: 'normal',
-      children: [
-        {
-          _type: 'span',
           marks: ['strong'],
           text: 'Super Productive is a weekly newsletter designed to help knowledge workers navigate the full spectrum of modern productivity'
         },
