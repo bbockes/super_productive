@@ -46,6 +46,9 @@ function InlineCodeBlock({ children }: { children: React.ReactNode }) {
       text = text.slice(1, -1);
     }
     
+    // Always append a trailing space to the copied text
+    text = text + ' ';
+    
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
