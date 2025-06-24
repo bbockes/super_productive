@@ -165,6 +165,20 @@ export function BlogModal({
                     h2: ({children}) => <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 mt-6">{children}</h2>,
                     h3: ({children}) => <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-5">{children}</h3>,
                     normal: ({children}) => <p className="text-gray-800 dark:text-gray-200 leading-relaxed mb-4 text-17px">{children}</p>,
+                    normal: ({children}) => {
+                      // Check if this paragraph contains inline code
+                      const hasInlineCode = React.Children.toArray(children).some(child => 
+                        React.isValidElement(child) && child.props?.children?.some?.((grandChild: any) => 
+                          React.isValidElement(grandChild) && grandChild.type === InlineCodeBlock
+                        )
+                      );
+                      
+                      return (
+                        <p className={`text-gray-800 dark:text-gray-200 leading-relaxed mb-4 text-17px ${hasInlineCode ? 'has-inline-code' : ''}`}>
+                          {children}
+                        </p>
+                      );
+                    },
                     blockquote: ({children}) => (
                       <blockquote className="border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic text-gray-700 dark:text-gray-300 mb-4 text-17px">
                         {children}
