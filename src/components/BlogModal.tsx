@@ -52,7 +52,7 @@ function InlineCodeBlock({ children }: { children: React.ReactNode }) {
       <code 
         className={`px-2 py-1 rounded text-sm transition-all duration-200 cursor-pointer ${
           copied 
-            ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' 
+            ? 'bg-green-200 dark:bg-green-400 text-green-900 dark:text-gray-900' 
             : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 group-hover:bg-gray-200 dark:group-hover:bg-gray-600'
         }`}
         onClick={handleCopy}
@@ -63,7 +63,7 @@ function InlineCodeBlock({ children }: { children: React.ReactNode }) {
         onClick={handleCopy}
         className={`absolute opacity-0 group-hover:opacity-100 p-1 rounded transition-all duration-200 inline-flex items-center ${
           copied
-            ? 'bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 opacity-100'
+            ? 'bg-green-200 dark:bg-green-400 text-green-700 dark:text-gray-900 opacity-100'
             : 'bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 text-gray-600 dark:text-gray-400'
         }`}
         style={{ left: 'calc(100% + 20px)', top: '50%', transform: 'translateY(-50%)' }}
