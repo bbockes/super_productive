@@ -32,6 +32,53 @@ function CopyButton({ code, filename }: { code: string; filename?: string }) {
   );
 }
 
+// Inline code component with copy feedback
+function InlineCodeBlock({ children }: { children: React.ReactNode }) {
+  const [copied, setCopied] = React.useState(false);
+
+  const handleCopy = async () => {
+    const text = typeof children === 'string' ? children : children?.toString() || '';
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy code:', err);
+    }
+  };
+
+  return (
+    <span className="relative inline-block group">
+      <code 
+        className={`px-2 py-1 rounded text-sm transition-all duration-200 cursor-pointer ${
+          copied 
+            ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' 
+            : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 group-hover:bg-gray-200 dark:group-hover:bg-gray-600'
+        }`}
+        onClick={handleCopy}
+      >
+        {children}
+      </code>
+      <button
+        onClick={handleCopy}
+        className={`absolute opacity-0 group-hover:opacity-100 p-1 rounded transition-all duration-200 inline-flex items-center ${
+          copied
+            ? 'bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 opacity-100'
+            : 'bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 text-gray-600 dark:text-gray-400'
+        }`}
+        style={{ left: 'calc(100% + 20px)', top: '50%', transform: 'translateY(-50%)' }}
+        title="Copy code"
+      >
+        {copied ? (
+          <CheckIcon className="w-3.5 h-3.5" />
+        ) : (
+          <CopyIcon className="w-3.5 h-3.5" />
+        )}
+      </button>
+    </span>
+  );
+}
+
 export function BlogModal({
   post,
   onClose
@@ -123,30 +170,7 @@ export function BlogModal({
                   marks: {
                     strong: ({children}) => <strong className="font-bold text-gray-900 dark:text-white">{children}</strong>,
                     em: ({children}) => <em className="italic text-gray-800 dark:text-gray-200">{children}</em>,
-                    code: ({children}) => (
-                      <span className="relative inline-block group">
-                        <code 
-                          className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded text-sm group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition-colors cursor-pointer"
-                          onClick={() => {
-                            const text = typeof children === 'string' ? children : children?.toString() || '';
-                            navigator.clipboard.writeText(text);
-                          }}
-                        >
-                          {children}
-                        </code>
-                        <button
-                          onClick={() => {
-                            const text = typeof children === 'string' ? children : children?.toString() || '';
-                            navigator.clipboard.writeText(text);
-                          }}
-                          className="absolute opacity-0 group-hover:opacity-100 p-1 bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 text-gray-600 dark:text-gray-400 rounded transition-all duration-200 inline-flex items-center"
-                          style={{ left: 'calc(100% + 20px)', top: '50%', transform: 'translateY(-50%)' }}
-                          title="Copy code"
-                        >
-                          <CopyIcon className="w-3.5 h-3.5" />
-                        </button>
-                      </span>
-                    ),
+                    code: ({children}) => <InlineCodeBlock>{children}</InlineCodeBlock>,
                     link: ({children, value}) => (
                       <a 
                         href={value?.href}
