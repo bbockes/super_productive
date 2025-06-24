@@ -38,11 +38,11 @@ export function BlogModal({
 
   return (
     <div 
-      className="fixed inset-0 bg-white bg-opacity-70 dark:bg-black dark:bg-opacity-70 flex items-center justify-center p-2 md:p-4 z-50"
+      className="fixed inset-0 bg-white bg-opacity-70 dark:bg-black dark:bg-opacity-70 flex items-center justify-center p-0 md:p-4 z-50"
       onClick={onClose}
     >
       <div 
-        className="bg-white dark:bg-gray-800 rounded-xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700 relative" 
+        className="bg-white dark:bg-gray-800 rounded-none md:rounded-xl max-w-4xl w-full max-h-screen md:max-h-[90vh] flex flex-col overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700 relative" 
         style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.05)' }}
         onClick={(e) => e.stopPropagation()}
       >
