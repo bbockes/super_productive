@@ -124,8 +124,8 @@ export function BlogModal({
                     strong: ({children}) => <strong className="font-bold text-gray-900 dark:text-white">{children}</strong>,
                     em: ({children}) => <em className="italic text-gray-800 dark:text-gray-200">{children}</em>,
                     code: ({children}) => (
-                      <span className="relative inline-block group">
-                        <code className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-1 py-0.5 rounded text-sm">
+                      <span className="inline-flex items-center gap-1 group hover:bg-gray-50 dark:hover:bg-gray-600 rounded transition-colors">
+                        <code className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded text-sm group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition-colors">
                           {children}
                         </code>
                         <button
@@ -133,10 +133,10 @@ export function BlogModal({
                             const text = typeof children === 'string' ? children : children?.toString() || '';
                             navigator.clipboard.writeText(text);
                           }}
-                          className="absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 p-1 bg-gray-600 hover:bg-gray-500 text-white rounded text-xs transition-opacity"
+                          className="opacity-0 group-hover:opacity-100 p-1 bg-gray-500 hover:bg-gray-400 dark:bg-gray-500 dark:hover:bg-gray-400 text-white rounded transition-all duration-200"
                           title="Copy code"
                         >
-                          <CopyIcon className="w-3 h-3" />
+                          <CopyIcon className="w-3.5 h-3.5" />
                         </button>
                       </span>
                     ),
