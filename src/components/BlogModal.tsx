@@ -54,7 +54,7 @@ export function BlogModal({
           <XIcon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
         </button>
         
-        <div className="flex-1 overflow-y-auto px-4 md:px-16 py-8">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-16 py-8">
           {/* Header content now inside scrollable area */}
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-3">
