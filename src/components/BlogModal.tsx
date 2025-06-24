@@ -126,6 +126,10 @@ export function BlogModal({
                     code: ({children}) => (
                       <span className="relative inline-block group">
                         <code className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded text-sm group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition-colors cursor-pointer">
+                          onClick={() => {
+                            const text = typeof children === 'string' ? children : children?.toString() || '';
+                            navigator.clipboard.writeText(text);
+                          }}
                           {children}
                         </code>
                         <button
