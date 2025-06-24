@@ -124,9 +124,21 @@ export function BlogModal({
                     strong: ({children}) => <strong className="font-bold text-gray-900 dark:text-white">{children}</strong>,
                     em: ({children}) => <em className="italic text-gray-800 dark:text-gray-200">{children}</em>,
                     code: ({children}) => (
-                      <code className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-1 py-0.5 rounded text-sm">
-                        {children}
-                      </code>
+                      <span className="relative inline-block group">
+                        <code className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-1 py-0.5 rounded text-sm">
+                          {children}
+                        </code>
+                        <button
+                          onClick={() => {
+                            const text = typeof children === 'string' ? children : children?.toString() || '';
+                            navigator.clipboard.writeText(text);
+                          }}
+                          className="absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 p-1 bg-gray-600 hover:bg-gray-500 text-white rounded text-xs transition-opacity"
+                          title="Copy code"
+                        >
+                          <CopyIcon className="w-3 h-3" />
+                        </button>
+                      </span>
                     ),
                     link: ({children, value}) => (
                       <a 
