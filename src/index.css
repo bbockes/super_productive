@@ -104,18 +104,4 @@
   .dark * {
     scrollbar-color: theme('colors.gray.600') theme('colors.gray.800');
   }
-
-  /* Add spacing between paragraphs containing inline code blocks */
-  .markdown-content p:has(.inline-code-wrapper) + p:has(.inline-code-wrapper) {
-    margin-top: 7px !important;
-  }
-  
-  /* Fallback for browsers that don't support :has() */
-  .markdown-content p + p {
-    margin-top: 16px;
-  }
-  
-  .markdown-content p.has-inline-code + p.has-inline-code {
-    margin-top: 7px !important;
-  }
 }
