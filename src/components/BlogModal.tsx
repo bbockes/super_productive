@@ -1,7 +1,36 @@
 import React from 'react';
 import { PortableText } from '@portabletext/react';
-import { XIcon, ClockIcon } from 'lucide-react';
+import { XIcon, ClockIcon, CopyIcon, CheckIcon } from 'lucide-react';
 import { NewsletterForm } from './NewsletterForm';
+
+// Copy button component for code blocks
+function CopyButton({ code, filename }: { code: string; filename?: string }) {
+  const [copied, setCopied] = React.useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy code:', err);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      className="absolute top-3 right-3 p-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors group"
+      title={`Copy ${filename ? filename : 'code'}`}
+    >
+      {copied ? (
+        <CheckIcon className="w-4 h-4 text-green-400" />
+      ) : (
+        <CopyIcon className="w-4 h-4" />
+      )}
+    </button>
+  );
+}
 
 export function BlogModal({
   post,
@@ -127,9 +156,48 @@ export function BlogModal({
                       />
                     ),
                     code: ({value}) => (
-                      <pre className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 p-4 rounded-lg mb-4 overflow-x-auto">
-                        <code className="text-sm">{value?.code}</code>
-                      </pre>
+                      <div className="relative mb-6">
+                        {value?.filename && (
+                          <div className="bg-gray-200 dark:bg-gray-600 px-4 py-2 rounded-t-lg border-b border-gray-300 dark:border-gray-500">
+                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                              {value.filename}
+                            </span>
+                          </div>
+                        )}
+                        <div className="relative">
+                          <pre className={`bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-4 ${
+                            value?.filename ? 'rounded-b-lg' : 'rounded-lg'
+                          } overflow-x-auto text-sm leading-relaxed`}>
+                            <code>{value?.code}</code>
+                          </pre>
+                          <CopyButton 
+                            code={value?.code || ''} 
+                            filename={value?.filename}
+                          />
+                        </div>
+                      </div>
+                    ),
+                    codeBlock: ({value}) => (
+                      <div className="relative mb-6">
+                        {value?.filename && (
+                          <div className="bg-gray-200 dark:bg-gray-600 px-4 py-2 rounded-t-lg border-b border-gray-300 dark:border-gray-500">
+                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                              {value.filename}
+                            </span>
+                          </div>
+                        )}
+                        <div className="relative">
+                          <pre className={`bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-4 ${
+                            value?.filename ? 'rounded-b-lg' : 'rounded-lg'
+                          } overflow-x-auto text-sm leading-relaxed`}>
+                            <code>{value?.code}</code>
+                          </pre>
+                          <CopyButton 
+                            code={value?.code || ''} 
+                            filename={value?.filename}
+                          />
+                        </div>
+                      </div>
                     ),
                   },
                 }}
