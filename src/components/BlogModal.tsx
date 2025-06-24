@@ -125,7 +125,7 @@ export function BlogModal({
                     em: ({children}) => <em className="italic text-gray-800 dark:text-gray-200">{children}</em>,
                     code: ({children}) => (
                       <span className="relative inline-block group">
-                        <code className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded text-sm group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition-colors">
+                        <code className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded text-sm group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition-colors cursor-pointer">
                           {children}
                         </code>
                         <button
