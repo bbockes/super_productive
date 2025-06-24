@@ -106,17 +106,17 @@
   }
 
   /* Add spacing between paragraphs with inline code */
-  .markdown-content p:has(.inline-code-wrapper) + p:has(.inline-code-wrapper) {
-    margin-top: 1.75rem !important;
+  .markdown-content .inline-code-wrapper + br + .inline-code-wrapper,
+  .markdown-content p .inline-code-wrapper {
+    margin-bottom: 0.1875rem;
   }
-
-  /* Alternative approach: Add extra bottom margin only when followed by another inline code paragraph */
-  .markdown-content p:has(.inline-code-wrapper):has(+ p .inline-code-wrapper) {
-    margin-bottom: 1.75rem !important;
+  
+  /* Add extra spacing between consecutive paragraphs containing inline code */
+  .markdown-content p:nth-child(n) {
+    position: relative;
   }
-
-  /* Fallback for browsers that don't support :has() */
-  .markdown-content .inline-code-wrapper {
-    display: inline-block;
+  
+  .markdown-content p + p .inline-code-wrapper:first-child {
+    margin-top: 0.25rem;
   }
 }
