@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { PortableText } from '@portabletext/react';
 import { XIcon, ClockIcon, CopyIcon, CheckIcon } from 'lucide-react';
 import { NewsletterForm } from './NewsletterForm';
@@ -35,9 +35,17 @@ function CopyButton({ code, filename }: { code: string; filename?: string }) {
 // Inline code component with copy feedback
 function InlineCodeBlock({ children }: { children: React.ReactNode }) {
   const [copied, setCopied] = React.useState(false);
+  const codeRef = useRef<HTMLElement>(null);
 
   const handleCopy = async () => {
-    const text = typeof children === 'string' ? children : children?.toString() || '';
+    // Get the actual text content from the rendered code element
+    let text = codeRef.current?.textContent || '';
+    
+    // Remove the surrounding quotes that are added for display purposes
+    if (text.startsWith('"') && text.endsWith('"')) {
+      text = text.slice(1, -1);
+    }
+    
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
@@ -50,6 +58,7 @@ function InlineCodeBlock({ children }: { children: React.ReactNode }) {
   return (
     <span className="inline-code-wrapper relative inline-block group">
       <code 
+        ref={codeRef}
         className={`px-2 py-1 rounded transition-all duration-200 cursor-pointer text-17px ${
           copied 
             ? 'bg-green-200 dark:bg-green-400 text-green-900 dark:text-gray-900' 
