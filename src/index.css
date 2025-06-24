@@ -107,6 +107,6 @@
 
   /* Proper spacing for adjacent inline code blocks */
   .markdown-content p:has(span.inline-code-wrapper) + p:has(span.inline-code-wrapper) {
-    margin-top: 0.5rem;
+    margin-top: 3px;
   }
 }
