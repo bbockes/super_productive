@@ -165,6 +165,8 @@ export function BlogLayout() {
     // Navigate to home page when "All" is selected
     if (category === 'All') {
       navigate('/');
+      // Clear search query to show all posts
+      setSearchQuery('');
     }
   };
 
