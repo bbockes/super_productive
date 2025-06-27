@@ -41,7 +41,7 @@ export const notFoundPost = {
         {
           _type: 'span',
           marks: [],
-          text: ' — or, if you\'re up for it, start clicking buttons and see what happens.'
+          text: ' — or, if you\'re up for it, just start clicking buttons.'
         }
       ]
     },
