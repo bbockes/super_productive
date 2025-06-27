@@ -114,7 +114,7 @@ export function SearchSubscribeToggle({
           <button
             type={isSearchMode ? "button" : "submit"}
             disabled={isLoading || (!isSearchMode && !inputValue)}
-            onClick={isSearchMode ? toggleMode : undefined}
+            onClick={isSearchMode ? undefined : undefined}
             className={`px-6 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 ${buttonClassName}`}
             style={{ width: '110px' }}
           >
