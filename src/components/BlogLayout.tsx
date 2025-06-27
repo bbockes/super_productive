@@ -217,7 +217,7 @@ export function BlogLayout() {
           <div className="max-w-7xl mx-auto w-full">
             {/* Desktop Header - shows on large screens and up only */}
             <div className="hidden lg:flex justify-between items-center mb-8">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center overflow-hidden" style={{ width: '580px', maxWidth: '580px' }}>
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center overflow-hidden">
                 <div className="px-4 py-4 w-full">
                   <SearchSubscribeToggle className="w-full" onSearch={handleSearch} />
                 </div>
