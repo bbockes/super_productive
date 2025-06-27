@@ -169,8 +169,22 @@ export function BlogModal({
                       <a 
                         href={value?.href}
                         className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline transition-colors" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
+                        {...(value?.href?.startsWith('/') || value?.href?.startsWith('.') || !value?.href?.includes('://') 
+                          ? { 
+                              onClick: (e) => {
+                                e.preventDefault();
+                                onClose();
+                                // Small delay to ensure modal closes before navigation
+                                setTimeout(() => {
+                                  window.location.href = value.href;
+                                }, 100);
+                              }
+                            }
+                          : { 
+                              target: "_blank", 
+                              rel: "noopener noreferrer" 
+                            }
+                        )}
                       >
                         {children}
                       </a>
