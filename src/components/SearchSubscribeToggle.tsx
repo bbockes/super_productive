@@ -105,6 +105,7 @@ export function SearchSubscribeToggle({
             type="submit"
             disabled={isLoading || !inputValue}
             className={`px-6 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 ${buttonClassName}`}
+            style={{ minWidth: '100px' }}
           >
             {isLoading && <LoaderIcon className="w-4 h-4 animate-spin" />}
             {currentButtonText}
