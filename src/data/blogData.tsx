@@ -3,7 +3,7 @@ export const notFoundPost = {
   title: 'Uh-oh. Looks like that page doesn\'t exist.',
   excerpt: '',
   category: 'Errors',
-  readTime: '.404 sec',
+  readTime: '404 sec',
   image: 'https://images.unsplash.com/photo-1594736797933-d0d92e2d0b3d?w=400&h=250&fit=crop',
   content: [
     {
