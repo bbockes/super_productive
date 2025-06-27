@@ -10,6 +10,7 @@ import { aboutPost } from '../data/blogData';
 import { LinkedinIcon } from 'lucide-react';
 import { sanityClient, POSTS_QUERY, CATEGORIES_QUERY } from '../lib/sanityClient';
 import { slugify, findPostBySlug } from '../utils/slugify';
+import { getCategoryColor } from '../utils/categoryColorUtils';
 
 // Add type definitions for posts and categories
 interface Post {
@@ -44,24 +45,6 @@ export function BlogLayout() {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
-
-  // Function to get category color based on name
-  const getCategoryColor = (categoryName: string): string => {
-    const colorMap: Record<string, string> = {
-      'All': 'bg-gray-800',
-      'Writing': 'bg-blue-500',
-      'Learning': 'bg-red-500',
-      'Planning': 'bg-green-500',
-      'Building': 'bg-pink-500',
-      'Creativity': 'bg-yellow-500',
-      'Growth': 'bg-purple-500',
-      'Focus': 'bg-orange-500',
-      'Communication': 'bg-indigo-500',
-      'Thinking': 'bg-teal-500',
-      'Shortcuts': 'bg-emerald-500'
-    };
-    return colorMap[categoryName] || 'bg-gray-500';
-  };
 
   // Fetch blog posts and categories from Sanity
   useEffect(() => {

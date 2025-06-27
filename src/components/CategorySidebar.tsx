@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { XIcon } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { getCategoryColor, getCategoryHoverClassOptimized, getCategorySelectedClass } from '../utils/categoryColorUtils';
 
 interface CategorySidebarProps {
   categories: Array<{ name: string; color: string }>;
@@ -32,31 +33,6 @@ export function CategorySidebar({
   const handleLogoError = () => {
     console.error('Failed to load logo image in sidebar');
     setLogoError(true);
-  };
-
-  const getHoverClass = (categoryName: string) => {
-    const hoverMap = {
-      'All': 'hover:bg-gray-800 hover:text-white dark:hover:bg-white dark:hover:text-gray-800',
-      'Writing': 'hover:bg-blue-500 hover:text-white dark:hover:text-gray-800',
-      'Learning': 'hover:bg-red-500 hover:text-white dark:hover:text-gray-800',
-      'Planning': 'hover:bg-green-500 hover:text-white dark:hover:text-gray-800',
-      'Building': 'hover:bg-pink-500 hover:text-white dark:hover:text-gray-800',
-      'Creativity': 'hover:bg-yellow-500 hover:text-white dark:hover:text-gray-800',
-      'Growth': 'hover:bg-purple-500 hover:text-white dark:hover:text-gray-800',
-      'Focus': 'hover:bg-orange-500 hover:text-white dark:hover:text-gray-800',
-      'Communication': 'hover:bg-indigo-500 hover:text-white dark:hover:text-gray-800',
-      'Thinking': 'hover:bg-teal-500 hover:text-white dark:hover:text-gray-800',
-      'Shortcuts': 'hover:bg-emerald-500 hover:text-white dark:hover:text-gray-800'
-    };
-    return hoverMap[categoryName] || 'hover:bg-gray-500 hover:text-white dark:hover:text-gray-800';
-  };
-
-  const getSelectedClass = (category: { name: string; color: string }) => {
-    if (category.name === 'All') {
-      // Special handling for "All" button - inverse colors in dark mode
-      return 'bg-gray-800 text-white dark:bg-white dark:text-gray-800';
-    }
-    return category.color + ' text-white';
   };
 
   return (
@@ -106,8 +82,8 @@ export function CategorySidebar({
                 onClick={() => onCategorySelect(category.name)}
                 className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   selectedCategory === category.name 
-                    ? getSelectedClass(category)
-                    : `text-gray-700 dark:text-gray-300 ${getHoverClass(category.name)}`
+                    ? getCategorySelectedClass(category, isDarkMode)
+                    : `text-gray-700 dark:text-gray-300 ${getCategoryHoverClassOptimized(category.name)}`
                 }`}
               >
                 {category.name}

@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { PortableText } from '@portabletext/react';
 import { XIcon, ClockIcon, CopyIcon, CheckIcon } from 'lucide-react';
 import { NewsletterForm } from './NewsletterForm';
+import { getCategoryColor } from '../utils/categoryColorUtils';
 
 // Copy button component for code blocks
 function CopyButton({ code, filename }: { code: string; filename?: string }) {
@@ -99,23 +100,6 @@ export function BlogModal({
   post,
   onClose
 }) {
-  const getCategoryColor = category => {
-    const colorMap = {
-      'All': 'bg-gray-800',
-      'Writing': 'bg-blue-500',
-      'Learning': 'bg-red-500',
-      'Planning': 'bg-green-500',
-      'Building': 'bg-pink-500',
-      'Creativity': 'bg-yellow-500',
-      'Growth': 'bg-purple-500',
-      'Focus': 'bg-orange-500',
-      'Communication': 'bg-indigo-500',
-      'Thinking': 'bg-teal-500',
-      'Shortcuts': 'bg-emerald-500'
-    };
-    return colorMap[category] || 'bg-gray-500';
-  };
-
   // Format read time - just return as string, allowing custom units
   const formatReadTime = (readTime) => {
     // Convert to string and return as-is
