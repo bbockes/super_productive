@@ -94,15 +94,15 @@ export function SearchSubscribeToggle({
               placeholder={currentPlaceholder}
               disabled={isLoading}
               className={`w-full px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed ${inputClassName}`}
+              style={{ width: 'calc(100% - 16px)', minWidth: '0' }}
               required={!isSearchMode}
-              style={{ width: '100%', minWidth: '0' }}
             />
           </div>
           <button
             type={isSearchMode ? "button" : "submit"}
             disabled={isLoading || (!isSearchMode && !inputValue)}
             onClick={isSearchMode ? undefined : undefined}
-            className={`px-8 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 w-24 ${buttonClassName}`}
+            className={`px-10 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 w-28 ${buttonClassName}`}
           >
             {isLoading && <LoaderIcon className="w-4 h-4 animate-spin" />}
             {isSearchMode ? "Search" : currentButtonText}
