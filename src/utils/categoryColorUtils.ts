@@ -8,6 +8,7 @@ const staticColorMap: Record<string, string> = {
   'Creativity': 'bg-yellow-500',
   'Growth': 'bg-purple-500',
   'Focus': 'bg-orange-500',
+  'Errors': 'bg-orange-500',
   'Communication': 'bg-indigo-500',
   'Thinking': 'bg-teal-500',
   'Shortcuts': 'bg-emerald-500'
@@ -95,6 +96,7 @@ const staticHoverMap: Record<string, string> = {
   'Creativity': 'hover:bg-yellow-500 hover:text-white dark:hover:text-gray-800',
   'Growth': 'hover:bg-purple-500 hover:text-white dark:hover:text-gray-800',
   'Focus': 'hover:bg-orange-500 hover:text-white dark:hover:text-gray-800',
+  'Errors': 'hover:bg-orange-500 hover:text-white dark:hover:text-gray-800',
   'Communication': 'hover:bg-indigo-500 hover:text-white dark:hover:text-gray-800',
   'Thinking': 'hover:bg-teal-500 hover:text-white dark:hover:text-gray-800',
   'Shortcuts': 'hover:bg-emerald-500 hover:text-white dark:hover:text-gray-800'
