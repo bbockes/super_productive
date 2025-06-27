@@ -83,14 +83,16 @@ export function SearchSubscribeToggle({
               onChange={(e) => setInputValue(e.target.value)}
               placeholder={currentPlaceholder}
               disabled={isLoading}
-              className={`w-full px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed pr-12 ${inputClassName}`}
+              className={`w-full px-4 py-2 pr-12 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed min-w-0 ${inputClassName}`}
               required={!isSearchMode || inputValue.length > 0}
+              style={{ width: '100%', minWidth: '0' }}
             />
             <button
               type="button"
               onClick={toggleMode}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors flex-shrink-0"
               aria-label={isSearchMode ? "Switch to newsletter" : "Switch to search"}
+              style={{ width: '24px', height: '24px' }}
             >
               {isSearchMode ? (
                 <MailIcon className="w-4 h-4" />
@@ -102,7 +104,7 @@ export function SearchSubscribeToggle({
           <button
             type="submit"
             disabled={isLoading || !inputValue}
-            className={`px-6 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap ${buttonClassName}`}
+            className={`px-6 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 ${buttonClassName}`}
           >
             {isLoading && <LoaderIcon className="w-4 h-4 animate-spin" />}
             {currentButtonText}
