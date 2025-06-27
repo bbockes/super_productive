@@ -70,7 +70,7 @@ export function SearchSubscribeToggle({
     }
   };
 
-  const currentPlaceholder = isSearchMode ? "Find the perfect prompt, tool, or workflow." : placeholder;
+  const currentPlaceholder = isSearchMode ? "Find the perfect prompt, tool, or workflow" : placeholder;
   const currentButtonText = isSearchMode ? "Search" : buttonText;
 
   if (isSuccess && !isSearchMode) {
