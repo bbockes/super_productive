@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { BlogCard } from './BlogCard';
 import { BlogModal } from './BlogModal';
@@ -127,8 +127,8 @@ export function BlogLayout() {
     console.log('🎯 selectedPost full object:', selectedPost);
   }, [selectedPost]);
 
-  // Filter posts by category first, then by search query
-  const filteredPosts = React.useMemo(() => {
+  // Filter posts by category and search query
+  const filteredPosts = useMemo(() => {
     let filtered = selectedCategory === 'All' 
       ? posts 
       : posts.filter((post: Post) => post.category === selectedCategory);
@@ -160,11 +160,11 @@ export function BlogLayout() {
 
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
-    setSearchQuery(''); // Clear search when changing categories
     setIsMobileMenuOpen(false);
   };
 
   const handleSearch = (query: string) => {
+    console.log('Search called with query:', query);
     setSearchQuery(query);
   };
 
