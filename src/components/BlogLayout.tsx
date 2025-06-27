@@ -170,10 +170,10 @@ export function BlogLayout() {
     }
   };
 
-  const handleSearch = (query: string) => {
+  const handleSearch = useCallback((query: string) => {
     console.log('Search called with query:', query);
     setSearchQuery(query);
-  };
+  }, []);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
