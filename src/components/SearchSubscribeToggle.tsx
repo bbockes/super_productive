@@ -102,15 +102,15 @@ export function SearchSubscribeToggle({
             type={isSearchMode ? "button" : "submit"}
             disabled={isLoading || (!isSearchMode && !inputValue)}
             onClick={isSearchMode ? undefined : undefined}
-            className={`px-6 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 ${buttonClassName}`}
+            className={`w-12 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 ${buttonClassName}`}
           >
             {isLoading && <LoaderIcon className="w-4 h-4 animate-spin" />}
-            {isSearchMode ? "Search" : currentButtonText}
+            <span className="text-sm">{isSearchMode ? "Search" : "Subscribe"}</span>
           </button>
           <button
             type="button"
             onClick={toggleMode}
-            className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors flex-shrink-0 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="w-12 h-10 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors flex-shrink-0 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
             aria-label={isSearchMode ? "Switch to newsletter" : "Switch to search"}
           >
             {isSearchMode ? (
