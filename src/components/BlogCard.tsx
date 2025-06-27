@@ -13,6 +13,7 @@ export function BlogCard({
   };
 
   return <div onClick={onClick} className="bg-gray-900 dark:bg-gray-800 rounded-xl overflow-hidden cursor-pointer hover:transform hover:scale-105 transition-all duration-200 shadow-lg">
+  return <div onClick={onClick} className="bg-gray-900 dark:bg-gray-800 rounded-xl overflow-hidden cursor-pointer hover:transform hover:scale-105 transition-all duration-200">
       <div className="aspect-video bg-gray-800 dark:bg-gray-700 relative">
         <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
         <div className="absolute bottom-3 left-3 flex items-center gap-2">
