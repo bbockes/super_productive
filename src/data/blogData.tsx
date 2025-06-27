@@ -1,3 +1,64 @@
+export const notFoundPost = {
+  id: '404',
+  title: 'Uh-oh. Looks like that page doesn\'t exist.',
+  excerpt: '',
+  category: '404',
+  readTime: '1 min',
+  image: 'https://images.unsplash.com/photo-1594736797933-d0d92e2d0b3d?w=400&h=250&fit=crop',
+  content: [
+    {
+      _type: 'block',
+      style: 'normal',
+      children: [
+        {
+          _type: 'span',
+          marks: [],
+          text: 'It either wandered off or never existed in the first place.'
+        }
+      ]
+    },
+    {
+      _type: 'block',
+      style: 'normal',
+      markDefs: [
+        {
+          _key: 'homepage-link',
+          _type: 'link',
+          href: '/'
+        }
+      ],
+      children: [
+        {
+          _type: 'span',
+          marks: [],
+          text: 'You can head back to the '
+        },
+        {
+          _type: 'span',
+          marks: ['homepage-link'],
+          text: 'homepage'
+        },
+        {
+          _type: 'span',
+          marks: [],
+          text: ' — or, if you\'re up for it, just start clicking buttons.'
+        }
+      ]
+    },
+    {
+      _type: 'block',
+      style: 'normal',
+      children: [
+        {
+          _type: 'span',
+          marks: [],
+          text: '(No promises it\'ll be productive, but it might be fun.)'
+        }
+      ]
+    }
+  ]
+};
+
 export const aboutPost = {
   id: 'about',
   title: 'About Super Productive',

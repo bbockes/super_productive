@@ -20,7 +20,7 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 200,
       headers,
-      body: ''
+      body: JSON.stringify({})
     };
   }
 
@@ -86,7 +86,18 @@ exports.handler = async (event, context) => {
       }),
     });
 
-    const responseText = await response.text();
+    let responseText;
+    try {
+      responseText = await response.text();
+    } catch (e) {
+      console.error('Failed to get response from ConvertKit API:', e);
+      return {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({ error: 'Failed to get response from newsletter service' })
+      };
+    }
+
     console.log('ConvertKit response status:', response.status);
     console.log('ConvertKit response body:', responseText);
 
