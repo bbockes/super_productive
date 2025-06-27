@@ -101,7 +101,7 @@ export function SearchSubscribeToggle({
             type={isSearchMode ? "button" : "submit"}
             disabled={isLoading || (!isSearchMode && !inputValue)}
             onClick={isSearchMode ? undefined : undefined}
-            className={`px-10 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 w-28 ${buttonClassName}`}
+            className={`px-10 py-2 bg-blue-500 text-white rounded-lg font-medium ${!isSearchMode ? 'hover:bg-blue-600' : ''} transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 w-28 ${buttonClassName}`}
           >
             {isLoading && <LoaderIcon className="w-4 h-4 animate-spin" />}
             {isSearchMode ? "Search" : currentButtonText}
