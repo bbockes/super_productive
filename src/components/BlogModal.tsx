@@ -168,7 +168,7 @@ export function BlogModal({
                     link: ({children, value}) => (
                       <a 
                         href={value?.href}
-                        className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline transition-colors" 
+                        className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline transition-colors cursor-pointer" 
                         {...(value?.href?.startsWith('/') || value?.href?.startsWith('.') || !value?.href?.includes('://') 
                           ? { 
                               onClick: (e) => {
