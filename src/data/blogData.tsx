@@ -20,6 +20,13 @@ export const notFoundPost = {
     {
       _type: 'block',
       style: 'normal',
+      markDefs: [
+        {
+          _key: 'homepage-link',
+          _type: 'link',
+          href: '/'
+        }
+      ],
       children: [
         {
           _type: 'span',
@@ -28,15 +35,8 @@ export const notFoundPost = {
         },
         {
           _type: 'span',
-          marks: ['link'],
-          text: 'homepage',
-          markDefs: [
-            {
-              _key: 'homepage-link',
-              _type: 'link',
-              href: '/'
-            }
-          ]
+          marks: ['homepage-link'],
+          text: 'homepage'
         },
         {
           _type: 'span',
