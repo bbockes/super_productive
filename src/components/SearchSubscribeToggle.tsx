@@ -113,9 +113,9 @@ export function SearchSubscribeToggle({
             aria-label={isSearchMode ? "Switch to newsletter" : "Switch to search"}
           >
             {isSearchMode ? (
-              <MailIcon className="w-5 h-5" />
-            ) : (
               <SearchIcon className="w-5 h-5" />
+            ) : (
+              <MailIcon className="w-5 h-5" />
             )}
           </button>
         </div>
