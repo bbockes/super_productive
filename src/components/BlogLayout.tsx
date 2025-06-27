@@ -7,7 +7,7 @@ import { MobileHeader } from './MobileHeader';
 import { DarkModeToggle } from './DarkModeToggle';
 import { NewsletterForm } from './NewsletterForm';
 import { SearchSubscribeToggle } from './SearchSubscribeToggle';
-import { aboutPost } from '../data/blogData';
+import { aboutPost, notFoundPost } from '../data/blogData';
 import { LinkedinIcon } from 'lucide-react';
 import { sanityClient, POSTS_QUERY, CATEGORIES_QUERY } from '../lib/sanityClient';
 import { slugify, findPostBySlug, filterPostsBySearchQuery } from '../utils/slugify';
@@ -98,6 +98,11 @@ export function BlogLayout() {
     console.log('🔍 URL slug from params:', slug);
     console.log('📝 Posts available:', posts.length);
     
+    // Known routes for validation
+    const knownRoutes = ['/', '/about', '/super_productive/', '/super_productive'];
+    const isKnownRoute = knownRoutes.includes(location.pathname) || 
+                         location.pathname.startsWith('/posts/');
+    
     // Check if we're on the about page
     if (location.pathname.endsWith('/about')) {
       console.log('✅ On about page, setting selectedPost to aboutPost');
@@ -110,16 +115,18 @@ export function BlogLayout() {
         console.log('✅ Found post, setting selectedPost:', post.title);
         setSelectedPost(post);
       } else {
-        console.log('❌ Post not found, redirecting to home');
-        // Post not found, redirect to home
-        navigate('/', { replace: true });
-        setSelectedPost(null);
+        console.log('❌ Post not found, showing 404');
+        // Post not found, show 404 page
+        setSelectedPost(notFoundPost);
       }
-    } else if (location.pathname === '/' || location.pathname === '/super_productive/' || location.pathname === '/super_productive') {
+    } else if (knownRoutes.includes(location.pathname)) {
       console.log('🏠 On home page, clearing selectedPost');
       setSelectedPost(null);
+    } else if (!isKnownRoute) {
+      console.log('❌ Unknown route, showing 404 page');
+      // Unknown route, show 404 page
+      setSelectedPost(notFoundPost);
     }
-  }, [slug, posts, navigate, location.pathname]);
 
   // Debug selectedPost changes
   useEffect(() => {

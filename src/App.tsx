@@ -12,6 +12,7 @@ export function App() {
             <Route path="/" element={<BlogLayout />} />
             <Route path="/posts/:slug" element={<BlogLayout />} />
             <Route path="/about" element={<BlogLayout />} />
+            <Route path="*" element={<BlogLayout />} />
           </Routes>
         </div>
       </BrowserRouter>
