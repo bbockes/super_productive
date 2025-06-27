@@ -119,7 +119,7 @@ export function SearchSubscribeToggle({
             style={{ width: '110px' }}
           >
             {isLoading && <LoaderIcon className="w-4 h-4 animate-spin" />}
-            {isSearchMode ? "Newsletter" : currentButtonText}
+            {isSearchMode ? "Search" : currentButtonText}
           </button>
         </div>
       </form>
