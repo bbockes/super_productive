@@ -241,7 +241,7 @@ export function BlogModal({
               />
               
               {/* Newsletter form for About page - placed at bottom of content */}
-              {(post.id === 'about' || post.id === '404') && (
+              {post.id === 'about' && (
                 <div className="mt-2 pt-2">
                   <div className="w-full max-w-[530px]">
                     {/* Mobile version with shorter placeholder */}
