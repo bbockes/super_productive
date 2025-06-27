@@ -21,16 +21,10 @@ export function BlogCard({
     return colorMap[category] || 'bg-gray-500';
   };
 
-  // Format read time to always show "min" suffix
+  // Format read time - just return as string, allowing custom units
   const formatReadTime = (readTime) => {
-    if (typeof readTime === 'number') {
-      return `${readTime} min`;
-    }
-    // Handle legacy string format that might already have "min"
-    if (typeof readTime === 'string') {
-      return readTime.includes('min') ? readTime : `${readTime} min`;
-    }
-    return '5 min'; // fallback
+    // Convert to string and return as-is
+    return String(readTime || '5 min');
   };
 
   return <div onClick={onClick} className="bg-gray-900 dark:bg-gray-800 rounded-xl overflow-hidden cursor-pointer hover:transform hover:scale-105 transition-all duration-200 shadow-lg">
