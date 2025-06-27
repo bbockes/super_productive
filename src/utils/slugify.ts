@@ -32,3 +32,61 @@ export function findPostBySlug(posts: any[], slug: string) {
     return postSlug === slug;
   });
 }
+
+/**
+ * Extract plain text from Portable Text content
+ * @param content - Array of Portable Text blocks
+ * @returns Extracted plain text as a string
+ */
+function extractTextFromPortableText(content: any[]): string {
+  if (!Array.isArray(content)) return '';
+  
+  return content
+    .filter(block => block._type === 'block')
+    .map(block => {
+      if (!block.children || !Array.isArray(block.children)) return '';
+      return block.children
+        .filter((child: any) => child._type === 'span' && child.text)
+        .map((child: any) => child.text)
+        .join(' ');
+    })
+    .join(' ');
+}
+
+/**
+ * Filter posts by search query across title, excerpt, and content
+ * @param posts - Array of posts to filter
+ * @param query - Search query string
+ * @returns Filtered array of posts matching the search query
+ */
+export function filterPostsBySearchQuery(posts: any[], query: string): any[] {
+  if (!query || query.trim() === '') {
+    return posts;
+  }
+
+  const searchTerm = query.toLowerCase().trim();
+
+  return posts.filter(post => {
+    // Search in title
+    const title = (post.title || '').toLowerCase();
+    if (title.includes(searchTerm)) {
+      return true;
+    }
+
+    // Search in excerpt/subheader
+    const excerpt = (post.excerpt || post.subheader || '').toLowerCase();
+    if (excerpt.includes(searchTerm)) {
+      return true;
+    }
+
+    // Search in content
+    if (post.content) {
+      const contentText = extractTextFromPortableText(post.content).toLowerCase();
+      if (contentText.includes(searchTerm)) {
+        return true;
+      }
+    }
+
+    return false;
+  });
+}

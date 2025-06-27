@@ -6,10 +6,11 @@ import { CategorySidebar } from './CategorySidebar';
 import { MobileHeader } from './MobileHeader';
 import { DarkModeToggle } from './DarkModeToggle';
 import { NewsletterForm } from './NewsletterForm';
+import { SearchSubscribeToggle } from './SearchSubscribeToggle';
 import { aboutPost } from '../data/blogData';
 import { LinkedinIcon } from 'lucide-react';
 import { sanityClient, POSTS_QUERY, CATEGORIES_QUERY } from '../lib/sanityClient';
-import { slugify, findPostBySlug } from '../utils/slugify';
+import { slugify, findPostBySlug, filterPostsBySearchQuery } from '../utils/slugify';
 import { getCategoryColor } from '../utils/categoryColorUtils';
 
 // Add type definitions for posts and categories
@@ -44,6 +45,7 @@ export function BlogLayout() {
   const [error, setError] = useState<string | null>(null);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   // Fetch blog posts and categories from Sanity
@@ -125,9 +127,19 @@ export function BlogLayout() {
     console.log('🎯 selectedPost full object:', selectedPost);
   }, [selectedPost]);
 
-  const filteredPosts = selectedCategory === 'All' 
-    ? posts 
-    : posts.filter((post: Post) => post.category === selectedCategory);
+  // Filter posts by category first, then by search query
+  const filteredPosts = React.useMemo(() => {
+    let filtered = selectedCategory === 'All' 
+      ? posts 
+      : posts.filter((post: Post) => post.category === selectedCategory);
+    
+    // Apply search filter if there's a search query
+    if (searchQuery.trim()) {
+      filtered = filterPostsBySearchQuery(filtered, searchQuery);
+    }
+    
+    return filtered;
+  }, [posts, selectedCategory, searchQuery]);
 
   const handlePostClick = (post: Post) => {
     console.log('🖱️ Post clicked:', post.title);
@@ -148,7 +160,12 @@ export function BlogLayout() {
 
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
+    setSearchQuery(''); // Clear search when changing categories
     setIsMobileMenuOpen(false);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
   };
 
   const toggleMobileMenu = () => {
@@ -195,7 +212,7 @@ export function BlogLayout() {
             <div className="hidden lg:flex justify-between items-center mb-8">
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center overflow-hidden" style={{ width: '580px', maxWidth: '580px' }}>
                 <div className="px-4 py-4 w-full">
-                  <NewsletterForm className="w-full" />
+                  <SearchSubscribeToggle className="w-full" onSearch={handleSearch} />
                 </div>
               </div>
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0">
@@ -267,7 +284,11 @@ export function BlogLayout() {
             {!loading && !error && filteredPosts.length === 0 && (
               <div className="flex justify-center items-center py-12">
                 <div className="text-gray-600 dark:text-gray-400">
-                  {selectedCategory === 'All' ? 'No posts found.' : `No posts found in "${selectedCategory}" category.`}
+                  {searchQuery.trim() ? (
+                    `No posts found for "${searchQuery}"${selectedCategory !== 'All' ? ` in "${selectedCategory}" category` : ''}.`
+                  ) : (
+                    selectedCategory === 'All' ? 'No posts found.' : `No posts found in "${selectedCategory}" category.`
+                  )}
                 </div>
               </div>
             )}
