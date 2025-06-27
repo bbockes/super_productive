@@ -113,7 +113,7 @@ export function BlogModal({
     >
       <div 
         className="bg-white dark:bg-gray-800 rounded-none md:rounded-xl max-w-4xl w-full max-h-full md:max-h-[90vh] flex flex-col overflow-hidden shadow-2xl relative" 
-        style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.05)' }}
+        style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.4)' }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* X button positioned in top right of modal */}
