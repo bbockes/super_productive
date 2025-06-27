@@ -161,6 +161,11 @@ export function BlogLayout() {
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
     setIsMobileMenuOpen(false);
+    
+    // Navigate to home page when "All" is selected
+    if (category === 'All') {
+      navigate('/');
+    }
   };
 
   const handleSearch = (query: string) => {
