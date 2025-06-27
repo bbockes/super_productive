@@ -112,7 +112,7 @@ export function BlogModal({
       onClick={onClose}
     >
       <div 
-        className="bg-white dark:bg-gray-800 rounded-none md:rounded-xl max-w-4xl w-full max-h-full md:max-h-[90vh] flex flex-col overflow-hidden shadow-2xl relative" 
+        className="bg-white dark:bg-gray-800 rounded-none md:rounded-xl max-w-4xl w-full max-h-full md:max-h-[90vh] flex flex-col overflow-hidden outline-none relative" 
         style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.4)' }}
         onClick={(e) => e.stopPropagation()}
       >
