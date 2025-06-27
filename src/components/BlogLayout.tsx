@@ -127,6 +127,7 @@ export function BlogLayout() {
       // Unknown route, show 404 page
       setSelectedPost(notFoundPost);
     }
+  }, [location.pathname, slug, posts]);
 
   // Debug selectedPost changes
   useEffect(() => {
