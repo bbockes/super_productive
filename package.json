@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "npx vite",
+    "dev": "NODE_OPTIONS=--no-wasm-code-gc npx vite",
     "build": "npx vite build && node scripts/generate-sitemap.js && node scripts/prerender.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "preview": "npx vite preview",
