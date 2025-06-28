@@ -140,11 +140,11 @@ exports.handler = async (event, context) => {
 
   // If this is NOT a crawler (i.e., a regular browser), redirect immediately
   if (!isCrawler) {
-    console.log('Regular browser detected, redirecting to:', pageUrl);
+    console.log('Regular browser detected, redirecting to root for React router to handle');
     return {
       statusCode: 302,
       headers: {
-        'Location': pageUrl,
+        'Location': '/',
         'Cache-Control': 'no-cache',
       },
       body: '',
