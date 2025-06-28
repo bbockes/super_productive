@@ -246,7 +246,10 @@ export function BlogLayout() {
               <div className="flex items-start gap-6">
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden max-w-md flex-1">
                   <div className="px-4 py-4">
-                    <NewsletterForm className="w-full" />
+                    <NewsletterForm 
+                      className="w-full" 
+                      placeholder="Get new tips in your inbox every Wednesday"
+                    />
                   </div>
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex-shrink-0">
@@ -267,7 +270,7 @@ export function BlogLayout() {
                 <div className="px-4 py-4">
                   <NewsletterForm 
                     className="w-full"
-                    placeholder="Get free weekly updates"
+                    placeholder="Enter your email address"
                   />
                 </div>
               </div>
