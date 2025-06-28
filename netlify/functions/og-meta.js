@@ -97,6 +97,10 @@ exports.handler = async (event, context) => {
     const escapedImage = escapeHtml(pageImage);
     const escapedUrl = escapeHtml(pageUrl);
 
+    // Facebook App ID (optional, only include if environment variable is set)
+    const facebookAppId = process.env.FACEBOOK_APP_ID;
+    const facebookAppIdTag = facebookAppId ? `<meta property="fb:app_id" content="${escapeHtml(facebookAppId)}" />` : '';
+
     const html = `
       <!DOCTYPE html>
       <html lang="en">
@@ -112,6 +116,7 @@ exports.handler = async (event, context) => {
           <meta property="og:url" content="${escapedUrl}" />
           <meta property="og:type" content="article" />
           <meta property="og:site_name" content="Super Productive" />
+          ${facebookAppIdTag}
           
           <!-- Twitter Card Meta Tags -->
           <meta name="twitter:card" content="summary_large_image" />
