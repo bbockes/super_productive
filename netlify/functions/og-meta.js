@@ -42,7 +42,7 @@ exports.handler = async (event, context) => {
   let post = null;
   let pageTitle = "Super Productive";
   let pageDescription = "Bite-sized tech tips to level up your productivity";
-  let pageImage = "https://images.pexels.com/photos/3184433/pexels-photo-3184433.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+  let pageImage = "https://images.pexels.com/photos/3184433/pexels-photo-3184433.jpeg?auto=compress&cs=tinysrgb&w=1200&h=630&dpr=1";
   let pageUrl = `https://${host}${path}`;
 
   // Handle preflight requests
@@ -113,6 +113,9 @@ exports.handler = async (event, context) => {
           <meta property="og:title" content="${escapedTitle}" />
           <meta property="og:description" content="${escapedDescription}" />
           <meta property="og:image" content="${escapedImage}" />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:type" content="image/jpeg" />
           <meta property="og:url" content="${escapedUrl}" />
           <meta property="og:type" content="article" />
           <meta property="og:site_name" content="Super Productive" />
@@ -178,6 +181,9 @@ exports.handler = async (event, context) => {
             <meta property="og:title" content="Super Productive" />
             <meta property="og:description" content="Bite-sized tech tips to level up your productivity" />
             <meta property="og:image" content="${escapedImage}" />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
+            <meta property="og:image:type" content="image/jpeg" />
             <meta property="og:url" content="${escapedUrl}" />
             <meta property="og:type" content="website" />
             <meta http-equiv="refresh" content="0; url=${escapedUrl}" />
