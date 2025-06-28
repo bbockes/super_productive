@@ -1,12 +1,7 @@
-# Handle trailing slashes - redirect to non-trailing slash versions
-/about/ /about 301!
-/posts/*/ /posts/:splat 301!
-
-# Serve pre-rendered static pages for better SEO and social media crawlers
-# These will serve the actual static HTML files with proper meta tags
-/about /about/index.html 200
-/posts/* /posts/:splat/index.html 200
+# Redirect trailing slashes to non-trailing slash URLs (301 permanent redirects)
+/about/ /about 301
+/posts/*/ /posts/:splat 301
 
 # Fallback to SPA for client-side routing
-# This ensures React router can handle any unmatched routes
+# This ensures React router handles all routes including /about
 /* /index.html 200

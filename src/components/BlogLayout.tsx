@@ -262,12 +262,12 @@ export function BlogLayout() {
     console.log('📝 Posts available:', posts.length);
     
     // Known routes for validation
-    const knownRoutes = ['/', '/about', '/about/', '/super_productive/', '/super_productive'];
+    const knownRoutes = ['/', '/about', '/super_productive/', '/super_productive'];
     const isKnownRoute = knownRoutes.includes(location.pathname) || 
                          location.pathname.startsWith('/posts/');
     
     // Check if we're on the about page
-    if (location.pathname === '/about' || location.pathname === '/about/') {
+    if (location.pathname === '/about') {
       console.log('✅ On about page, setting selectedPost to aboutPost');
       setSelectedPost(aboutPost);
       console.log('📄 aboutPost content:', aboutPost);
