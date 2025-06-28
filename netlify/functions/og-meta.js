@@ -36,6 +36,45 @@ const notFoundPost = {
   image: 'https://images.unsplash.com/photo-1594736797933-d0d92e2d0b3d?w=400&h=250&fit=crop',
 };
 
+// Function to detect if the request is from a social media crawler
+const isSocialMediaCrawler = (userAgent) => {
+  if (!userAgent) return false;
+  
+  const crawlers = [
+    'facebookexternalhit',
+    'LinkedInBot',
+    'Twitterbot',
+    'WhatsApp',
+    'SkypeUriPreview',
+    'Slackbot',
+    'TelegramBot',
+    'Googlebot',
+    'bingbot',
+    'yahoo! slurp',
+    'discordbot',
+    'embedly',
+    'showyoubot',
+    'outbrain',
+    'pinterest/0.',
+    'developers.google.com/+/web/snippet',
+    'www.google.com/webmasters/tools/richsnippets',
+    'tumblr',
+    'bitlybot',
+    'SkypeUriPreview',
+    'nuzzel',
+    'vkShare',
+    'W3C_Validator',
+    'redditbot',
+    'Applebot',
+    'flipboard',
+    'yandexbot',
+    'duckduckbot'
+  ];
+  
+  const lowerCaseUserAgent = userAgent.toLowerCase();
+  return crawlers.some(crawler => lowerCaseUserAgent.includes(crawler.toLowerCase()));
+};
+
 // Function to ensure description meets minimum length requirements
 const ensureMinDescriptionLength = (description, fallbackContext = '') => {
   const minLength = 100;
@@ -54,9 +93,22 @@ const ensureMinDescriptionLength = (description, fallbackContext = '') => {
   
   return finalDescription;
 };
+
+// Proper HTML escaping function
+const escapeHtml = (str) => {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+};
+
 exports.handler = async (event, context) => {
   const path = event.path;
   const host = event.headers.host;
+  const userAgent = event.headers['user-agent'] || '';
+  
   let post = null;
   let pageTitle = "Super Productive";
   let pageDescription = "Bite-sized tech tips to level up your productivity. Weekly insights on AI prompts, productivity tools, and smart workflows for knowledge workers.";
@@ -75,6 +127,32 @@ exports.handler = async (event, context) => {
       body: '',
     };
   }
+
+  // Check if this is a social media crawler
+  const isCrawler = isSocialMediaCrawler(userAgent);
+  
+  console.log('Request details:', {
+    path,
+    userAgent: userAgent.substring(0, 100), // Log first 100 chars of user agent
+    isCrawler,
+    host
+  });
+
+  // If this is NOT a crawler (i.e., a regular browser), redirect immediately
+  if (!isCrawler) {
+    console.log('Regular browser detected, redirecting to:', pageUrl);
+    return {
+      statusCode: 302,
+      headers: {
+        'Location': pageUrl,
+        'Cache-Control': 'no-cache',
+      },
+      body: '',
+    };
+  }
+
+  // If we reach here, it's a crawler - serve the meta tags
+  console.log('Social media crawler detected, serving meta tags for:', path);
 
   try {
     if (path === '/about') {
@@ -105,16 +183,6 @@ exports.handler = async (event, context) => {
       pageDescription = ensureMinDescriptionLength(pageDescription);
     }
 
-    // Escape HTML characters in meta content to prevent XSS
-    const escapeHtml = (str) => {
-      return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    };
-
     const escapedTitle = escapeHtml(pageTitle);
     const escapedDescription = escapeHtml(pageDescription);
     const escapedImage = escapeHtml(pageImage);
@@ -124,6 +192,7 @@ exports.handler = async (event, context) => {
     const facebookAppId = process.env.FACEBOOK_APP_ID;
     const facebookAppIdTag = facebookAppId ? `<meta property="fb:app_id" content="${escapeHtml(facebookAppId)}" />` : '';
 
+    // For crawlers, serve static HTML with meta tags (NO redirects)
     const html = `
       <!DOCTYPE html>
       <html lang="en">
@@ -153,20 +222,12 @@ exports.handler = async (event, context) => {
           <!-- SEO Meta Tags -->
           <meta name="description" content="${escapedDescription}" />
           <link rel="canonical" href="${escapedUrl}" />
-          
-          <!-- Redirect to the main application -->
-          <meta http-equiv="refresh" content="0; url=${escapedUrl}" />
-          <script>
-            // Fallback JavaScript redirect for older browsers or if meta refresh fails
-            setTimeout(function() {
-              window.location.replace("${escapedUrl}");
-            }, 100);
-          </script>
       </head>
       <body>
           <div style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
-              <h1>Redirecting...</h1>
-              <p>If you are not redirected automatically, follow this <a href="${escapedUrl}">link to the blog post</a>.</p>
+              <h1>${escapedTitle}</h1>
+              <p>${escapedDescription}</p>
+              <p><a href="${escapedUrl}">View full article</a></p>
           </div>
       </body>
       </html>
@@ -184,9 +245,11 @@ exports.handler = async (event, context) => {
   } catch (error) {
     console.error('Error generating OG meta tags:', error);
     
-    // Return a default page with basic meta tags
+    // Return a default page with basic meta tags for crawlers
     const escapedUrl = escapeHtml(pageUrl);
     const escapedImage = escapeHtml(pageImage);
+    const escapedTitle = escapeHtml(pageTitle);
+    const escapedDescription = escapeHtml(ensureMinDescriptionLength(pageDescription));
     
     return {
       statusCode: 500,
@@ -200,26 +263,22 @@ exports.handler = async (event, context) => {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Super Productive</title>
-            <meta property="og:title" content="Super Productive" />
-            <meta property="og:description" content="Bite-sized tech tips to level up your productivity" />
+            <title>${escapedTitle}</title>
+            <meta property="og:title" content="${escapedTitle}" />
+            <meta property="og:description" content="${escapedDescription}" />
             <meta property="og:image" content="${escapedImage}" />
             <meta property="og:image:width" content="1200" />
             <meta property="og:image:height" content="630" />
             <meta property="og:image:type" content="image/jpeg" />
             <meta property="og:url" content="${escapedUrl}" />
             <meta property="og:type" content="website" />
-            <meta http-equiv="refresh" content="0; url=${escapedUrl}" />
-            <script>
-              setTimeout(function() {
-                window.location.replace("${escapedUrl}");
-              }, 100);
-            </script>
+            <meta property="og:site_name" content="Super Productive" />
         </head>
         <body>
             <div style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
-                <h1>Loading...</h1>
-                <p>An error occurred while loading the page. <a href="${escapedUrl}">Click here to continue</a>.</p>
+                <h1>Super Productive</h1>
+                <p>An error occurred while loading the page content.</p>
+                <p><a href="${escapedUrl}">Visit the main site</a></p>
             </div>
         </body>
         </html>
