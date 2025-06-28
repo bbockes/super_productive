@@ -71,10 +71,7 @@ export function getCategoryHoverClass(categoryName: string): string {
     return 'hover:bg-gray-800 hover:text-white dark:hover:bg-white dark:hover:text-gray-800';
   }
   
-  // Extract the color name from the background class (e.g., 'bg-blue-500' -> 'blue-500')
-  const colorName = baseColor.replace('bg-', '');
-  
-  return `hover:${baseColor} hover:text-white dark:hover:text-gray-800`;
+  // All other categories have white text on hover in both modes
   return `hover:${baseColor} hover:text-white dark:hover:text-white`;
 }
 
