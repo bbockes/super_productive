@@ -261,6 +261,372 @@ export function generateAboutPageSchema(): any {
 }
 
 /**
+ * Generate HowTo schema for tutorial/workflow content
+ */
+export function generateHowToSchema(post: BlogPost, postUrl: string): any {
+  const description = generateDescription(post);
+  const publishedDate = post.publishedAt || post.created_at || new Date().toISOString();
+  
+  // Extract steps from content if it's a how-to article
+  const steps = extractStepsFromContent(post.content || []);
+  
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: post.title,
+    description: description,
+    image: post.image,
+    totalTime: post.readTime ? formatReadTime(post.readTime) : "PT5M",
+    estimatedCost: {
+      "@type": "MonetaryAmount",
+      currency: "USD",
+      value: "0"
+    },
+    supply: steps.supplies,
+    tool: steps.tools,
+    step: steps.instructions,
+    author: {
+      "@type": "Organization",
+      name: ORGANIZATION_DATA.name
+    },
+    publisher: {
+      "@type": "Organization",
+      name: ORGANIZATION_DATA.name,
+      logo: ORGANIZATION_DATA.logo ? {
+        "@type": "ImageObject",
+        url: ORGANIZATION_DATA.logo
+      } : undefined
+    },
+    datePublished: publishedDate,
+    url: postUrl
+  };
+}
+
+/**
+ * Generate Review schema for tool/app reviews
+ */
+export function generateReviewSchema(post: BlogPost, postUrl: string): any {
+  const description = generateDescription(post);
+  const publishedDate = post.publishedAt || post.created_at || new Date().toISOString();
+  
+  // Try to extract tool name from title or content
+  const toolName = extractToolNameFromContent(post);
+  
+  return {
+    "@context": "https://schema.org",
+    "@type": "Review",
+    itemReviewed: {
+      "@type": "SoftwareApplication",
+      name: toolName,
+      applicationCategory: "ProductivityApplication",
+      operatingSystem: "Web, iOS, Android" // Default, could be customized per tool
+    },
+    author: {
+      "@type": "Organization",
+      name: ORGANIZATION_DATA.name
+    },
+    publisher: {
+      "@type": "Organization",
+      name: ORGANIZATION_DATA.name
+    },
+    datePublished: publishedDate,
+    headline: post.title,
+    reviewBody: description,
+    url: postUrl,
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: "4", // Default rating, could be extracted from content
+      bestRating: "5",
+      worstRating: "1"
+    }
+  };
+}
+
+/**
+ * Generate SoftwareApplication schema for detailed tool reviews
+ */
+export function generateSoftwareApplicationSchema(post: BlogPost, postUrl: string): any {
+  const description = generateDescription(post);
+  const toolName = extractToolNameFromContent(post);
+  
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: toolName,
+    description: description,
+    applicationCategory: "ProductivityApplication",
+    operatingSystem: "Web, iOS, Android",
+    offers: {
+      "@type": "Offer",
+      price: "0", // Most productivity tools have free tiers
+      priceCurrency: "USD"
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.5",
+      reviewCount: "1",
+      bestRating: "5",
+      worstRating: "1"
+    },
+    review: {
+      "@type": "Review",
+      author: {
+        "@type": "Organization",
+        name: ORGANIZATION_DATA.name
+      },
+      datePublished: post.publishedAt || post.created_at || new Date().toISOString(),
+      headline: post.title,
+      reviewBody: description,
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "4",
+        bestRating: "5"
+      }
+    },
+    url: postUrl
+  };
+}
+
+/**
+ * Generate Course schema for educational/learning content
+ */
+export function generateCourseSchema(post: BlogPost, postUrl: string): any {
+  const description = generateDescription(post);
+  const publishedDate = post.publishedAt || post.created_at || new Date().toISOString();
+  
+  return {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: post.title,
+    description: description,
+    provider: {
+      "@type": "Organization",
+      name: ORGANIZATION_DATA.name,
+      url: ORGANIZATION_DATA.url
+    },
+    educationalLevel: "Beginner to Intermediate",
+    about: {
+      "@type": "Thing",
+      name: post.category || "Productivity"
+    },
+    teaches: description,
+    timeRequired: post.readTime ? formatReadTime(post.readTime) : "PT5M",
+    courseMode: "Online",
+    isAccessibleForFree: true,
+    datePublished: publishedDate,
+    url: postUrl,
+    image: post.image
+  };
+}
+
+/**
+ * Generate FAQPage schema for Q&A style content
+ */
+export function generateFAQSchema(post: BlogPost, postUrl: string): any {
+  const faqs = extractFAQsFromContent(post.content || []);
+  
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    name: post.title,
+    mainEntity: faqs.map((faq, index) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer
+      }
+    })),
+    url: postUrl,
+    datePublished: post.publishedAt || post.created_at || new Date().toISOString(),
+    author: {
+      "@type": "Organization",
+      name: ORGANIZATION_DATA.name
+    }
+  };
+}
+
+/**
+ * Auto-detect appropriate schema type based on post content
+ */
+export function detectSchemaType(post: BlogPost): string {
+  const title = post.title.toLowerCase();
+  const content = post.content ? extractTextFromPortableText(post.content).toLowerCase() : '';
+  const category = post.category?.toLowerCase() || '';
+  
+  // Check for HowTo indicators
+  const howToKeywords = ['how to', 'step by step', 'tutorial', 'guide', 'workflow', 'process'];
+  const hasHowToKeywords = howToKeywords.some(keyword => 
+    title.includes(keyword) || content.includes(keyword)
+  );
+  
+  // Check for Review indicators
+  const reviewKeywords = ['review', 'vs', 'comparison', 'tool', 'app', 'software', 'best'];
+  const hasReviewKeywords = reviewKeywords.some(keyword => 
+    title.includes(keyword) || content.includes(keyword)
+  );
+  
+  // Check for FAQ indicators
+  const faqKeywords = ['faq', 'questions', 'answers', 'q&a'];
+  const hasFAQKeywords = faqKeywords.some(keyword => 
+    title.includes(keyword) || content.includes(keyword)
+  );
+  
+  // Check for Course/Learning indicators
+  const courseKeywords = ['learn', 'course', 'training', 'masterclass', 'lesson'];
+  const hasCourseKeywords = courseKeywords.some(keyword => 
+    title.includes(keyword) || content.includes(keyword) || category.includes(keyword)
+  );
+  
+  // Return appropriate schema type
+  if (hasFAQKeywords) return 'FAQPage';
+  if (hasHowToKeywords) return 'HowTo';
+  if (hasReviewKeywords) return 'Review';
+  if (hasCourseKeywords) return 'Course';
+  
+  // Default to BlogPosting
+  return 'BlogPosting';
+}
+
+/**
+ * Generate appropriate schema based on post content
+ */
+export function generateContextualSchema(post: BlogPost, postUrl: string): any {
+  const schemaType = detectSchemaType(post);
+  
+  switch (schemaType) {
+    case 'HowTo':
+      return generateHowToSchema(post, postUrl);
+    case 'Review':
+      return generateReviewSchema(post, postUrl);
+    case 'Course':
+      return generateCourseSchema(post, postUrl);
+    case 'FAQPage':
+      return generateFAQSchema(post, postUrl);
+    default:
+      return generateBlogPostSchema(post, postUrl);
+  }
+}
+
+// Helper functions for content extraction
+
+/**
+ * Extract steps from content for HowTo schema
+ */
+function extractStepsFromContent(content: any[]): { supplies: any[], tools: any[], instructions: any[] } {
+  const supplies: any[] = [];
+  const tools: any[] = [];
+  const instructions: any[] = [];
+  
+  let stepCounter = 1;
+  
+  content.forEach(block => {
+    if (block._type === 'block') {
+      const text = block.children?.map((child: any) => child.text).join(' ') || '';
+      
+      // Look for numbered steps or bullet points that seem like instructions
+      if (block.listItem || text.match(/^\d+\./) || text.toLowerCase().includes('step')) {
+        instructions.push({
+          "@type": "HowToStep",
+          position: stepCounter++,
+          name: text.substring(0, 100), // First 100 chars as name
+          text: text
+        });
+      }
+      
+      // Look for tool mentions
+      const toolKeywords = ['use', 'tool', 'app', 'software', 'platform', 'website'];
+      if (toolKeywords.some(keyword => text.toLowerCase().includes(keyword))) {
+        // Extract potential tool names (this is basic - could be enhanced)
+        const toolMatches = text.match(/\b[A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)*\b/g);
+        if (toolMatches) {
+          toolMatches.forEach(tool => {
+            if (tool.length > 2 && !tools.find(t => t.name === tool)) {
+              tools.push({
+                "@type": "HowToTool",
+                name: tool
+              });
+            }
+          });
+        }
+      }
+    }
+  });
+  
+  // If no specific steps found, create a general step
+  if (instructions.length === 0) {
+    instructions.push({
+      "@type": "HowToStep",
+      position: 1,
+      name: "Follow the guide",
+      text: "Follow the detailed instructions in this article to complete the task."
+    });
+  }
+  
+  return { supplies, tools, instructions };
+}
+
+/**
+ * Extract tool name from post content
+ */
+function extractToolNameFromContent(post: BlogPost): string {
+  const title = post.title;
+  
+  // Try to extract tool name from title
+  const toolPatterns = [
+    /(?:using|with|for)\s+([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)*)/i,
+    /([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)*)\s+(?:review|guide|tutorial)/i,
+    /^([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)*)/
+  ];
+  
+  for (const pattern of toolPatterns) {
+    const match = title.match(pattern);
+    if (match && match[1] && match[1].length > 2) {
+      return match[1].trim();
+    }
+  }
+  
+  // Default to category or generic name
+  return post.category || 'Productivity Tool';
+}
+
+/**
+ * Extract FAQs from content
+ */
+function extractFAQsFromContent(content: any[]): { question: string, answer: string }[] {
+  const faqs: { question: string, answer: string }[] = [];
+  
+  for (let i = 0; i < content.length - 1; i++) {
+    const currentBlock = content[i];
+    const nextBlock = content[i + 1];
+    
+    if (currentBlock._type === 'block' && nextBlock._type === 'block') {
+      const currentText = currentBlock.children?.map((child: any) => child.text).join(' ') || '';
+      const nextText = nextBlock.children?.map((child: any) => child.text).join(' ') || '';
+      
+      // Look for question patterns
+      if (currentText.includes('?') || currentText.toLowerCase().startsWith('q:')) {
+        faqs.push({
+          question: currentText.replace(/^Q:\s*/i, '').trim(),
+          answer: nextText.replace(/^A:\s*/i, '').trim()
+        });
+      }
+    }
+  }
+  
+  // If no FAQs found but it's detected as FAQ content, create a general one
+  if (faqs.length === 0) {
+    const allText = extractTextFromPortableText(content);
+    faqs.push({
+      question: "What is this about?",
+      answer: allText.substring(0, 200) + "..."
+    });
+  }
+  
+  return faqs;
+}
+
+/**
  * Insert JSON-LD script tag into document head
  */
 export function insertStructuredData(schema: any): void {

@@ -5,7 +5,8 @@ import { NewsletterForm } from './NewsletterForm';
 import { getCategoryColor } from '../utils/categoryColorUtils';
 import { ResponsiveImage } from './ResponsiveImage';
 import { 
-  generateBlogPostSchema, 
+  generateBlogPostSchema,
+  generateContextualSchema,
   generateAboutPageSchema, 
   generateBreadcrumbSchema,
   insertMultipleStructuredData,
@@ -118,7 +119,7 @@ export function BlogModal({
     } else if (post.id !== '404') {
       // Blog post schema
       const postUrl = `${window.location.origin}/posts/${post.slug || post.id}`;
-      schemas.push(generateBlogPostSchema(post, postUrl));
+      schemas.push(generateContextualSchema(post, postUrl));
       schemas.push(generateBreadcrumbSchema(post));
     }
     
