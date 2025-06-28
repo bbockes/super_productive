@@ -5,9 +5,6 @@
  * This ensures social media crawlers can access Open Graph meta tags
  */
 
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom/server.js';
 import { createClient } from '@sanity/client';
 import fs from 'fs';
 import path from 'path';
@@ -17,10 +14,13 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Import utilities and data
-const { generateOGMetaTags, generatePageTitle } = await import('../src/utils/seoUtils.ts');
-const { aboutPost, notFoundPost } = await import('../src/data/blogData.tsx');
-const { slugify } = await import('../src/utils/slugify.ts');
+// Import utilities and data (now using .js files)
+import { generateOGMetaTags, generatePageTitle } from '../src/utils/seoUtils.js';
+import { aboutPost, notFoundPost } from '../src/data/staticData.js';
+import { slugify } from '../src/utils/slugifyUtils.js';
+
+// Load environment variables
+import('./build-env.js');
 
 // Sanity client configuration
 const sanityClient = createClient({

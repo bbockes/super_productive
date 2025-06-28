@@ -11,7 +11,7 @@ import { aboutPost, notFoundPost } from '../data/blogData';
 import { LinkedinIcon } from 'lucide-react';
 import { sanityClient, POSTS_QUERY, CATEGORIES_QUERY } from '../lib/sanityClient';
 import { slugify, findPostBySlug, filterPostsBySearchQuery } from '../utils/slugify';
-import { generateMetaDescription, generatePageTitle, DEFAULT_OG_IMAGE, generateOGMetaTags } from '../utils/seoUtils';
+import { generateMetaDescription, generatePageTitle, DEFAULT_OG_IMAGE } from '../utils/seoUtils.js';
 import { getCategoryColor } from '../utils/categoryColorUtils';
 
 // Add type definitions for posts and categories

@@ -4,7 +4,7 @@
  */
 
 // Helper function to extract text content from Portable Text for meta descriptions
-export function extractTextFromContent(content: any[]): string {
+export function extractTextFromContent(content) {
   if (!Array.isArray(content)) return '';
   
   const text = content
@@ -12,8 +12,8 @@ export function extractTextFromContent(content: any[]): string {
     .map(block => {
       if (!block.children || !Array.isArray(block.children)) return '';
       return block.children
-        .filter((child: any) => child._type === 'span' && child.text)
-        .map((child: any) => child.text)
+        .filter((child) => child._type === 'span' && child.text)
+        .map((child) => child.text)
         .join(' ');
     })
     .join(' ');
@@ -23,7 +23,7 @@ export function extractTextFromContent(content: any[]): string {
 }
 
 // Generate meta description from post data
-export function generateMetaDescription(post: any): string {
+export function generateMetaDescription(post) {
   return post.excerpt || 
          post.subheader || 
          (post.content ? extractTextFromContent(post.content) : '') ||
@@ -31,7 +31,7 @@ export function generateMetaDescription(post: any): string {
 }
 
 // Generate page title
-export function generatePageTitle(post: any): string {
+export function generatePageTitle(post) {
   return post ? `${post.title} | Super Productive` : 'Super Productive | Bite-sized tech tips to level up your productivity';
 }
 
@@ -39,7 +39,7 @@ export function generatePageTitle(post: any): string {
 export const DEFAULT_OG_IMAGE = 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&h=630&fit=crop';
 
 // Generate Open Graph meta tags HTML
-export function generateOGMetaTags(post: any, url: string): string {
+export function generateOGMetaTags(post, url) {
   const title = post ? post.title : 'Super Productive';
   const description = post ? generateMetaDescription(post) : 'Bite-sized tech tips to level up your productivity. Weekly newsletter with AI prompts, productivity tools, and smart workflows.';
   const image = post?.image || DEFAULT_OG_IMAGE;
@@ -78,8 +78,8 @@ export function generateOGMetaTags(post: any, url: string): string {
 }
 
 // Escape HTML entities
-function escapeHtml(text: string): string {
-  const map: { [key: string]: string } = {
+function escapeHtml(text) {
+  const map = {
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
