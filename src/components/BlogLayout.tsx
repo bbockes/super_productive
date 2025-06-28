@@ -497,9 +497,14 @@ export function BlogLayout() {
             ) : (
               <div className="hidden lg:flex justify-between items-center mb-8">
                 <div className="flex-1 flex justify-start">
-                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                    Find your new favorite app
-                  </h1>
+                  <div>
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                      Apps you know. Apps you don't.
+                    </h1>
+                    <p className="text-gray-600 dark:text-gray-400 mt-2">
+                      Every app on the blog—and then some.
+                    </p>
+                  </div>
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0">
                   <div className="flex items-center gap-3">
@@ -540,9 +545,14 @@ export function BlogLayout() {
             ) : (
               <div className="hidden md:flex lg:hidden justify-between items-center mb-6">
                 <div className="flex-1 flex justify-start">
-                  <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                    Find your new favorite app
-                  </h1>
+                  <div>
+                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                      Apps you know. Apps you don't.
+                    </h1>
+                    <p className="text-gray-600 dark:text-gray-400 mt-1">
+                      Every app on the blog—and then some.
+                    </p>
+                  </div>
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex-shrink-0">
                   <div className="flex items-center gap-3">
@@ -575,9 +585,14 @@ export function BlogLayout() {
               </div>
             ) : (
               <div className="md:hidden mb-6">
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white text-left">
-                  Find your new favorite app
-                </h1>
+                <div>
+                  <h1 className="text-xl font-bold text-gray-900 dark:text-white text-left">
+                    Apps you know. Apps you don't.
+                  </h1>
+                  <p className="text-gray-600 dark:text-gray-400 mt-1 text-left">
+                    Every app on the blog—and then some.
+                  </p>
+                </div>
               </div>
             )}
 
