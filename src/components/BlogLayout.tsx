@@ -654,7 +654,7 @@ export function BlogLayout() {
 
       {/* Modal - This should render when selectedPost is set */}
       {console.log('🎭 Rendering modal check - selectedPost exists:', !!selectedPost)}
-      {selectedPost && !isLinkMode && (
+      {selectedPost && (
         <>
           {console.log('🎭 Actually rendering BlogModal component')}
           <BlogModal post={selectedPost} onClose={handleCloseModal} />
