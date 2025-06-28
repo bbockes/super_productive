@@ -1,7 +1,6 @@
-# Redirect trailing slashes to non-trailing slash URLs (301 permanent redirects)
-/about/ /about 301
+# Redirect trailing slashes to non-trailing slash URLs for posts only
 /posts/*/ /posts/:splat 301
 
 # Fallback to SPA for client-side routing
-# This ensures React router handles all routes including /about
+# React router will handle both /about and /about/ routes
 /* /index.html 200
