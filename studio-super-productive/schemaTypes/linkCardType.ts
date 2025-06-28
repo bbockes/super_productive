@@ -35,9 +35,7 @@ export const linkCardType = defineType({
       title: 'URL',
       type: 'url',
       description: 'The link that opens when the card is clicked',
-      validation: (rule) => rule.required().uri({
-        scheme: ['http', 'https']
-      }),
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'publishedAt',
