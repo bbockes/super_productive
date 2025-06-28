@@ -11,7 +11,7 @@ interface NewsletterFormProps {
 }
 
 export function NewsletterForm({
-  placeholder = "Get 3 new tips in your inbox every Wednesday",
+  placeholder = "Enter your email address",
   buttonText = "Subscribe",
   className = "",
   inputClassName = "",

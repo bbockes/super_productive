@@ -382,7 +382,7 @@ export function BlogLayout() {
                 <div className="px-4 py-4">
                   <NewsletterForm 
                     className="w-full"
-                    placeholder="Get 3 new tips in your inbox every Wednesday"
+                    placeholder="Enter your email address"
                   />
                 </div>
               </div>
