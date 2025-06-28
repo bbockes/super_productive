@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import { XIcon, ArrowLeftRight } from 'lucide-react';
+import { XIcon } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
-import { getCategoryColor, getCategoryHoverClassOptimized, getCategorySelectedClass } from '../utils/categoryColorUtils';
+import { getCategoryColor, getCategoryHoverClass, getCategorySelectedClass } from '../utils/categoryColorUtils';
 
 interface CategorySidebarProps {
   categories: Array<{ name: string; color: string }>;
   selectedCategory: string;
   onCategorySelect: (category: string) => void;
   onAboutClick: () => void;
-  isLinkMode?: boolean;
-  onToggleLinkMode?: () => void;
   isMobile?: boolean;
   onClose?: () => void;
 }
@@ -19,8 +17,6 @@ export function CategorySidebar({
   selectedCategory,
   onCategorySelect,
   onAboutClick,
-  isLinkMode = false,
-  onToggleLinkMode,
   isMobile = false,
   onClose
 }: CategorySidebarProps) {
@@ -84,10 +80,10 @@ export function CategorySidebar({
               <button
                 key={category.name}
                 onClick={() => onCategorySelect(category.name)}
-                className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   selectedCategory === category.name 
                     ? getCategorySelectedClass(category, isDarkMode)
-                    : `text-gray-700 dark:text-gray-300 ${getCategoryHoverClassOptimized(category.name)}`
+                    : `text-gray-700 dark:text-gray-300 ${getCategoryHoverClass(category.name)}`
                 }`}
               >
                 {category.name}
@@ -100,7 +96,7 @@ export function CategorySidebar({
       <div className="p-6 pt-0 flex-shrink-0">
         <button 
           onClick={handleAboutClick}
-          className="w-full mb-3 px-6 py-2 bg-transparent border-2 border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:text-white hover:border-transparent dark:hover:border-transparent transition-colors"
+          className="w-full px-6 py-2 bg-transparent border-2 border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:text-white hover:border-transparent dark:hover:border-transparent transition-colors"
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = '#7D1FF1';
           }}
@@ -110,15 +106,6 @@ export function CategorySidebar({
         >
           About
         </button>
-        {onToggleLinkMode && (
-          <button 
-            onClick={onToggleLinkMode}
-            className="w-full px-6 py-2 bg-transparent border-2 border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-blue-50 hover:border-blue-300 dark:hover:bg-blue-900/20 dark:hover:border-blue-500 transition-all duration-200 flex items-center justify-center gap-2"
-          >
-            {isLinkMode ? 'Posts' : 'Apps'}
-            <ArrowLeftRight className="w-4 h-4" />
-          </button>
-        )}
       </div>
     </aside>
   );
