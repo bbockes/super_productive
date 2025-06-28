@@ -10,7 +10,7 @@ export function MobileHeader({ onMenuToggle }: MobileHeaderProps) {
   const { isDarkMode } = useTheme();
 
   return (
-    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4">
+    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-2">
       <div className="flex justify-between items-center">
         <div>
           <img 
