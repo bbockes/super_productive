@@ -97,6 +97,9 @@ export function BlogLayout() {
 
   // Update meta tags when selectedPost changes
   useEffect(() => {
+    // Default OG image URL - you can replace this with your actual default image
+    const defaultOgImage = 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&h=630&fit=crop';
+    
     if (selectedPost) {
       // Set the document title
       document.title = `${selectedPost.title} | Super Productive`;
@@ -114,20 +117,22 @@ export function BlogLayout() {
       setMetaTag('og:url', getCurrentUrl());
       setMetaTag('og:site_name', 'Super Productive');
       
-      if (selectedPost.image) {
-        setMetaTag('og:image', selectedPost.image);
-        setMetaTag('og:image:alt', selectedPost.title);
-      }
+      // Always set og:image - use post image or default
+      const ogImage = selectedPost.image || defaultOgImage;
+      setMetaTag('og:image', ogImage);
+      setMetaTag('og:image:alt', selectedPost.title);
+      setMetaTag('og:image:width', '1200');
+      setMetaTag('og:image:height', '630');
       
       // Set Twitter Card meta tags
       setMetaTag('twitter:card', 'summary_large_image', true);
       setMetaTag('twitter:title', selectedPost.title, true);
       setMetaTag('twitter:description', description, true);
       
-      if (selectedPost.image) {
-        setMetaTag('twitter:image', selectedPost.image, true);
-        setMetaTag('twitter:image:alt', selectedPost.title, true);
-      }
+      // Always set twitter:image - use post image or default
+      const twitterImage = selectedPost.image || defaultOgImage;
+      setMetaTag('twitter:image', twitterImage, true);
+      setMetaTag('twitter:image:alt', selectedPost.title, true);
       
       // Set additional meta tags
       setMetaTag('description', description, true);
@@ -152,19 +157,25 @@ export function BlogLayout() {
       setMetaTag('og:url', getCurrentUrl());
       setMetaTag('og:site_name', 'Super Productive');
       
+      // Always set default og:image for homepage
+      setMetaTag('og:image', defaultOgImage);
+      setMetaTag('og:image:alt', 'Super Productive - Bite-sized tech tips to level up your productivity');
+      setMetaTag('og:image:width', '1200');
+      setMetaTag('og:image:height', '630');
+      
       // Set default Twitter Card meta tags
       setMetaTag('twitter:card', 'summary_large_image', true);
       setMetaTag('twitter:title', 'Super Productive', true);
       setMetaTag('twitter:description', defaultDescription, true);
       
+      // Always set default twitter:image for homepage
+      setMetaTag('twitter:image', defaultOgImage, true);
+      setMetaTag('twitter:image:alt', 'Super Productive - Bite-sized tech tips to level up your productivity', true);
+      
       // Set default meta description
       setMetaTag('description', defaultDescription, true);
       
-      // Remove article-specific meta tags
-      removeMetaTag('og:image');
-      removeMetaTag('og:image:alt');
-      removeMetaTag('twitter:image', true);
-      removeMetaTag('twitter:image:alt', true);
+      // Remove article-specific meta tags (but keep the default image tags)
       removeMetaTag('article:section');
       removeMetaTag('article:published_time');
     }
