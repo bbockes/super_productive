@@ -84,7 +84,7 @@ export function CategorySidebar({
               <button
                 key={category.name}
                 onClick={() => onCategorySelect(category.name)}
-                className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                   selectedCategory === category.name 
                     ? getCategorySelectedClass(category, isDarkMode)
                     : `text-gray-700 dark:text-gray-300 ${getCategoryHoverClassOptimized(category.name)}`
