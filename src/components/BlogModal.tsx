@@ -287,7 +287,7 @@ export function BlogModal({
                       href={shareUrls.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
+                      className="flex items-center gap-2 px-3 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
                     >
                       <LinkedinIcon className="w-4 h-4" />
                       <span className="text-sm font-medium">LinkedIn</span>
@@ -296,7 +296,7 @@ export function BlogModal({
                       href={shareUrls.twitter}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
+                      className="flex items-center gap-2 px-3 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
                     >
                       <TwitterIcon className="w-4 h-4" />
                       <span className="text-sm font-medium">Twitter</span>
@@ -305,7 +305,7 @@ export function BlogModal({
                       href={shareUrls.facebook}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
+                      className="flex items-center gap-2 px-3 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
                     >
                       <FacebookIcon className="w-4 h-4" />
                       <span className="text-sm font-medium">Facebook</span>
@@ -314,14 +314,14 @@ export function BlogModal({
                       href={shareUrls.whatsapp}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
+                      className="flex items-center gap-2 px-3 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
                     >
                       <MessageCircleIcon className="w-4 h-4" />
                       <span className="text-sm font-medium">WhatsApp</span>
                     </a>
                     <a
                       href={shareUrls.email}
-                      className="flex items-center gap-2 px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
+                      className="flex items-center gap-2 px-3 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
                     >
                       <MailIcon className="w-4 h-4" />
                       <span className="text-sm font-medium">Email</span>
