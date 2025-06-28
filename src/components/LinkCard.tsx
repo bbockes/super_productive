@@ -22,7 +22,7 @@ export function LinkCard({ linkCard }: LinkCardProps) {
       onClick={handleClick}
       className="bg-gray-900 dark:bg-gray-800 rounded-xl overflow-hidden cursor-pointer hover:transform hover:scale-105 transition-all duration-200 group relative"
     >
-      <div className="aspect-video bg-gray-800 dark:bg-gray-700 relative">
+      <div className="aspect-square bg-gray-800 dark:bg-gray-700 relative">
         <ResponsiveImage
           src={linkCard.image} 
           alt={linkCard.title} 
