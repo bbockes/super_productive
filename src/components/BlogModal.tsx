@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { PortableText } from '@portabletext/react';
-import { XIcon, ClockIcon, CopyIcon, CheckIcon } from 'lucide-react';
+import { XIcon, ClockIcon, CopyIcon, CheckIcon, TwitterIcon, LinkedinIcon, FacebookIcon, MailIcon, MessageCircleIcon, ShareIcon } from 'lucide-react';
 import { NewsletterForm } from './NewsletterForm';
 import { getCategoryColor } from '../utils/categoryColorUtils';
 
@@ -104,6 +104,27 @@ export function BlogModal({
   const formatReadTime = (readTime) => {
     // Convert to string and return as-is
     return String(readTime || '5 min');
+  };
+
+  // Generate the current post URL for sharing
+  const getPostUrl = () => {
+    const baseUrl = window.location.origin;
+    return `${baseUrl}/posts/${post.slug || post.id}`;
+  };
+
+  // Get share text for social media
+  const getShareText = () => {
+    const description = post.subheader || post.excerpt || 'Check out this article';
+    return `${post.title} - ${description}`;
+  };
+
+  // Social media share URLs
+  const shareUrls = {
+    twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText())}&url=${encodeURIComponent(getPostUrl())}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(getPostUrl())}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getPostUrl())}`,
+    email: `mailto:?subject=${encodeURIComponent(post.title)}&body=${encodeURIComponent(`${getShareText()}\n\n${getPostUrl()}`)}`,
+    whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(`${getShareText()} ${getPostUrl()}`)}`,
   };
 
   return (
@@ -253,6 +274,59 @@ export function BlogModal({
                   },
                 }}
               />
+              
+              {/* Social Media Share Section */}
+              <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex items-center gap-3 mb-4">
+                  <ShareIcon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">Share this article</span>
+                </div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <a
+                    href={shareUrls.twitter}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+                  >
+                    <TwitterIcon className="w-4 h-4" />
+                    <span className="text-sm font-medium">Twitter</span>
+                  </a>
+                  <a
+                    href={shareUrls.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-lg transition-colors"
+                  >
+                    <LinkedinIcon className="w-4 h-4" />
+                    <span className="text-sm font-medium">LinkedIn</span>
+                  </a>
+                  <a
+                    href={shareUrls.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                  >
+                    <FacebookIcon className="w-4 h-4" />
+                    <span className="text-sm font-medium">Facebook</span>
+                  </a>
+                  <a
+                    href={shareUrls.email}
+                    className="flex items-center gap-2 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
+                  >
+                    <MailIcon className="w-4 h-4" />
+                    <span className="text-sm font-medium">Email</span>
+                  </a>
+                  <a
+                    href={shareUrls.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+                  >
+                    <MessageCircleIcon className="w-4 h-4" />
+                    <span className="text-sm font-medium">WhatsApp</span>
+                  </a>
+                </div>
+              </div>
               
               {/* Newsletter form for About page - placed at bottom of content */}
               {post.id === 'about' && (
