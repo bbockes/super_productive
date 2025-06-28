@@ -161,4 +161,11 @@
       max-width: calc(50% - 4px); /* Two buttons per row with gap */
     }
   }
+
+  /* Modal container padding at 768px breakpoint */
+  @media (min-width: 768px) {
+    .modal-container {
+      padding: 5px 16px; /* 5px top/bottom, 16px left/right */
+    }
+  }
 }
