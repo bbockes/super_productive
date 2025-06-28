@@ -8,7 +8,6 @@ import { MobileHeader } from './MobileHeader';
 import { DarkModeToggle } from './DarkModeToggle';
 import { NewsletterForm } from './NewsletterForm';
 import { SearchSubscribeToggle } from './SearchSubscribeToggle';
-import { ViewModeToggle } from './ViewModeToggle';
 import { aboutPost, notFoundPost } from '../data/blogData';
 import { LinkedinIcon } from 'lucide-react';
 import { sanityClient, POSTS_QUERY, CATEGORIES_QUERY, LINK_CARDS_QUERY, LINK_CARD_CATEGORIES_QUERY } from '../lib/sanityClient';
@@ -432,7 +431,9 @@ export function BlogLayout() {
           categories={isLinkMode ? linkCategories : categories} 
           selectedCategory={selectedCategory} 
           onCategorySelect={handleCategorySelect} 
-          onAboutClick={handleAboutClick} 
+          onAboutClick={handleAboutClick}
+          isLinkMode={isLinkMode}
+          onToggleLinkMode={handleToggleMode}
         />
       </div>
 
@@ -445,6 +446,8 @@ export function BlogLayout() {
               selectedCategory={selectedCategory} 
               onCategorySelect={handleCategorySelect} 
               onAboutClick={handleAboutClick}
+              isLinkMode={isLinkMode}
+              onToggleLinkMode={handleToggleMode}
               isMobile={true}
               onClose={toggleMobileMenu}
             />
@@ -467,12 +470,11 @@ export function BlogLayout() {
                   <SearchSubscribeToggle 
                     className="w-full" 
                     onSearch={handleSearch}
-                    placeholder={isLinkMode ? "Search links and resources" : "Get 3 new tips in your inbox every Wednesday"}
+                    placeholder="Get 3 new tips in your inbox every Wednesday"
                   />
                 </div>
               </div>
-              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center gap-4 flex-shrink-0">
-                <ViewModeToggle isLinkMode={isLinkMode} onToggle={handleToggleMode} />
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0">
                 <div className="flex items-center gap-3">
                   <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
                     <LinkedinIcon className="w-5 h-5" />
@@ -491,12 +493,11 @@ export function BlogLayout() {
                     <SearchSubscribeToggle 
                       className="w-full"
                       onSearch={handleSearch}
-                      placeholder={isLinkMode ? "Search links" : "Enter your email address"}
+                      placeholder="Enter your email address"
                     />
                   </div>
                 </div>
-                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex-shrink-0 tablet-social-container flex items-center gap-4">
-                  <ViewModeToggle isLinkMode={isLinkMode} onToggle={handleToggleMode} />
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex-shrink-0 tablet-social-container">
                   <div className="flex items-center gap-3">
                     <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
                       <LinkedinIcon className="w-5 h-5" />
@@ -511,18 +512,15 @@ export function BlogLayout() {
             {/* Mobile Subscribe Section - only shows on small screens */}
             <div className="md:hidden mb-6 mobile-subscribe-container">
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
-                <div className="px-4 pt-4 pb-2">
-                  <ViewModeToggle isLinkMode={isLinkMode} onToggle={handleToggleMode} />
-                </div>
                 <div className="px-4 py-4">
                   <SearchSubscribeToggle 
                     className="w-full mobile-search-toggle"
                     onSearch={handleSearch}
-                    placeholder={isLinkMode ? "Search links" : "Enter your email address"}
+                    placeholder="Enter your email address"
                   />
                   <NewsletterForm 
                     className="w-full mobile-newsletter-fallback hidden"
-                    placeholder={isLinkMode ? "Search links" : "Enter your email address"}
+                    placeholder="Enter your email address"
                   />
                 </div>
               </div>

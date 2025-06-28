@@ -8,6 +8,8 @@ interface CategorySidebarProps {
   selectedCategory: string;
   onCategorySelect: (category: string) => void;
   onAboutClick: () => void;
+  isLinkMode?: boolean;
+  onToggleLinkMode?: () => void;
   isMobile?: boolean;
   onClose?: () => void;
 }
@@ -17,6 +19,8 @@ export function CategorySidebar({
   selectedCategory,
   onCategorySelect,
   onAboutClick,
+  isLinkMode = false,
+  onToggleLinkMode,
   isMobile = false,
   onClose
 }: CategorySidebarProps) {
@@ -94,6 +98,20 @@ export function CategorySidebar({
       </div>
       
       <div className="p-6 pt-0 flex-shrink-0">
+        {onToggleLinkMode && (
+          <button 
+            onClick={onToggleLinkMode}
+            className="w-full mb-3 px-6 py-2 bg-transparent border-2 border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:text-white hover:border-transparent dark:hover:border-transparent transition-colors"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#7D1FF1';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+            }}
+          >
+            {isLinkMode ? 'Back to Articles' : 'App Ads'}
+          </button>
+        )}
         <button 
           onClick={handleAboutClick}
           className="w-full px-6 py-2 bg-transparent border-2 border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:text-white hover:border-transparent dark:hover:border-transparent transition-colors"
