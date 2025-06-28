@@ -34,6 +34,53 @@ interface Category {
   color: string;
 }
 
+// Helper function to set or update a meta tag
+function setMetaTag(property: string, content: string, isName = false) {
+  const attributeName = isName ? 'name' : 'property';
+  let element = document.querySelector(`meta[${attributeName}="${property}"]`) as HTMLMetaElement;
+  
+  if (element) {
+    element.content = content;
+  } else {
+    element = document.createElement('meta');
+    element.setAttribute(attributeName, property);
+    element.content = content;
+    document.head.appendChild(element);
+  }
+}
+
+// Helper function to remove a meta tag
+function removeMetaTag(property: string, isName = false) {
+  const attributeName = isName ? 'name' : 'property';
+  const element = document.querySelector(`meta[${attributeName}="${property}"]`);
+  if (element) {
+    element.remove();
+  }
+}
+
+// Helper function to extract text content from Portable Text for meta descriptions
+function extractTextFromContent(content: any[]): string {
+  if (!Array.isArray(content)) return '';
+  
+  const text = content
+    .filter(block => block._type === 'block')
+    .map(block => {
+      if (!block.children || !Array.isArray(block.children)) return '';
+      return block.children
+        .filter((child: any) => child._type === 'span' && child.text)
+        .map((child: any) => child.text)
+        .join(' ');
+    })
+    .join(' ');
+    
+  // Limit to 160 characters for meta description
+  return text.length > 160 ? text.substring(0, 157) + '...' : text;
+}
+
+// Helper function to get the current full URL
+function getCurrentUrl(): string {
+  return window.location.href;
+}
 export function BlogLayout() {
   const navigate = useNavigate();
   const { slug } = useParams<{ slug?: string }>();
@@ -48,6 +95,80 @@ export function BlogLayout() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
+  // Update meta tags when selectedPost changes
+  useEffect(() => {
+    if (selectedPost) {
+      // Set the document title
+      document.title = `${selectedPost.title} | Super Productive`;
+      
+      // Get description from excerpt, subheader, or content
+      const description = selectedPost.excerpt || 
+                         selectedPost.subheader || 
+                         (selectedPost.content ? extractTextFromContent(selectedPost.content) : '') ||
+                         'Bite-sized tech tips to level up your productivity';
+      
+      // Set Open Graph meta tags
+      setMetaTag('og:title', selectedPost.title);
+      setMetaTag('og:description', description);
+      setMetaTag('og:type', 'article');
+      setMetaTag('og:url', getCurrentUrl());
+      setMetaTag('og:site_name', 'Super Productive');
+      
+      if (selectedPost.image) {
+        setMetaTag('og:image', selectedPost.image);
+        setMetaTag('og:image:alt', selectedPost.title);
+      }
+      
+      // Set Twitter Card meta tags
+      setMetaTag('twitter:card', 'summary_large_image', true);
+      setMetaTag('twitter:title', selectedPost.title, true);
+      setMetaTag('twitter:description', description, true);
+      
+      if (selectedPost.image) {
+        setMetaTag('twitter:image', selectedPost.image, true);
+        setMetaTag('twitter:image:alt', selectedPost.title, true);
+      }
+      
+      // Set additional meta tags
+      setMetaTag('description', description, true);
+      
+      if (selectedPost.category) {
+        setMetaTag('article:section', selectedPost.category);
+      }
+      
+      if (selectedPost.publishedAt || selectedPost.created_at) {
+        setMetaTag('article:published_time', selectedPost.publishedAt || selectedPost.created_at);
+      }
+    } else {
+      // Reset to default meta tags when no post is selected
+      document.title = 'Super Productive | Bite-sized tech tips to level up your productivity';
+      
+      const defaultDescription = 'Bite-sized tech tips to level up your productivity. Weekly newsletter with AI prompts, productivity tools, and smart workflows.';
+      
+      // Set default Open Graph meta tags
+      setMetaTag('og:title', 'Super Productive');
+      setMetaTag('og:description', defaultDescription);
+      setMetaTag('og:type', 'website');
+      setMetaTag('og:url', getCurrentUrl());
+      setMetaTag('og:site_name', 'Super Productive');
+      
+      // Set default Twitter Card meta tags
+      setMetaTag('twitter:card', 'summary_large_image', true);
+      setMetaTag('twitter:title', 'Super Productive', true);
+      setMetaTag('twitter:description', defaultDescription, true);
+      
+      // Set default meta description
+      setMetaTag('description', defaultDescription, true);
+      
+      // Remove article-specific meta tags
+      removeMetaTag('og:image');
+      removeMetaTag('og:image:alt');
+      removeMetaTag('twitter:image', true);
+      removeMetaTag('twitter:image:alt', true);
+      removeMetaTag('article:section');
+      removeMetaTag('article:published_time');
+    }
+  }, [selectedPost]);
   // Fetch blog posts and categories from Sanity
   useEffect(() => {
     async function fetchData() {
