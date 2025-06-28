@@ -111,9 +111,18 @@ async function prerender() {
       slug: post.slug?.current || slugify(post.title)
     }));
     
-    const baseUrl = 'https://superproductive.magic-patterns.com'; // Update this to your actual domain
+    const baseUrl = 'https://your-actual-domain.com'; // TODO: Update this to your actual domain
     
     console.log('📝 Generating static HTML files...');
+    
+    // Debug: Log first few posts to check excerpt data
+    console.log('🔍 Sample posts data:');
+    transformedPosts.slice(0, 2).forEach((post, index) => {
+      console.log(`Post ${index + 1}:`);
+      console.log(`  Title: ${post.title}`);
+      console.log(`  Excerpt: ${post.excerpt || 'NO EXCERPT'}`);
+      console.log(`  Subheader: ${post.subheader || 'NO SUBHEADER'}`);
+    });
     
     // 1. Generate homepage (keep the original index.html but add meta tags)
     const homeTitle = generatePageTitle(null);
@@ -132,6 +141,10 @@ async function prerender() {
     // 3. Generate individual post pages
     let postCount = 0;
     for (const post of transformedPosts) {
+      // Debug: Log what description is being generated
+      const generatedDescription = generateMetaDescription(post);
+      console.log(`📄 ${post.title} -> Description: "${generatedDescription}"`);
+      
       const postTitle = generatePageTitle(post);
       const postUrl = `${baseUrl}/posts/${post.slug}`;
       const postMetaTags = generateOGMetaTags(post, postUrl);
