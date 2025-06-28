@@ -382,12 +382,12 @@ export function BlogLayout() {
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
                 <div className="px-4 py-4">
                   <SearchSubscribeToggle 
-                    className="w-full"
+                    className="w-full mobile-search-toggle"
                     onSearch={handleSearch}
                     placeholder="Enter your email address"
                   />
                   <NewsletterForm 
-                    className="w-full hidden"
+                    className="w-full mobile-newsletter-fallback hidden"
                     placeholder="Enter your email address"
                   />
                 </div>
