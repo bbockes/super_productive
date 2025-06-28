@@ -75,6 +75,7 @@ export function getCategoryHoverClass(categoryName: string): string {
   const colorName = baseColor.replace('bg-', '');
   
   return `hover:${baseColor} hover:text-white dark:hover:text-gray-800`;
+  return `hover:${baseColor} hover:text-white dark:hover:text-white`;
 }
 
 // Get selected state classes for a category
@@ -89,17 +90,17 @@ export function getCategorySelectedClass(category: { name: string; color: string
 // Static hover mapping for better performance (optional optimization)
 const staticHoverMap: Record<string, string> = {
   'All': 'hover:bg-gray-800 hover:text-white dark:hover:bg-white dark:hover:text-gray-800',
-  'Writing': 'hover:bg-blue-500 hover:text-white dark:hover:text-gray-800',
-  'Learning': 'hover:bg-red-500 hover:text-white dark:hover:text-gray-800',
-  'Planning': 'hover:bg-green-500 hover:text-white dark:hover:text-gray-800',
-  'Building': 'hover:bg-pink-500 hover:text-white dark:hover:text-gray-800',
-  'Creativity': 'hover:bg-yellow-500 hover:text-white dark:hover:text-gray-800',
-  'Growth': 'hover:bg-purple-500 hover:text-white dark:hover:text-gray-800',
-  'Focus': 'hover:bg-orange-500 hover:text-white dark:hover:text-gray-800',
-  'Errors': 'hover:bg-orange-500 hover:text-white dark:hover:text-gray-800',
-  'Communication': 'hover:bg-indigo-500 hover:text-white dark:hover:text-gray-800',
-  'Thinking': 'hover:bg-teal-500 hover:text-white dark:hover:text-gray-800',
-  'Shortcuts': 'hover:bg-emerald-500 hover:text-white dark:hover:text-gray-800'
+  'Writing': 'hover:bg-blue-500 hover:text-white dark:hover:text-white',
+  'Learning': 'hover:bg-red-500 hover:text-white dark:hover:text-white',
+  'Planning': 'hover:bg-green-500 hover:text-white dark:hover:text-white',
+  'Building': 'hover:bg-pink-500 hover:text-white dark:hover:text-white',
+  'Creativity': 'hover:bg-yellow-500 hover:text-white dark:hover:text-white',
+  'Growth': 'hover:bg-purple-500 hover:text-white dark:hover:text-white',
+  'Focus': 'hover:bg-orange-500 hover:text-white dark:hover:text-white',
+  'Errors': 'hover:bg-orange-500 hover:text-white dark:hover:text-white',
+  'Communication': 'hover:bg-indigo-500 hover:text-white dark:hover:text-white',
+  'Thinking': 'hover:bg-teal-500 hover:text-white dark:hover:text-white',
+  'Shortcuts': 'hover:bg-emerald-500 hover:text-white dark:hover:text-white'
 };
 
 // Optimized hover class function that uses static mapping when available
