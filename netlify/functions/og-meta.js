@@ -142,10 +142,14 @@ exports.handler = async (event, context) => {
   if (!isCrawler) {
     console.log('Regular browser detected, falling through to static hosting');
     
-    // For regular browsers, return 404 to let Netlify fall through to the next redirect rule
-    // This will cause the `/* /index.html 200` rule to serve your built React app
+    // For regular browsers, redirect to the same URL
+    // This will be caught by the `/* /index.html 200` rule and serve your React app
     return {
-      statusCode: 404,
+      statusCode: 302,
+      headers: {
+        'Location': `https://${host}${path}`,
+        'Cache-Control': 'no-cache',
+      },
     };
   }
 
