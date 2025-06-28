@@ -335,7 +335,11 @@ export function BlogLayout() {
             <div className="hidden lg:flex justify-between items-center mb-8">
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center overflow-hidden" style={{ width: '600px', maxWidth: '600px' }}>
                 <div className="px-4 py-4 w-full">
-                  <SearchSubscribeToggle className="w-full" onSearch={handleSearch} />
+                  <SearchSubscribeToggle 
+                    className="w-full" 
+                    onSearch={handleSearch}
+                    placeholder="Get 3 new tips in your inbox every Wednesday"
+                  />
                 </div>
               </div>
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0">
@@ -354,7 +358,10 @@ export function BlogLayout() {
               <div className="flex items-start gap-6">
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden max-w-md flex-1">
                   <div className="px-4 py-4">
-                    <NewsletterForm className="w-full" />
+                    <NewsletterForm 
+                      className="w-full"
+                      placeholder="Enter your email address"
+                    />
                   </div>
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex-shrink-0">
@@ -375,7 +382,7 @@ export function BlogLayout() {
                 <div className="px-4 py-4">
                   <NewsletterForm 
                     className="w-full"
-                    placeholder="Get free weekly updates"
+                    placeholder="Get 3 new tips in your inbox every Wednesday"
                   />
                 </div>
               </div>
