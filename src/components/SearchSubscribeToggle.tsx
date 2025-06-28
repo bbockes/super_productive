@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNewsletter } from '../hooks/useNewsletter';
+import { useWindowSize } from '../hooks/useWindowSize';
 import { CheckIcon, LoaderIcon, ArrowLeftRight } from 'lucide-react';
 
 interface SearchSubscribeToggleProps {
@@ -22,6 +23,7 @@ export function SearchSubscribeToggle({
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const { isLoading, isSuccess, error, subscribe, reset } = useNewsletter();
+  const { width } = useWindowSize();
 
   // Reset success state after 3 seconds
   useEffect(() => {
@@ -70,7 +72,15 @@ export function SearchSubscribeToggle({
     }
   };
 
-  const currentPlaceholder = isSearchMode ? "Find the perfect prompt, tool, or workflow" : placeholder;
+  // Determine search placeholder based on screen size
+  const getSearchPlaceholder = () => {
+    if (width >= 770 && width <= 860) {
+      return "Search the blog";
+    }
+    return "Find the perfect prompt, tool, or workflow";
+  };
+
+  const currentPlaceholder = isSearchMode ? getSearchPlaceholder() : placeholder;
   const currentButtonText = isSearchMode ? "Search" : buttonText;
 
   if (isSuccess && !isSearchMode) {
