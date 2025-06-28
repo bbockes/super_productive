@@ -16,7 +16,7 @@ export function BlogCard({
       <div className="aspect-video bg-gray-800 dark:bg-gray-700 relative">
         <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
         <div className="absolute bottom-3 left-3 flex items-center gap-2">
-          <div className="flex items-center gap-1 text-white text-sm">
+          <div className="flex items-center gap-1 text-white dark:text-gray-200 text-sm">
             <ClockIcon className="w-4 h-4" />
             {formatReadTime(post.read_time || post.readTime)}
           </div>
