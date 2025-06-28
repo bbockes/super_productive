@@ -115,8 +115,8 @@ export function CategorySidebar({
             onClick={onToggleLinkMode}
             className="w-full px-6 py-2 bg-transparent border-2 border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-blue-50 hover:border-blue-300 dark:hover:bg-blue-900/20 dark:hover:border-blue-500 transition-all duration-200 flex items-center justify-center gap-2"
           >
-            <ArrowLeftRight className="w-4 h-4" />
             {isLinkMode ? 'Posts' : 'Apps'}
+            <ArrowLeftRight className="w-4 h-4" />
           </button>
         )}
       </div>
