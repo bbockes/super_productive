@@ -141,4 +141,24 @@
       max-width: none !important;
     }
   }
+
+  /* Social share buttons layout */
+  .social-share-buttons {
+    /* Default: single row with horizontal scroll prevention */
+    overflow-x: visible;
+  }
+
+  /* At 610px and below, force buttons to wrap to two lines */
+  @media (max-width: 610px) {
+    .social-share-buttons {
+      /* Remove any flexbox items-center that prevents wrapping */
+      align-items: flex-start;
+    }
+    
+    .social-share-buttons a {
+      /* Ensure buttons can wrap properly */
+      flex: 0 0 auto;
+      max-width: calc(50% - 4px); /* Two buttons per row with gap */
+    }
+  }
 }
