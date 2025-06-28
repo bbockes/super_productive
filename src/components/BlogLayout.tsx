@@ -11,6 +11,7 @@ import { aboutPost, notFoundPost } from '../data/blogData';
 import { LinkedinIcon } from 'lucide-react';
 import { sanityClient, POSTS_QUERY, CATEGORIES_QUERY } from '../lib/sanityClient';
 import { slugify, findPostBySlug, filterPostsBySearchQuery } from '../utils/slugify';
+import { generateMetaDescription, generatePageTitle, DEFAULT_OG_IMAGE, generateOGMetaTags } from '../utils/seoUtils';
 import { getCategoryColor } from '../utils/categoryColorUtils';
 
 // Add type definitions for posts and categories
@@ -58,25 +59,6 @@ function removeMetaTag(property: string, isName = false) {
   }
 }
 
-// Helper function to extract text content from Portable Text for meta descriptions
-function extractTextFromContent(content: any[]): string {
-  if (!Array.isArray(content)) return '';
-  
-  const text = content
-    .filter(block => block._type === 'block')
-    .map(block => {
-      if (!block.children || !Array.isArray(block.children)) return '';
-      return block.children
-        .filter((child: any) => child._type === 'span' && child.text)
-        .map((child: any) => child.text)
-        .join(' ');
-    })
-    .join(' ');
-    
-  // Limit to 160 characters for meta description
-  return text.length > 160 ? text.substring(0, 157) + '...' : text;
-}
-
 // Helper function to get the current full URL
 function getCurrentUrl(): string {
   return window.location.href;
@@ -97,18 +79,12 @@ export function BlogLayout() {
 
   // Update meta tags when selectedPost changes
   useEffect(() => {
-    // Default OG image URL - you can replace this with your actual default image
-    const defaultOgImage = 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&h=630&fit=crop';
-    
     if (selectedPost) {
       // Set the document title
-      document.title = `${selectedPost.title} | Super Productive`;
+      document.title = generatePageTitle(selectedPost);
       
       // Get description from excerpt, subheader, or content
-      const description = selectedPost.excerpt || 
-                         selectedPost.subheader || 
-                         (selectedPost.content ? extractTextFromContent(selectedPost.content) : '') ||
-                         'Bite-sized tech tips to level up your productivity';
+      const description = generateMetaDescription(selectedPost);
       
       // Set Open Graph meta tags
       setMetaTag('og:title', selectedPost.title);
@@ -118,7 +94,7 @@ export function BlogLayout() {
       setMetaTag('og:site_name', 'Super Productive');
       
       // Always set og:image - use post image or default
-      const ogImage = selectedPost.image || defaultOgImage;
+      const ogImage = selectedPost.image || DEFAULT_OG_IMAGE;
       setMetaTag('og:image', ogImage);
       setMetaTag('og:image:alt', selectedPost.title);
       setMetaTag('og:image:width', '1200');
@@ -130,7 +106,7 @@ export function BlogLayout() {
       setMetaTag('twitter:description', description, true);
       
       // Always set twitter:image - use post image or default
-      const twitterImage = selectedPost.image || defaultOgImage;
+      const twitterImage = selectedPost.image || DEFAULT_OG_IMAGE;
       setMetaTag('twitter:image', twitterImage, true);
       setMetaTag('twitter:image:alt', selectedPost.title, true);
       
@@ -146,7 +122,7 @@ export function BlogLayout() {
       }
     } else {
       // Reset to default meta tags when no post is selected
-      document.title = 'Super Productive | Bite-sized tech tips to level up your productivity';
+      document.title = generatePageTitle(null);
       
       const defaultDescription = 'Bite-sized tech tips to level up your productivity. Weekly newsletter with AI prompts, productivity tools, and smart workflows.';
       
@@ -158,7 +134,7 @@ export function BlogLayout() {
       setMetaTag('og:site_name', 'Super Productive');
       
       // Always set default og:image for homepage
-      setMetaTag('og:image', defaultOgImage);
+      setMetaTag('og:image', DEFAULT_OG_IMAGE);
       setMetaTag('og:image:alt', 'Super Productive - Bite-sized tech tips to level up your productivity');
       setMetaTag('og:image:width', '1200');
       setMetaTag('og:image:height', '630');
@@ -169,7 +145,7 @@ export function BlogLayout() {
       setMetaTag('twitter:description', defaultDescription, true);
       
       // Always set default twitter:image for homepage
-      setMetaTag('twitter:image', defaultOgImage, true);
+      setMetaTag('twitter:image', DEFAULT_OG_IMAGE, true);
       setMetaTag('twitter:image:alt', 'Super Productive - Bite-sized tech tips to level up your productivity', true);
       
       // Set default meta description
