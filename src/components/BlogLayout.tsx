@@ -228,6 +228,12 @@ export function BlogLayout() {
   // Fetch blog posts and categories from Sanity
   useEffect(() => {
     async function fetchData() {
+      console.log('🔧 Sanity Config:', {
+        projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
+        dataset: import.meta.env.VITE_SANITY_DATASET,
+        apiVersion: import.meta.env.VITE_SANITY_API_VERSION
+      });
+      
       setLoading(true);
       
       try {
@@ -260,6 +266,7 @@ export function BlogLayout() {
 
         setCategories(formattedCategories);
       } catch (err: any) {
+        console.error('❌ Error fetching blog data:', err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -272,6 +279,7 @@ export function BlogLayout() {
   // Fetch link cards and categories from Sanity
   useEffect(() => {
     async function fetchLinkData() {
+      console.log('🔗 Fetching link cards...');
       setLinkLoading(true);
       
       try {
@@ -294,6 +302,7 @@ export function BlogLayout() {
 
         setLinkCategories(formattedLinkCategories);
       } catch (err: any) {
+        console.error('❌ Error fetching link data:', err);
         setLinkError(err.message);
       } finally {
         setLinkLoading(false);
@@ -572,7 +581,7 @@ export function BlogLayout() {
                     searchQuery.trim() ? (
                       `No posts found for "${searchQuery}"${selectedCategory !== 'All' ? ` in "${selectedCategory}" category` : ''}.`
                     ) : (
-                      selectedCategory === 'All' ? 'No posts found.' : `No posts found in "${selectedCategory}" category.`
+                      selectedCategory === 'All' ? 'No posts found. Make sure to add some blog posts in your Sanity studio!' : `No posts found in "${selectedCategory}" category.`
                     )
                   )}
                 </div>
