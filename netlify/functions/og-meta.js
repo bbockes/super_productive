@@ -140,33 +140,13 @@ exports.handler = async (event, context) => {
 
   // If this is NOT a crawler (i.e., a regular browser), redirect immediately
   if (!isCrawler) {
-    console.log('Regular browser detected, serving React app at original URL');
+    console.log('Regular browser detected, falling through to static hosting');
     
-    // For regular browsers, serve the React app (index.html) while preserving the original URL
-    // This allows your React router to handle the routing client-side
-    const indexHtml = `
-      <!doctype html>
-      <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>Super Productive</title>
-        </head>
-        <body>
-          <div id="root"></div>
-          <script type="module" src="/src/index.tsx"></script>
-        </body>
-      </html>
-    `;
-    
+    // For regular browsers, return 404 to let Netlify fall through to the next redirect rule
+    // This will cause the `/* /index.html 200` rule to serve your built React app
     return {
-      statusCode: 200,
-      headers: {
-        'Content-Type': 'text/html',
-        'Cache-Control': 'no-cache',
-      },
-      body: indexHtml,
+      statusCode: 404,
+      body: 'Not a crawler - falling through to static hosting',
     };
   }
 
