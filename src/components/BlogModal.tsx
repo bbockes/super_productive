@@ -281,12 +281,12 @@ export function BlogModal({
                   <ShareIcon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                   <span className="text-gray-700 dark:text-gray-300 font-medium">Click to share</span>
                 </div>
-                <div className="flex flex-wrap items-center gap-3">
+                <div className="flex items-center gap-2 overflow-x-auto">
                   <a
                     href={shareUrls.twitter}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
                   >
                     <TwitterIcon className="w-4 h-4" />
                     <span className="text-sm font-medium">Twitter</span>
@@ -295,7 +295,7 @@ export function BlogModal({
                     href={shareUrls.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
                   >
                     <LinkedinIcon className="w-4 h-4" />
                     <span className="text-sm font-medium">LinkedIn</span>
@@ -304,14 +304,14 @@ export function BlogModal({
                     href={shareUrls.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
                   >
                     <FacebookIcon className="w-4 h-4" />
                     <span className="text-sm font-medium">Facebook</span>
                   </a>
                   <a
                     href={shareUrls.email}
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
                   >
                     <MailIcon className="w-4 h-4" />
                     <span className="text-sm font-medium">Email</span>
@@ -320,7 +320,7 @@ export function BlogModal({
                     href={shareUrls.whatsapp}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
                   >
                     <MessageCircleIcon className="w-4 h-4" />
                     <span className="text-sm font-medium">WhatsApp</span>
