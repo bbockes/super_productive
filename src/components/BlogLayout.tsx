@@ -495,10 +495,21 @@ export function BlogLayout() {
                 </div>
               </div>
             ) : (
-              <div className="hidden lg:block mb-8">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white text-center">
-                  Find your new favorite app.
-                </h1>
+              <div className="hidden lg:flex justify-between items-center mb-8">
+                <div className="flex-1 flex justify-center">
+                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                    Find your new favorite app.
+                  </h1>
+                </div>
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0">
+                  <div className="flex items-center gap-3">
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                      <LinkedinIcon className="w-5 h-5" />
+                    </a>
+                    <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
+                    <DarkModeToggle />
+                  </div>
+                </div>
               </div>
             )}
 
@@ -527,10 +538,21 @@ export function BlogLayout() {
                 </div>
               </div>
             ) : (
-              <div className="hidden md:block lg:hidden mb-6">
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white text-center">
-                  Find your new favorite app.
-                </h1>
+              <div className="hidden md:flex lg:hidden justify-between items-center mb-6">
+                <div className="flex-1 flex justify-center">
+                  <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    Find your new favorite app.
+                  </h1>
+                </div>
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex-shrink-0">
+                  <div className="flex items-center gap-3">
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                      <LinkedinIcon className="w-5 h-5" />
+                    </a>
+                    <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
+                    <DarkModeToggle />
+                  </div>
+                </div>
               </div>
             )}
 
