@@ -13,6 +13,12 @@ import { sanityClient, POSTS_QUERY, CATEGORIES_QUERY } from '../lib/sanityClient
 import { slugify, findPostBySlug, filterPostsBySearchQuery } from '../utils/slugify';
 import { generateMetaDescription, generatePageTitle, DEFAULT_OG_IMAGE } from '../utils/seoUtils.js';
 import { getCategoryColor } from '../utils/categoryColorUtils';
+import { 
+  generateOrganizationSchema, 
+  generateWebSiteSchema, 
+  generateBlogSchema,
+  insertMultipleStructuredData 
+} from '../utils/schemaUtils';
 
 // Add type definitions for posts and categories
 interface Post {
@@ -155,7 +161,27 @@ export function BlogLayout() {
       removeMetaTag('article:section');
       removeMetaTag('article:published_time');
     }
+
+    // Update structured data based on current page
+    updateStructuredData();
   }, [selectedPost]);
+
+  // Function to update structured data
+  const updateStructuredData = () => {
+    const schemas = [
+      generateOrganizationSchema(),
+      generateWebSiteSchema()
+    ];
+
+    // Add page-specific schema
+    if (!selectedPost) {
+      // Homepage - add Blog schema
+      schemas.push(generateBlogSchema());
+    }
+
+    insertMultipleStructuredData(schemas);
+  };
+
   // Fetch blog posts and categories from Sanity
   useEffect(() => {
     async function fetchData() {

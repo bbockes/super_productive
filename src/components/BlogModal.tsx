@@ -4,6 +4,13 @@ import { XIcon, ClockIcon, CopyIcon, CheckIcon, TwitterIcon, LinkedinIcon, Faceb
 import { NewsletterForm } from './NewsletterForm';
 import { getCategoryColor } from '../utils/categoryColorUtils';
 import { ResponsiveImage } from './ResponsiveImage';
+import { 
+  generateBlogPostSchema, 
+  generateAboutPageSchema, 
+  generateBreadcrumbSchema,
+  insertMultipleStructuredData,
+  getCurrentUrl 
+} from '../utils/schemaUtils';
 
 // Copy button component for code blocks
 function CopyButton({ code, filename }: { code: string; filename?: string }) {
@@ -101,6 +108,31 @@ export function BlogModal({
   post,
   onClose
 }) {
+  // Add structured data when modal opens
+  React.useEffect(() => {
+    const schemas = [];
+    
+    if (post.id === 'about') {
+      // About page schema
+      schemas.push(generateAboutPageSchema());
+    } else if (post.id !== '404') {
+      // Blog post schema
+      const postUrl = `${window.location.origin}/posts/${post.slug || post.id}`;
+      schemas.push(generateBlogPostSchema(post, postUrl));
+      schemas.push(generateBreadcrumbSchema(post));
+    }
+    
+    if (schemas.length > 0) {
+      insertMultipleStructuredData(schemas);
+    }
+
+    // Cleanup function to remove structured data when modal closes
+    return () => {
+      // The structured data will be updated when the modal closes
+      // and BlogLayout's useEffect runs again
+    };
+  }, [post]);
+
   // Format read time - just return as string, allowing custom units
   const formatReadTime = (readTime) => {
     // Convert to string and return as-is
