@@ -244,15 +244,12 @@ export function BlogLayout() {
             {/* Tablet Subscribe Section - shows on medium screens only */}
             <div className="hidden md:block lg:hidden mb-8">
               <div className="flex items-start gap-6">
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden flex-1">
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden max-w-md flex-1">
                   <div className="px-4 py-4">
-                    <NewsletterForm 
-                      className="w-full" 
-                      placeholder="Enter your email address"
-                    />
+                    <NewsletterForm className="w-full" />
                   </div>
                 </div>
-                <div className="hidden xl:flex bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex-shrink-0">
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex-shrink-0">
                   <div className="flex items-center gap-3">
                     <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
                       <LinkedinIcon className="w-5 h-5" />
@@ -270,7 +267,7 @@ export function BlogLayout() {
                 <div className="px-4 py-4">
                   <NewsletterForm 
                     className="w-full"
-                    placeholder="Enter your email address"
+                    placeholder="Get free weekly updates"
                   />
                 </div>
               </div>
