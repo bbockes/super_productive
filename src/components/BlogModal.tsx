@@ -283,15 +283,6 @@ export function BlogModal({
                 </div>
                 <div className="flex items-center gap-2 overflow-x-auto">
                   <a
-                    href={shareUrls.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
-                  >
-                    <TwitterIcon className="w-4 h-4" />
-                    <span className="text-sm font-medium">Twitter</span>
-                  </a>
-                  <a
                     href={shareUrls.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -299,6 +290,15 @@ export function BlogModal({
                   >
                     <LinkedinIcon className="w-4 h-4" />
                     <span className="text-sm font-medium">LinkedIn</span>
+                  </a>
+                  <a
+                    href={shareUrls.twitter}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
+                  >
+                    <TwitterIcon className="w-4 h-4" />
+                    <span className="text-sm font-medium">Twitter</span>
                   </a>
                   <a
                     href={shareUrls.facebook}
@@ -310,13 +310,6 @@ export function BlogModal({
                     <span className="text-sm font-medium">Facebook</span>
                   </a>
                   <a
-                    href={shareUrls.email}
-                    className="flex items-center gap-2 px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
-                  >
-                    <MailIcon className="w-4 h-4" />
-                    <span className="text-sm font-medium">Email</span>
-                  </a>
-                  <a
                     href={shareUrls.whatsapp}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -324,6 +317,13 @@ export function BlogModal({
                   >
                     <MessageCircleIcon className="w-4 h-4" />
                     <span className="text-sm font-medium">WhatsApp</span>
+                  </a>
+                  <a
+                    href={shareUrls.email}
+                    className="flex items-center gap-2 px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
+                  >
+                    <MailIcon className="w-4 h-4" />
+                    <span className="text-sm font-medium">Email</span>
                   </a>
                 </div>
               </div>
