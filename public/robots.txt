@@ -1,0 +1,22 @@
+# Robots.txt for Super Productive Blog
+# https://superproductive.magic-patterns.com
+
+User-agent: *
+Allow: /
+
+# Disallow admin and build directories (if any exist)
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /api/
+Disallow: /.env
+Disallow: /node_modules/
+
+# Allow specific paths
+Allow: /posts/
+Allow: /about
+
+# Sitemap location
+Sitemap: https://superproductive.magic-patterns.com/sitemap.xml
+
+# Crawl delay (optional - be respectful to search engines)
+Crawl-delay: 1

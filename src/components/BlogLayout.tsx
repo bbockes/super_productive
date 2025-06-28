@@ -65,10 +65,35 @@ function removeMetaTag(property: string, isName = false) {
   }
 }
 
+// Helper function to set canonical URL
+function setCanonicalUrl(url: string) {
+  let canonicalElement = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+  
+  if (canonicalElement) {
+    canonicalElement.href = url;
+  } else {
+    canonicalElement = document.createElement('link');
+    canonicalElement.rel = 'canonical';
+    canonicalElement.href = url;
+    document.head.appendChild(canonicalElement);
+  }
+}
+
 // Helper function to get the current full URL
 function getCurrentUrl(): string {
   return window.location.href;
 }
+
+// Helper function to get canonical URL without trailing slash
+function getCanonicalUrl(): string {
+  const baseUrl = window.location.origin;
+  const pathname = window.location.pathname;
+  
+  // Remove trailing slash except for root
+  const cleanPath = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
+  return `${baseUrl}${cleanPath}`;
+}
+
 export function BlogLayout() {
   const navigate = useNavigate();
   const { slug } = useParams<{ slug?: string }>();
@@ -164,6 +189,10 @@ export function BlogLayout() {
 
     // Update structured data based on current page
     updateStructuredData();
+    
+    // Set canonical URL
+    const canonicalUrl = getCanonicalUrl();
+    setCanonicalUrl(canonicalUrl);
   }, [selectedPost]);
 
   // Function to update structured data
