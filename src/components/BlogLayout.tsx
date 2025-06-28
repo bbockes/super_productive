@@ -473,7 +473,94 @@ export function BlogLayout() {
         <div className="flex-1 p-4 md:p-8 overflow-y-auto w-full">
           <div className="max-w-7xl mx-auto w-full">
             {/* Desktop Header - shows on large screens and up only */}
-            <div className="hidden lg:flex justify-between items-center mb-8">
+            {!isLinkMode ? (
+              <div className="hidden lg:flex justify-between items-center mb-8">
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center overflow-hidden" style={{ width: '600px', maxWidth: '600px' }}>
+                  <div className="px-4 py-4 w-full">
+                    <SearchSubscribeToggle 
+                      className="w-full" 
+                      onSearch={handleSearch}
+                      placeholder="Get 3 new tips in your inbox every Wednesday"
+                    />
+                  </div>
+                </div>
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0">
+                  <div className="flex items-center gap-3">
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                      <LinkedinIcon className="w-5 h-5" />
+                    </a>
+                    <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
+                    <DarkModeToggle />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="hidden lg:block mb-8">
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white text-center">
+                  Find your new favorite app.
+                </h1>
+              </div>
+            )}
+
+            {/* Tablet Subscribe Section - shows on medium screens only */}
+            {!isLinkMode ? (
+              <div className="hidden md:block lg:hidden mb-6">
+                <div className="flex items-start gap-6">
+                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden flex-1 tablet-subscribe-container">
+                    <div className="px-4 py-4">
+                      <SearchSubscribeToggle 
+                        className="w-full"
+                        onSearch={handleSearch}
+                        placeholder="Enter your email address"
+                      />
+                    </div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex-shrink-0 tablet-social-container">
+                    <div className="flex items-center gap-3">
+                      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                        <LinkedinIcon className="w-5 h-5" />
+                      </a>
+                      <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
+                      <DarkModeToggle />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="hidden md:block lg:hidden mb-6">
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white text-center">
+                  Find your new favorite app.
+                </h1>
+              </div>
+            )}
+
+            {/* Mobile Subscribe Section - only shows on small screens */}
+            {!isLinkMode ? (
+              <div className="md:hidden mb-6 mobile-subscribe-container">
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
+                  <div className="px-4 py-4">
+                    <SearchSubscribeToggle 
+                      className="w-full mobile-search-toggle"
+                      onSearch={handleSearch}
+                      placeholder="Enter your email address"
+                    />
+                    <NewsletterForm 
+                      className="w-full mobile-newsletter-fallback hidden"
+                      placeholder="Enter your email address"
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="md:hidden mb-6">
+                <h1 className="text-xl font-bold text-gray-900 dark:text-white text-center">
+                  Find your new favorite app.
+                </h1>
+              </div>
+            )}
+
+            {/* Loading and Error States */}
+            {(isLinkMode ? linkLoading : loading) && (
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center overflow-hidden" style={{ width: '600px', maxWidth: '600px' }}>
                 <div className="px-4 py-4 w-full">
                   <SearchSubscribeToggle 
@@ -492,51 +579,6 @@ export function BlogLayout() {
                   <DarkModeToggle />
                 </div>
               </div>
-            </div>
-
-            {/* Tablet Subscribe Section - shows on medium screens only */}
-            <div className="hidden md:block lg:hidden mb-6">
-              <div className="flex items-start gap-6">
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden flex-1 tablet-subscribe-container">
-                  <div className="px-4 py-4">
-                    <SearchSubscribeToggle 
-                      className="w-full"
-                      onSearch={handleSearch}
-                      placeholder="Enter your email address"
-                    />
-                  </div>
-                </div>
-                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex-shrink-0 tablet-social-container">
-                  <div className="flex items-center gap-3">
-                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
-                      <LinkedinIcon className="w-5 h-5" />
-                    </a>
-                    <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
-                    <DarkModeToggle />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Mobile Subscribe Section - only shows on small screens */}
-            <div className="md:hidden mb-6 mobile-subscribe-container">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
-                <div className="px-4 py-4">
-                  <SearchSubscribeToggle 
-                    className="w-full mobile-search-toggle"
-                    onSearch={handleSearch}
-                    placeholder="Enter your email address"
-                  />
-                  <NewsletterForm 
-                    className="w-full mobile-newsletter-fallback hidden"
-                    placeholder="Enter your email address"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Loading and Error States */}
-            {(isLinkMode ? linkLoading : loading) && (
               <div className="flex justify-center items-center py-12">
                 <div className="text-gray-600 dark:text-gray-400">
                   Loading {isLinkMode ? 'links' : 'posts'}...
