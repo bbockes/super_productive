@@ -130,4 +130,15 @@
       display: block !important;
     }
   }
+
+  /* Custom breakpoint for tablet layout - hide social container and expand subscribe container between 770px-960px */
+  @media (min-width: 770px) and (max-width: 960px) {
+    .tablet-social-container {
+      display: none !important;
+    }
+    
+    .tablet-subscribe-container {
+      max-width: none !important;
+    }
+  }
 }
