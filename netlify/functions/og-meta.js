@@ -140,14 +140,33 @@ exports.handler = async (event, context) => {
 
   // If this is NOT a crawler (i.e., a regular browser), redirect immediately
   if (!isCrawler) {
-    console.log('Regular browser detected, redirecting to root for React router to handle');
+    console.log('Regular browser detected, serving React app at original URL');
+    
+    // For regular browsers, serve the React app (index.html) while preserving the original URL
+    // This allows your React router to handle the routing client-side
+    const indexHtml = `
+      <!doctype html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Super Productive</title>
+        </head>
+        <body>
+          <div id="root"></div>
+          <script type="module" src="/src/index.tsx"></script>
+        </body>
+      </html>
+    `;
+    
     return {
-      statusCode: 302,
+      statusCode: 200,
       headers: {
-        'Location': '/',
+        'Content-Type': 'text/html',
         'Cache-Control': 'no-cache',
       },
-      body: '',
+      body: indexHtml,
     };
   }
 
