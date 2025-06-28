@@ -496,8 +496,8 @@ export function BlogLayout() {
               </div>
             ) : (
               <div className="hidden lg:flex justify-between items-center mb-8">
-                <div className="flex-1 flex justify-center">
-                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                <div className="flex-1 flex justify-start">
+                  <h1 className="text-3xl text-gray-900 dark:text-white">
                     Find your new favorite app.
                   </h1>
                 </div>
@@ -539,8 +539,8 @@ export function BlogLayout() {
               </div>
             ) : (
               <div className="hidden md:flex lg:hidden justify-between items-center mb-6">
-                <div className="flex-1 flex justify-center">
-                  <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                <div className="flex-1 flex justify-start">
+                  <h1 className="text-2xl text-gray-900 dark:text-white">
                     Find your new favorite app.
                   </h1>
                 </div>
@@ -575,7 +575,7 @@ export function BlogLayout() {
               </div>
             ) : (
               <div className="md:hidden mb-6">
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white text-center">
+                <h1 className="text-xl text-gray-900 dark:text-white text-left">
                   Find your new favorite app.
                 </h1>
               </div>
