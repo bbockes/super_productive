@@ -16,7 +16,7 @@ export function BlogCard({
       <div className="aspect-video bg-gray-800 dark:bg-gray-700 relative">
         <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
         {/* Subtle dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-black bg-opacity-10"></div>
+        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
         <div className="absolute bottom-3 left-3 flex items-center gap-2">
           <div className="flex items-center gap-1 text-white text-sm">
             <ClockIcon className="w-4 h-4" />
