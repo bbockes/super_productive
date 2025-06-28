@@ -224,7 +224,8 @@ export function BlogModal({
                       <img 
                         src={value?.asset?.url} 
                         alt={value?.alt || ''} 
-                        className="w-full !max-w-none mx-[-10] md:mx-[-22] h-auto rounded-lg shadow-md mb-4 pt-[5px] pb-[10px]" 
+                        className="w-full !max-w-none mx-[-10] md:mx-[-22] h-auto rounded-lg shadow-md mb-4 pt-[5px] pb-[10px]"
+                        loading="lazy"
                       />
                     ),
                     code: ({value}) => (
