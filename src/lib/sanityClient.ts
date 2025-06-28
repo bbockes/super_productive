@@ -37,3 +37,16 @@ export const POST_BY_SLUG_QUERY = `*[_type == "post" && slug.current == $slug][0
   "image": image.asset->url,
   subheader
 }`;
+
+export const LINK_CARDS_QUERY = `*[_type == "linkCard"] | order(publishedAt desc) {
+  _id,
+  title,
+  "image": image.asset->url,
+  url,
+  category,
+  publishedAt
+}`;
+
+export const LINK_CARD_CATEGORIES_QUERY = `*[_type == "linkCard" && defined(category)] | order(category asc) {
+  category
+}`;
