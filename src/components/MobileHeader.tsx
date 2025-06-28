@@ -14,7 +14,7 @@ export function MobileHeader({ onMenuToggle }: MobileHeaderProps) {
       <div className="flex justify-between items-center">
         <div>
           <img 
-            src={import.meta.env.BASE_URL + (isDarkMode ? 'logo_2.png' : 'logo.png')}
+            src={import.meta.env.BASE_URL + (isDarkMode ? 'dark_mode_logo.png' : 'logo.png')}
             alt="Super Productive Logo" 
             className="max-w-full h-auto object-contain"
             style={{ maxHeight: '50px' }}

@@ -57,7 +57,7 @@ export function CategorySidebar({
               {!logoError ? (
                 <div className="mb-8">
                   <img 
-                    src={import.meta.env.BASE_URL + (isDarkMode ? 'logo_2.png' : 'logo.png')}
+                    src={import.meta.env.BASE_URL + (isDarkMode ? 'dark_mode_logo.png' : 'logo.png')}
                     alt="Super Productive Logo" 
                     className="max-w-full h-auto mb-2 object-contain"
                     style={{ maxHeight: '80px' }}
