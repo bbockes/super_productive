@@ -561,24 +561,6 @@ export function BlogLayout() {
 
             {/* Loading and Error States */}
             {(isLinkMode ? linkLoading : loading) && (
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center overflow-hidden" style={{ width: '600px', maxWidth: '600px' }}>
-                <div className="px-4 py-4 w-full">
-                  <SearchSubscribeToggle 
-                    className="w-full" 
-                    onSearch={handleSearch}
-                    placeholder="Get 3 new tips in your inbox every Wednesday"
-                  />
-                </div>
-              </div>
-              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0">
-                <div className="flex items-center gap-3">
-                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
-                    <LinkedinIcon className="w-5 h-5" />
-                  </a>
-                  <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
-                  <DarkModeToggle />
-                </div>
-              </div>
               <div className="flex justify-center items-center py-12">
                 <div className="text-gray-600 dark:text-gray-400">
                   Loading {isLinkMode ? 'links' : 'posts'}...
