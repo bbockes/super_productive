@@ -172,7 +172,7 @@
   /* Modal container padding above 768px breakpoint */
   @media (min-width: 769px) {
     .modal-container {
-      padding: 16px 0; /* 16px top/bottom, 0 left/right */
+      padding: 16px; /* 16px on all sides - original behavior */
     }
   }
 }
