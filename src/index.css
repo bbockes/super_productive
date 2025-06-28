@@ -119,4 +119,15 @@
   .markdown-content p + p .inline-code-wrapper:first-child {
     margin-top: 0.25rem;
   }
+
+  /* Custom breakpoint for 430px - hide SearchSubscribeToggle and show NewsletterForm below 430px */
+  @media (max-width: 430px) {
+    .mobile-subscribe-container .w-full:first-child {
+      display: none !important;
+    }
+    
+    .mobile-subscribe-container .w-full.hidden {
+      display: block !important;
+    }
+  }
 }

@@ -354,12 +354,13 @@ export function BlogLayout() {
             </div>
 
             {/* Tablet Subscribe Section - shows on medium screens only */}
-            <div className="hidden md:block lg:hidden mb-8">
+            <div className="hidden md:block lg:hidden mb-6">
               <div className="flex items-start gap-6">
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden max-w-md flex-1">
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden flex-1" style={{ maxWidth: '600px' }}>
                   <div className="px-4 py-4">
-                    <NewsletterForm 
+                    <SearchSubscribeToggle 
                       className="w-full"
+                      onSearch={handleSearch}
                       placeholder="Enter your email address"
                     />
                   </div>
@@ -377,11 +378,16 @@ export function BlogLayout() {
             </div>
 
             {/* Mobile Subscribe Section - only shows on small screens */}
-            <div className="md:hidden mb-6">
+            <div className="md:hidden mb-6 mobile-subscribe-container">
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
                 <div className="px-4 py-4">
-                  <NewsletterForm 
+                  <SearchSubscribeToggle 
                     className="w-full"
+                    onSearch={handleSearch}
+                    placeholder="Enter your email address"
+                  />
+                  <NewsletterForm 
+                    className="w-full hidden"
                     placeholder="Enter your email address"
                   />
                 </div>
