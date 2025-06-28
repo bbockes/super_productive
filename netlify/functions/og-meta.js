@@ -146,7 +146,6 @@ exports.handler = async (event, context) => {
     // This will cause the `/* /index.html 200` rule to serve your built React app
     return {
       statusCode: 404,
-      body: 'Not a crawler - falling through to static hosting',
     };
   }
 
