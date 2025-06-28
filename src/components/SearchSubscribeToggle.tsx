@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNewsletter } from '../hooks/useNewsletter';
-import { CheckIcon, LoaderIcon, SearchIcon, MailIcon } from 'lucide-react';
+import { CheckIcon, LoaderIcon, ArrowLeftRight } from 'lucide-react';
 
 interface SearchSubscribeToggleProps {
   placeholder?: string;
@@ -112,11 +112,7 @@ export function SearchSubscribeToggle({
             className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors flex-shrink-0 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
             aria-label={isSearchMode ? "Switch to newsletter" : "Switch to search"}
           >
-            {isSearchMode ? (
-              <SearchIcon className="w-5 h-5" />
-            ) : (
-              <MailIcon className="w-5 h-5" />
-            )}
+            <ArrowLeftRight className="w-5 h-5" />
           </button>
         </div>
       </form>
