@@ -74,6 +74,9 @@ export function SearchSubscribeToggle({
 
   // Determine search placeholder based on screen size
   const getSearchPlaceholder = () => {
+    if (width < 575) {
+      return "Search the blog";
+    }
     if (width >= 770 && width <= 860) {
       return "Search the blog";
     }
