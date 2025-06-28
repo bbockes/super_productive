@@ -44,28 +44,30 @@ const POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(publish
   subheader
 }`;
 
-// Base HTML template
-const HTML_TEMPLATE = `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>__TITLE__</title>
-    __META_TAGS__
-  </head>
-  <body>
-    <div id="root">__CONTENT__</div>
-    <script type="module" src="/src/index.tsx"></script>
-  </body>
-</html>`;
+// Generate static HTML for a route using the built index.html as template
+function generateHTML(title, metaTags, baseHTML) {
+  // Extract the existing meta tags and title from the base HTML
+  let html = baseHTML;
+  
+  // Replace the title
+  html = html.replace(/<title>.*?<\/title>/i, `<title>${escapeHtml(title)}</title>`);
+  
+  // Find the closing </head> tag and insert our meta tags before it
+  html = html.replace('</head>', `    ${metaTags}\n  </head>`);
+  
+  return html;
+}
 
-// Generate static HTML for a route
-function generateHTML(title, metaTags, content) {
-  return HTML_TEMPLATE
-    .replace('__TITLE__', title)
-    .replace('__META_TAGS__', metaTags)
-    .replace('__CONTENT__', content);
+// Escape HTML entities
+function escapeHtml(text) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, (m) => map[m]);
 }
 
 // Write file with directory creation
@@ -82,6 +84,19 @@ async function prerender() {
   console.log('🚀 Starting pre-rendering process...');
   
   try {
+    const distDir = path.join(__dirname, '..', 'dist');
+    const baseIndexPath = path.join(distDir, 'index.html');
+    
+    // Check if the built index.html exists
+    if (!fs.existsSync(baseIndexPath)) {
+      console.error('❌ Built index.html not found. Make sure to run `npm run build` first.');
+      process.exit(1);
+    }
+    
+    // Read the built index.html as our base template
+    const baseHTML = fs.readFileSync(baseIndexPath, 'utf8');
+    console.log('✅ Loaded base HTML template from built index.html');
+    
     // Fetch posts from Sanity
     console.log('📡 Fetching posts from Sanity...');
     const posts = await sanityClient.fetch(POSTS_QUERY);
@@ -96,27 +111,21 @@ async function prerender() {
       slug: post.slug?.current || slugify(post.title)
     }));
     
-    const distDir = path.join(__dirname, '..', 'dist');
     const baseUrl = 'https://superproductive.magic-patterns.com'; // Update this to your actual domain
-    
-    // Ensure dist directory exists
-    if (!fs.existsSync(distDir)) {
-      fs.mkdirSync(distDir, { recursive: true });
-    }
     
     console.log('📝 Generating static HTML files...');
     
-    // 1. Generate homepage
+    // 1. Generate homepage (keep the original index.html but add meta tags)
     const homeTitle = generatePageTitle(null);
     const homeMetaTags = generateOGMetaTags(null, baseUrl);
-    const homeHTML = generateHTML(homeTitle, homeMetaTags, '<div>Loading...</div>');
+    const homeHTML = generateHTML(homeTitle, homeMetaTags, baseHTML);
     writeFileWithDirs(path.join(distDir, 'index.html'), homeHTML);
-    console.log('✅ Generated homepage');
+    console.log('✅ Updated homepage with meta tags');
     
     // 2. Generate about page
     const aboutTitle = generatePageTitle(aboutPost);
     const aboutMetaTags = generateOGMetaTags(aboutPost, `${baseUrl}/about`);
-    const aboutHTML = generateHTML(aboutTitle, aboutMetaTags, '<div>Loading...</div>');
+    const aboutHTML = generateHTML(aboutTitle, aboutMetaTags, baseHTML);
     writeFileWithDirs(path.join(distDir, 'about', 'index.html'), aboutHTML);
     console.log('✅ Generated about page');
     
@@ -126,7 +135,7 @@ async function prerender() {
       const postTitle = generatePageTitle(post);
       const postUrl = `${baseUrl}/posts/${post.slug}`;
       const postMetaTags = generateOGMetaTags(post, postUrl);
-      const postHTML = generateHTML(postTitle, postMetaTags, '<div>Loading...</div>');
+      const postHTML = generateHTML(postTitle, postMetaTags, baseHTML);
       writeFileWithDirs(path.join(distDir, 'posts', post.slug, 'index.html'), postHTML);
       postCount++;
     }
@@ -135,7 +144,7 @@ async function prerender() {
     // 4. Generate 404 page
     const notFoundTitle = generatePageTitle(notFoundPost);
     const notFoundMetaTags = generateOGMetaTags(notFoundPost, `${baseUrl}/404`);
-    const notFoundHTML = generateHTML(notFoundTitle, notFoundMetaTags, '<div>Loading...</div>');
+    const notFoundHTML = generateHTML(notFoundTitle, notFoundMetaTags, baseHTML);
     writeFileWithDirs(path.join(distDir, '404.html'), notFoundHTML);
     console.log('✅ Generated 404 page');
     

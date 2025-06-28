@@ -1,6 +1,7 @@
-# Handle static pre-rendered pages first
-/about/index.html /about/index.html 200
-/posts/*/index.html /posts/*/index.html 200
+# Static pre-rendered pages for social media crawlers
+# These serve the pre-rendered HTML with proper meta tags
+/about /about/index.html 200
+/posts/* /posts/:splat/index.html 200
 
 # Fallback to SPA for client-side routing
 /* /index.html 200
