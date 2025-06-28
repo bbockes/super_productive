@@ -3,6 +3,7 @@ import { PortableText } from '@portabletext/react';
 import { XIcon, ClockIcon, CopyIcon, CheckIcon, TwitterIcon, LinkedinIcon, FacebookIcon, MailIcon, MessageCircleIcon, ShareIcon } from 'lucide-react';
 import { NewsletterForm } from './NewsletterForm';
 import { getCategoryColor } from '../utils/categoryColorUtils';
+import { ResponsiveImage } from './ResponsiveImage';
 
 // Copy button component for code blocks
 function CopyButton({ code, filename }: { code: string; filename?: string }) {
@@ -221,11 +222,11 @@ export function BlogModal({
                   },
                   types: {
                     image: ({value}) => (
-                      <img 
+                      <ResponsiveImage
                         src={value?.asset?.url} 
                         alt={value?.alt || ''} 
                         className="w-full !max-w-none mx-[-10] md:mx-[-22] h-auto rounded-lg shadow-md mb-4 pt-[5px] pb-[10px]"
-                        loading="lazy"
+                        isModal={true}
                       />
                     ),
                     code: ({value}) => (

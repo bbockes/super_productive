@@ -1,6 +1,7 @@
 import React from 'react';
 import { ClockIcon } from 'lucide-react';
 import { getCategoryColor } from '../utils/categoryColorUtils';
+import { ResponsiveImage } from './ResponsiveImage';
 
 export function BlogCard({
   post,
@@ -14,11 +15,10 @@ export function BlogCard({
 
   return <div onClick={onClick} className="bg-gray-900 dark:bg-gray-800 rounded-xl overflow-hidden cursor-pointer hover:transform hover:scale-105 transition-all duration-200">
       <div className="aspect-video bg-gray-800 dark:bg-gray-700 relative">
-        <img 
+        <ResponsiveImage
           src={post.image} 
           alt={post.title} 
           className="w-full h-full object-cover" 
-          loading="lazy"
         />
         {/* Subtle dark overlay for better text readability */}
         <div className="absolute inset-0 bg-black bg-opacity-20"></div>
