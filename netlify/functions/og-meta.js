@@ -25,23 +25,41 @@ const POST_BY_SLUG_QUERY = `*[_type == "post" && slug.current == $slug][0] {
 const aboutPost = {
   id: 'about',
   title: 'About Super Productive',
-  excerpt: 'Prompting without a strategy is like building a house without a blueprint. It might feel like progress, but it\'s just motion without direction—fast, but aimless.',
+  excerpt: 'Prompting without a strategy is like building a house without a blueprint. It might feel like progress, but it\'s just motion without direction—fast, but aimless. Super Productive is a weekly newsletter designed to help knowledge workers navigate the full spectrum of modern productivity.',
   image: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=400&h=250&fit=crop',
 };
 
 const notFoundPost = {
   id: '404',
   title: 'Uh-oh. Looks like that page doesn\'t exist.',
-  excerpt: 'It either wandered off or never existed in the first place.',
+  excerpt: 'It either wandered off or never existed in the first place. You can head back to the homepage to explore our bite-sized tech tips and productivity insights, or just start clicking buttons to discover new content.',
   image: 'https://images.unsplash.com/photo-1594736797933-d0d92e2d0b3d?w=400&h=250&fit=crop',
 };
 
+// Function to ensure description meets minimum length requirements
+const ensureMinDescriptionLength = (description, fallbackContext = '') => {
+  const minLength = 100;
+  let finalDescription = description || '';
+  
+  // If description is too short, add context
+  if (finalDescription.length < minLength) {
+    const defaultContext = fallbackContext || 'Discover bite-sized tech tips, AI prompts, and productivity workflows designed to help knowledge workers save time and work smarter.';
+    finalDescription = finalDescription ? `${finalDescription} ${defaultContext}` : defaultContext;
+  }
+  
+  // Trim if too long (some platforms have max limits)
+  if (finalDescription.length > 300) {
+    finalDescription = finalDescription.substring(0, 297) + '...';
+  }
+  
+  return finalDescription;
+};
 exports.handler = async (event, context) => {
   const path = event.path;
   const host = event.headers.host;
   let post = null;
   let pageTitle = "Super Productive";
-  let pageDescription = "Bite-sized tech tips to level up your productivity";
+  let pageDescription = "Bite-sized tech tips to level up your productivity. Weekly insights on AI prompts, productivity tools, and smart workflows for knowledge workers.";
   let pageImage = "https://images.pexels.com/photos/3184433/pexels-photo-3184433.jpeg?auto=compress&cs=tinysrgb&w=1200&h=630&dpr=1";
   let pageUrl = `https://${host}${path}`;
 
@@ -77,9 +95,14 @@ exports.handler = async (event, context) => {
 
     if (post) {
       pageTitle = post.title || pageTitle;
-      pageDescription = post.excerpt || post.subheader || pageDescription;
+      // Ensure description meets minimum length requirements
+      const rawDescription = post.excerpt || post.subheader || '';
+      pageDescription = ensureMinDescriptionLength(rawDescription, 'From Super Productive: weekly insights on AI prompts, productivity tools, and smart workflows for knowledge workers.');
       pageImage = post.image || pageImage;
       pageUrl = `https://${host}${path}`;
+    } else {
+      // Ensure default description meets minimum length
+      pageDescription = ensureMinDescriptionLength(pageDescription);
     }
 
     // Escape HTML characters in meta content to prevent XSS
