@@ -7,6 +7,7 @@ import { CategorySidebar } from './CategorySidebar';
 import { MobileHeader } from './MobileHeader';
 import { DarkModeToggle } from './DarkModeToggle';
 import { NewsletterForm } from './NewsletterForm';
+import { SearchSubscribeToggle } from './SearchSubscribeToggle';
 import { aboutPost } from '../data/blogData';
 import { LinkedinIcon } from 'lucide-react';
 import { sanityClient, POSTS_QUERY, CATEGORIES_QUERY, LINK_CARDS_QUERY, LINK_CARD_CATEGORIES_QUERY } from '../lib/sanityClient';
