@@ -22,8 +22,6 @@ import {
   generateBlogSchema,
   insertMultipleStructuredData 
 } from '../utils/schemaUtils';
-import { getCategoryDisplayName, getSchemaCategory } from '../utils/categoryMappingUtils';
-
 // Add type definitions for posts and categories
 interface Post {
   id: string;
