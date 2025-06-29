@@ -32,7 +32,16 @@ export function generateMetaDescription(post) {
 
 // Generate page title
 export function generatePageTitle(post) {
-  return post ? `Super Productive | ${post.title}` : 'Super Productive';
+  if (!post) {
+    return 'Super Productive';
+  }
+  
+  // Special case for about page
+  if (post.id === 'about') {
+    return 'About Super Productive';
+  }
+  
+  return `Super Productive | ${post.title}`;
 }
 
 // Default OG image URL
