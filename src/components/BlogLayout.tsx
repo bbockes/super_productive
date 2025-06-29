@@ -388,7 +388,7 @@ export function BlogLayout() {
             {/* Desktop Header - shows on large screens and up only */}
             {!isLinkMode ? (
               <div className="hidden lg:flex justify-between items-center mb-8">
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center overflow-hidden" style={{ width: '600px', maxWidth: '600px' }}>
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center overflow-hidden" style={{ width: '600px', maxWidth: '600px', minWidth: '600px' }}>
                   <div className="px-4 py-4 w-full">
                     <SearchSubscribeToggle 
                       className="w-full" 
@@ -397,7 +397,7 @@ export function BlogLayout() {
                     />
                   </div>
                 </div>
-                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0">
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0 ml-auto">
                   <div className="flex items-center gap-3">
                     <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
                       <LinkedinIcon className="w-5 h-5" />
@@ -408,8 +408,8 @@ export function BlogLayout() {
                 </div>
               </div>
             ) : (
-              <div className="hidden lg:flex justify-between items-center mb-8">
-                <div className="flex-1 flex justify-start">
+              <div className="hidden lg:flex items-center mb-8">
+                <div className="flex justify-start" style={{ width: '600px', maxWidth: '600px', minWidth: '600px' }}>
                   <div>
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
                       <span className="text-[#7D1FF1] dark:text-[#AA75F0]">Apps you know.</span> <span className="text-gray-800 dark:text-gray-200">Apps you don't.</span>
@@ -419,7 +419,7 @@ export function BlogLayout() {
                     </p>
                   </div>
                 </div>
-                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0">
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0 ml-auto">
                   <div className="flex items-center gap-3">
                     <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
                       <LinkedinIcon className="w-5 h-5" />
