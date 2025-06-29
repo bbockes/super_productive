@@ -81,7 +81,7 @@ export function CategorySidebar({
           
           <div className="space-y-2">
             {isLinkMode && (
-              <div className="text-gray-600 dark:text-gray-400 text-sm font-medium mb-3">
+              <div className="text-gray-600 dark:text-gray-400 text-sm font-medium mb-1">
                 Apps for...
               </div>
             )}
