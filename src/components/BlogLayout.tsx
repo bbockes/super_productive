@@ -15,14 +15,12 @@ import { slugify, findPostBySlug, filterPostsBySearchQuery } from '../utils/slug
 import { generateMetaDescription, generatePageTitle, DEFAULT_OG_IMAGE } from '../utils/seoUtils.js';
 import { getCategoryColor } from '../utils/categoryColorUtils';
 import { getCategoryDisplayName, getSchemaCategory } from '../utils/categoryMappingUtils';
-import { getCategoryDisplayName, getSchemaCategory } from '../utils/categoryMappingUtils';
 import { 
   generateOrganizationSchema, 
   generateWebSiteSchema, 
   generateBlogSchema,
   insertMultipleStructuredData 
 } from '../utils/schemaUtils';
-import { getCategoryDisplayName, getSchemaCategory } from '../utils/categoryMappingUtils';
 
 // Add type definitions for posts and categories
 interface Post {
