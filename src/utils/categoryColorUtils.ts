@@ -111,7 +111,10 @@ export function getCategorySelectedClass(category: { name: string; color: string
     // Special handling for "→ Every Use-Case" button - same as All
     return 'bg-gray-800 text-white dark:bg-white dark:text-gray-800';
   }
-  return category.color + ' text-white';
+  
+  // For link categories, use the proper color from the mapping
+  const properColor = getCategoryColor(category.name);
+  return properColor + ' text-white';
 }
 
 // Static hover mapping for better performance (optional optimization)
