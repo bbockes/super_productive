@@ -7,6 +7,13 @@ export const linkCardType = defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'title',
+      title: 'App Name',
+      type: 'string',
+      description: 'The name of the app (for CMS organization only)',
+      validation: (rule) => rule.required().max(100),
+    }),
+    defineField({
       name: 'hook',
       title: 'Hook',
       type: 'string',
@@ -59,7 +66,7 @@ export const linkCardType = defineType({
   ],
   preview: {
     select: {
-      title: 'hook',
+      title: 'title',
       media: 'image',
       subtitle: 'url'
     },
