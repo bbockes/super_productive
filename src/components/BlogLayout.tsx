@@ -331,8 +331,18 @@ export function BlogLayout() {
   };
 
   const handleToggleMode = () => {
-    setIsLinkMode(!isLinkMode);
-    setSelectedCategory('All'); // Reset category when switching modes
+    const newIsLinkMode = !isLinkMode;
+    setIsLinkMode(newIsLinkMode);
+    
+    // Check if current category exists in the target mode's categories
+    const targetCategories = newIsLinkMode ? linkCategories : categories;
+    const categoryExists = targetCategories.some(cat => cat.name === selectedCategory);
+    
+    // Only reset category if it doesn't exist in the target mode
+    if (!categoryExists) {
+      setSelectedCategory('All');
+    }
+    
     setSearchQuery(''); // Clear search when switching modes
   };
 
