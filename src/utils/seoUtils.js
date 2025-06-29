@@ -32,7 +32,7 @@ export function generateMetaDescription(post) {
 
 // Generate page title
 export function generatePageTitle(post) {
-  return post ? `${post.title} | Super Productive` : 'Super Productive | Bite-sized tech tips to level up your productivity';
+  return post ? `Super Productive | ${post.title}` : 'Super Productive';
 }
 
 // Default OG image URL
