@@ -301,7 +301,7 @@ export function BlogLayout() {
     console.log('📝 Posts available:', posts.length);
     
     // Check if we're on the about page
-    if (location.pathname.endsWith('/about')) {
+    if (location.pathname === '/about' || location.pathname === '/about/') {
       console.log('✅ On about page, setting selectedPost to aboutPost');
       setSelectedPost(aboutPost);
       console.log('📄 aboutPost content:', aboutPost);

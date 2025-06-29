@@ -12,6 +12,7 @@ export function App() {
             <Route path="/" element={<BlogLayout />} />
             <Route path="/posts/:slug" element={<BlogLayout />} />
             <Route path="/about" element={<BlogLayout />} />
+            <Route path="/about/" element={<BlogLayout />} />
             <Route path="/404" element={<BlogLayout />} />
             <Route path="*" element={<Navigate to="/404" replace />} />
           </Routes>
