@@ -72,7 +72,9 @@ export function CategorySidebar({
               ) : (
                 <div className="mb-8">
                   <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Super Productive</h1>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">Bite-sized tech tips to level up your productivity</p>
+                  {!isLinkMode && (
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">Bite-sized tech tips to level up your productivity</p>
+                  )}
                 </div>
               )}
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Categories</h2>
