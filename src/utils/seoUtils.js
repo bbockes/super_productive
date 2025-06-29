@@ -27,7 +27,7 @@ export function generateMetaDescription(post) {
   return post.excerpt || 
          post.subheader || 
          (post.content ? extractTextFromContent(post.content) : '') ||
-         'Bite-sized tech tips to level up your productivity';
+         'Discover tools, tips, and AI prompts to boost your productivity, save time, and focus on what matters with the Super Productive newsletter.';
 }
 
 // Generate page title
