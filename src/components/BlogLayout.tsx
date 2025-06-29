@@ -369,7 +369,8 @@ export function BlogLayout() {
 
   const handlePostClick = post => {
     console.log('🖱️ Post clicked:', post.title);
-    const postSlug = slugify(post.title);
+    // Use the same logic as findPostBySlug to ensure consistency
+    const postSlug = post.slug?.current || post.slug || slugify(post.title);
     console.log('🔗 Navigating to slug:', postSlug);
     navigate(`/posts/${postSlug}`);
   };
