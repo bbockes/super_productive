@@ -24,6 +24,11 @@ export function extractTextFromContent(content) {
 
 // Generate meta description from post data
 export function generateMetaDescription(post) {
+  // Special case for 404 page
+  if (post && post.id === '404') {
+    return 'Uh-oh. Looks like that page doesn\'t exist.';
+  }
+  
   // Special case for about page
   if (post && post.id === 'about') {
     return 'Learn more about Super Productive — a weekly newsletter for digital knowledge workers who want to save time and work smarter.';
@@ -38,6 +43,11 @@ export function generateMetaDescription(post) {
 // Generate page title
 export function generatePageTitle(post) {
   if (!post) {
+    return 'Super Productive';
+  }
+  
+  // Special case for 404 page
+  if (post.id === '404') {
     return 'Super Productive';
   }
   
