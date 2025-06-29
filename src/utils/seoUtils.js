@@ -24,6 +24,11 @@ export function extractTextFromContent(content) {
 
 // Generate meta description from post data
 export function generateMetaDescription(post) {
+  // Special case for about page
+  if (post && post.id === 'about') {
+    return 'Learn more about Super Productive — a weekly newsletter for digital knowledge workers who want to save time and work smarter.';
+  }
+  
   return post.excerpt || 
          post.subheader || 
          (post.content ? extractTextFromContent(post.content) : '') ||
