@@ -3,7 +3,7 @@ import { defineField, defineType } from 'sanity';
 
 export const linkCardType = defineType({
   name: 'linkCard',
-  title: 'App',
+  title: 'Apps',
   type: 'document',
   fields: [
     defineField({
