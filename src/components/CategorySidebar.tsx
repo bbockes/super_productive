@@ -70,9 +70,6 @@ export function CategorySidebar({
                   {!isLinkMode && (
                     <p className="text-gray-600 dark:text-gray-400 text-sm">Bite-sized tech tips to level up your productivity</p>
                   )}
-                  {isLinkMode && (
-                    <div className="h-[20px]"></div>
-                  )}
                 </div>
               ) : (
                 <div className="mb-8">
@@ -80,9 +77,6 @@ export function CategorySidebar({
                   {!isLinkMode && (
                     <p className="text-gray-600 dark:text-gray-400 text-sm">Bite-sized tech tips to level up your productivity</p>
                   )}
-                   {isLinkMode && (
-                     <div className="h-[20px]"></div>
-                   )}
                 </div>
               )}
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Categories</h2>
