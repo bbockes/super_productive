@@ -95,7 +95,7 @@ export function CategorySidebar({
                     : `text-gray-700 dark:text-gray-300 ${getCategoryHoverClassOptimized(category.name)}`
                 }`}
               >
-                {category.name === 'All' ? '→ Every Use-Case' : category.name}
+                {category.name === 'All' && isLinkMode ? '→ Every Use-Case' : category.name}
               </button>
             ))}
           </div>
