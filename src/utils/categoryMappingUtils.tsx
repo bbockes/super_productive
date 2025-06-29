@@ -1,4 +1,15 @@
-const schemaToDisplayNameMap: Record<string, string> = {};
+const schemaToDisplayNameMap: Record<string, string> = {
+  'Time-Saving Tools': '→ Saving Time',
+  'Design & Creativity': '→ Creating and Designing',
+  'Developer Tools': '→ Building Faster',
+  'AI & Machine Learning': '→ Working with AI',
+  'Marketing & Sales': '→ Growing Your Audience',
+  'Finance & Crypto': '→ Managing Money',
+  'Health & Wellness': '→ Feeling Better',
+  'Learning & Education': '→ Learning New Skills',
+  'Remote Work & Collaboration': '→ Working Together',
+  'Consumer & Lifestyle': '→ Everyday Life',
+};
 
 export function getCategoryDisplayName(schemaCategory: string): string {
   return schemaToDisplayNameMap[schemaCategory] || schemaCategory;
