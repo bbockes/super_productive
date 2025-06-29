@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { BlogCard } from './BlogCard';
+import { LinkCard } from './LinkCard';
 import { BlogModal } from './BlogModal';
 import { CategorySidebar } from './CategorySidebar';
 import { MobileHeader } from './MobileHeader';
@@ -8,21 +9,117 @@ import { DarkModeToggle } from './DarkModeToggle';
 import { NewsletterForm } from './NewsletterForm';
 import { aboutPost } from '../data/blogData';
 import { LinkedinIcon } from 'lucide-react';
-import { sanityClient, POSTS_QUERY, CATEGORIES_QUERY } from '../lib/sanityClient';
-import { slugify, findPostBySlug } from '../utils/slugify';
+import { sanityClient, POSTS_QUERY, CATEGORIES_QUERY, LINK_CARDS_QUERY, LINK_CARD_CATEGORIES_QUERY } from '../lib/sanityClient';
+import { slugify, findPostBySlug, filterPostsBySearchQuery } from '../utils/slugify';
+import { generateMetaDescription, generatePageTitle, DEFAULT_OG_IMAGE } from '../utils/seoUtils.js';
+import { getCategoryColor } from '../utils/categoryColorUtils';
+import { 
+  generateOrganizationSchema, 
+  generateWebSiteSchema, 
+  generateBlogSchema,
+  insertMultipleStructuredData 
+} from '../utils/schemaUtils';
+
+// Add type definitions for posts and categories
+interface Post {
+  id: string;
+  title: string;
+  image?: string;
+  read_time?: number | string;
+  readTime?: number | string;
+  created_at?: string;
+  publishedAt?: string;
+  slug: string;
+  category?: string;
+  subheader?: string;
+  excerpt?: string;
+  [key: string]: any;
+}
+
+interface LinkCard {
+  _id: string;
+  title: string;
+  image: string;
+  url: string;
+  category?: string;
+}
+
+interface Category {
+  name: string;
+  color: string;
+}
+
+// Helper function to set or update a meta tag
+function setMetaTag(property: string, content: string, isName = false) {
+  const attributeName = isName ? 'name' : 'property';
+  let element = document.querySelector(`meta[${attributeName}="${property}"]`) as HTMLMetaElement;
+  
+  if (element) {
+    element.content = content;
+  } else {
+    element = document.createElement('meta');
+    element.setAttribute(attributeName, property);
+    element.content = content;
+    document.head.appendChild(element);
+  }
+}
+
+// Helper function to remove a meta tag
+function removeMetaTag(property: string, isName = false) {
+  const attributeName = isName ? 'name' : 'property';
+  const element = document.querySelector(`meta[${attributeName}="${property}"]`);
+  if (element) {
+    element.remove();
+  }
+}
+
+// Helper function to set canonical URL
+function setCanonicalUrl(url: string) {
+  let canonicalElement = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+  
+  if (canonicalElement) {
+    canonicalElement.href = url;
+  } else {
+    canonicalElement = document.createElement('link');
+    canonicalElement.rel = 'canonical';
+    canonicalElement.href = url;
+    document.head.appendChild(canonicalElement);
+  }
+}
+
+// Helper function to get the current full URL
+function getCurrentUrl(): string {
+  return window.location.href;
+}
+
+// Helper function to get canonical URL without trailing slash
+function getCanonicalUrl(): string {
+  const baseUrl = window.location.origin;
+  const pathname = window.location.pathname;
+  
+  // Remove trailing slash except for root
+  const cleanPath = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
+  return `${baseUrl}${cleanPath}`;
+}
 
 export function BlogLayout() {
   const navigate = useNavigate();
   const { slug } = useParams();
   const location = useLocation();
   
-  const [posts, setPosts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedPost, setSelectedPost] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [linkCards, setLinkCards] = useState<LinkCard[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [linkCategories, setLinkCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [linkLoading, setLinkLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [linkError, setLinkError] = useState<string | null>(null);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const [isLinkMode, setIsLinkMode] = useState<boolean>(false);
 
   // Function to get category color based on name
   const getCategoryColor = (categoryName) => {
@@ -45,6 +142,12 @@ export function BlogLayout() {
   // Fetch blog posts and categories from Supabase
   useEffect(() => {
     async function fetchData() {
+      console.log('🔧 Sanity Config:', {
+        projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
+        dataset: import.meta.env.VITE_SANITY_DATASET,
+        apiVersion: import.meta.env.VITE_SANITY_API_VERSION
+      });
+      
       setLoading(true);
       
       try {
@@ -76,7 +179,8 @@ export function BlogLayout() {
         ];
 
         setCategories(formattedCategories);
-      } catch (err) {
+      } catch (err: any) {
+        console.error('❌ Error fetching blog data:', err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -84,6 +188,42 @@ export function BlogLayout() {
     }
 
     fetchData();
+  }, []);
+
+  // Fetch link cards and categories from Sanity
+  useEffect(() => {
+    async function fetchLinkData() {
+      console.log('🔗 Fetching link cards...');
+      setLinkLoading(true);
+      
+      try {
+        // Fetch link cards from Sanity
+        const linkCardsData = await sanityClient.fetch(LINK_CARDS_QUERY);
+        setLinkCards(linkCardsData);
+
+        // Fetch link categories from Sanity
+        const linkCategoriesData = await sanityClient.fetch(LINK_CARD_CATEGORIES_QUERY);
+        
+        // Extract unique categories and format them with colors
+        const uniqueLinkCategories = [...new Set(linkCategoriesData.map((item: any) => item.category).filter(Boolean))] as string[];
+        const formattedLinkCategories: Category[] = [
+          { name: 'All', color: getCategoryColor('All') },
+          ...uniqueLinkCategories.map((categoryName) => ({
+            name: categoryName,
+            color: getCategoryColor(categoryName)
+          }))
+        ];
+
+        setLinkCategories(formattedLinkCategories);
+      } catch (err: any) {
+        console.error('❌ Error fetching link data:', err);
+        setLinkError(err.message);
+      } finally {
+        setLinkLoading(false);
+      }
+    }
+
+    fetchLinkData();
   }, []);
 
   // Handle URL-based post selection
@@ -121,9 +261,38 @@ export function BlogLayout() {
     console.log('🎯 selectedPost full object:', selectedPost);
   }, [selectedPost]);
 
-  const filteredPosts = selectedCategory === 'All' 
-    ? posts 
-    : posts.filter(post => post.category === selectedCategory);
+  // Filter posts by category and search query
+  const filteredPosts = useMemo(() => {
+    if (isLinkMode) {
+      // Filter link cards
+      let filtered = selectedCategory === 'All' 
+        ? linkCards 
+        : linkCards.filter((card: LinkCard) => card.category === selectedCategory);
+      
+      // Apply search filter if there's a search query
+      if (searchQuery.trim()) {
+        const searchTerm = searchQuery.toLowerCase().trim();
+        filtered = filtered.filter((card: LinkCard) => 
+          card.title.toLowerCase().includes(searchTerm) ||
+          (card.category && card.category.toLowerCase().includes(searchTerm))
+        );
+      }
+      
+      return filtered;
+    }
+    
+    // Filter blog posts (existing logic)
+    let filtered = selectedCategory === 'All' 
+      ? posts 
+      : posts.filter((post: Post) => post.category === selectedCategory);
+    
+    // Apply search filter if there's a search query
+    if (searchQuery.trim()) {
+      filtered = filterPostsBySearchQuery(filtered, searchQuery);
+    }
+    
+    return filtered;
+  }, [posts, linkCards, selectedCategory, searchQuery, isLinkMode]);
 
   const handlePostClick = post => {
     console.log('🖱️ Post clicked:', post.title);
@@ -145,7 +314,25 @@ export function BlogLayout() {
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
     setIsMobileMenuOpen(false);
+    
+    // Navigate to home page when "All" is selected
+    if (category === 'All') {
+      navigate('/');
+      // Clear search query to show all posts
+      setSearchQuery('');
+    }
   };
+
+  const handleToggleMode = () => {
+    setIsLinkMode(!isLinkMode);
+    setSelectedCategory('All'); // Reset category when switching modes
+    setSearchQuery(''); // Clear search when switching modes
+  };
+
+  const handleSearch = useCallback((query: string) => {
+    console.log('Search called with query:', query);
+    setSearchQuery(query);
+  }, []);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -156,10 +343,12 @@ export function BlogLayout() {
       {/* Desktop/Tablet Sidebar - shows on medium screens and up */}
       <div className="hidden md:block flex-shrink-0">
         <CategorySidebar 
-          categories={categories} 
+          categories={isLinkMode ? linkCategories : categories} 
           selectedCategory={selectedCategory} 
           onCategorySelect={handleCategorySelect} 
-          onAboutClick={handleAboutClick} 
+          onAboutClick={handleAboutClick}
+          isLinkMode={isLinkMode}
+          onToggleLinkMode={handleToggleMode}
         />
       </div>
 
@@ -168,10 +357,12 @@ export function BlogLayout() {
         <div className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40" onClick={toggleMobileMenu}>
           <div className="fixed right-0 top-0 h-full w-80 bg-white dark:bg-gray-800 shadow-lg" onClick={(e) => e.stopPropagation()}>
             <CategorySidebar 
-              categories={categories} 
+              categories={isLinkMode ? linkCategories : categories} 
               selectedCategory={selectedCategory} 
               onCategorySelect={handleCategorySelect} 
               onAboutClick={handleAboutClick}
+              isLinkMode={isLinkMode}
+              onToggleLinkMode={handleToggleMode}
               isMobile={true}
               onClose={toggleMobileMenu}
             />
@@ -188,29 +379,85 @@ export function BlogLayout() {
         <div className="flex-1 p-4 md:p-8 overflow-y-auto w-full">
           <div className="max-w-7xl mx-auto w-full">
             {/* Desktop Header - shows on large screens and up only */}
-            <div className="hidden lg:flex justify-between items-center mb-8">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center overflow-hidden" style={{ width: '580px', maxWidth: '580px' }}>
-                <div className="px-4 py-4 w-full">
-                  <NewsletterForm className="w-full" />
+            {!isLinkMode ? (
+              <div className="hidden lg:flex justify-between items-center mb-8">
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center overflow-hidden" style={{ width: '600px', maxWidth: '600px' }}>
+                  <div className="px-4 py-4 w-full">
+                    <SearchSubscribeToggle 
+                      className="w-full" 
+                      onSearch={handleSearch}
+                      placeholder="Get 3 new tips in your inbox every Wednesday"
+                    />
+                  </div>
+                </div>
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0">
+                  <div className="flex items-center gap-3">
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                      <LinkedinIcon className="w-5 h-5" />
+                    </a>
+                    <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
+                    <DarkModeToggle />
+                  </div>
                 </div>
               </div>
-              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0">
-                <div className="flex items-center gap-3">
-                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
-                    <LinkedinIcon className="w-5 h-5" />
-                  </a>
-                  <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
-                  <DarkModeToggle />
+            ) : (
+              <div className="hidden lg:flex justify-between items-center mb-8">
+                <div className="flex-1 flex justify-start">
+                  <div>
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                      Apps you know. Apps you don't.
+                    </h1>
+                    <p className="text-gray-600 dark:text-gray-400 mt-2">
+                      Every app on the blog—and then some.
+                    </p>
+                  </div>
+                </div>
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0">
+                  <div className="flex items-center gap-3">
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                      <LinkedinIcon className="w-5 h-5" />
+                    </a>
+                    <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
+                    <DarkModeToggle />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Tablet Subscribe Section - shows on medium screens only */}
-            <div className="hidden md:block lg:hidden mb-8">
-              <div className="flex items-start gap-6">
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden max-w-md flex-1">
-                  <div className="px-4 py-4">
-                    <NewsletterForm className="w-full" />
+            {!isLinkMode ? (
+              <div className="hidden md:block lg:hidden mb-6">
+                <div className="flex items-start gap-6">
+                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden flex-1 tablet-subscribe-container">
+                    <div className="px-4 py-4">
+                      <SearchSubscribeToggle 
+                        className="w-full"
+                        onSearch={handleSearch}
+                        placeholder="Enter your email address"
+                      />
+                    </div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex-shrink-0 tablet-social-container">
+                    <div className="flex items-center gap-3">
+                      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                        <LinkedinIcon className="w-5 h-5" />
+                      </a>
+                      <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
+                      <DarkModeToggle />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="hidden md:flex lg:hidden justify-between items-center mb-6">
+                <div className="flex-1 flex justify-start">
+                  <div>
+                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                      Apps you know. Apps you don't.
+                    </h1>
+                    <p className="text-gray-600 dark:text-gray-400 mt-1">
+                      Every app on the blog—and then some.
+                    </p>
                   </div>
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex-shrink-0">
@@ -223,47 +470,87 @@ export function BlogLayout() {
                   </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Mobile Subscribe Section - only shows on small screens */}
-            <div className="md:hidden mb-6">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
-                <div className="px-4 py-4">
-                  <NewsletterForm 
-                    className="w-full"
-                    placeholder="Get free weekly updates"
-                  />
+            {!isLinkMode ? (
+              <div className="md:hidden mb-6 mobile-subscribe-container">
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
+                  <div className="px-4 py-4">
+                    <SearchSubscribeToggle 
+                      className="w-full mobile-search-toggle"
+                      onSearch={handleSearch}
+                      placeholder="Enter your email address"
+                    />
+                    <NewsletterForm 
+                      className="w-full mobile-newsletter-fallback hidden"
+                      placeholder="Enter your email address"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div className="md:hidden mb-6">
+                <div>
+                  <h1 className="text-xl font-bold text-gray-900 dark:text-white text-left">
+                    Apps you know. Apps you don't.
+                  </h1>
+                  <p className="text-gray-600 dark:text-gray-400 mt-1 text-left">
+                    Every app on the blog—and then some.
+                  </p>
+                </div>
+              </div>
+            )}
 
             {/* Loading and Error States */}
-            {loading && (
-              <div className="flex justify-center items-center py-12">
-                <div className="text-gray-600 dark:text-gray-400">Loading posts...</div>
-              </div>
-            )}
-
-            {error && (
-              <div className="flex justify-center items-center py-12">
-                <div className="text-red-500">Error loading posts: {error}</div>
-              </div>
-            )}
-
-            {/* Blog Cards Grid */}
-            {!loading && !error && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
-                {filteredPosts.map(post => (
-                  <BlogCard key={post.id} post={post} onClick={() => handlePostClick(post)} />
-                ))}
-              </div>
-            )}
-
-            {/* No posts message */}
-            {!loading && !error && filteredPosts.length === 0 && (
+            {(isLinkMode ? linkLoading : loading) && (
               <div className="flex justify-center items-center py-12">
                 <div className="text-gray-600 dark:text-gray-400">
-                  {selectedCategory === 'All' ? 'No posts found.' : `No posts found in "${selectedCategory}" category.`}
+                  Loading {isLinkMode ? 'links' : 'posts'}...
+                </div>
+              </div>
+            )}
+
+            {(isLinkMode ? linkError : error) && (
+              <div className="flex justify-center items-center py-12">
+                <div className="text-red-500">
+                  Error loading {isLinkMode ? 'links' : 'posts'}: {isLinkMode ? linkError : error}
+                </div>
+              </div>
+            )}
+
+            {/* Content Grid */}
+            {!(isLinkMode ? linkLoading : loading) && !(isLinkMode ? linkError : error) && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
+                {isLinkMode ? (
+                  filteredPosts.map((linkCard: any) => (
+                    <LinkCard key={linkCard._id} linkCard={linkCard} />
+                  ))
+                ) : (
+                  filteredPosts.map((post: any) => (
+                    <BlogCard key={post.id} post={post} onClick={() => handlePostClick(post)} />
+                  ))
+                )}
+              </div>
+            )}
+
+            {/* No content message */}
+            {!(isLinkMode ? linkLoading : loading) && !(isLinkMode ? linkError : error) && filteredPosts.length === 0 && (
+              <div className="flex justify-center items-center py-12">
+                <div className="text-gray-600 dark:text-gray-400">
+                  {isLinkMode ? (
+                    searchQuery.trim() ? (
+                      `No links found for "${searchQuery}"${selectedCategory !== 'All' ? ` in "${selectedCategory}" category` : ''}.`
+                    ) : (
+                      selectedCategory === 'All' ? 'No links found.' : `No links found in "${selectedCategory}" category.`
+                    )
+                  ) : (
+                    searchQuery.trim() ? (
+                      `No posts found for "${searchQuery}"${selectedCategory !== 'All' ? ` in "${selectedCategory}" category` : ''}.`
+                    ) : (
+                      selectedCategory === 'All' ? 'No posts found. Make sure to add some blog posts in your Sanity studio!' : `No posts found in "${selectedCategory}" category.`
+                    )
+                  )}
                 </div>
               </div>
             )}
