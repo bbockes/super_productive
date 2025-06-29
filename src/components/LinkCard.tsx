@@ -26,7 +26,7 @@ export function LinkCard({ linkCard }: LinkCardProps) {
         <ResponsiveImage
           src={linkCard.image}
           alt={linkCard.hook}
-          className="w-full h-full object-cover" 
+          className="w-full h-full object-cover group-hover:blur-sm transition-all duration-300" 
         />
         
         {/* Hover overlay */}
