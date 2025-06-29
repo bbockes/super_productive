@@ -32,7 +32,7 @@ export function LinkCard({ linkCard }: LinkCardProps) {
         {/* Hover overlay */}
         <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-85 transition-all duration-300 flex items-center justify-center">
           <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
-            <span className="text-white text-sm text-center leading-relaxed block">
+            <span className="text-white text-17px text-center leading-relaxed block">
               {linkCard.hook}
             </span>
           </div>
