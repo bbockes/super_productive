@@ -40,7 +40,7 @@ export function LinkCard({ linkCard }: LinkCardProps) {
         
         {/* Link icon in lower right */}
         <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <ExternalLinkIcon className="w-5 h-5 text-white" />
+          <ExternalLinkIcon className="w-4 h-4 text-white" />
         </div>
       </div>
     </div>
