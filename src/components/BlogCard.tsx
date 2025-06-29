@@ -13,6 +13,15 @@ export function BlogCard({
     return String(readTime || '5 min');
   };
 
+  const handleClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    console.log('🖱️ BlogCard clicked:', post.title);
+    if (onClick) {
+      onClick();
+    }
+  };
+
   return <div onClick={onClick} className="bg-gray-900 dark:bg-gray-800 rounded-xl overflow-hidden cursor-pointer hover:transform hover:scale-105 transition-all duration-200">
       <div className="aspect-video bg-gray-800 dark:bg-gray-700 relative">
         <ResponsiveImage
