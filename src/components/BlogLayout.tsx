@@ -15,7 +15,6 @@ import { slugify, findPostBySlug, filterPostsBySearchQuery } from '../utils/slug
 import { generateMetaDescription, generatePageTitle, DEFAULT_OG_IMAGE } from '../utils/seoUtils.js';
 import { getCategoryColor } from '../utils/categoryColorUtils';
 import { getCategoryDisplayName, getSchemaCategory } from '../utils/categoryMappingUtils';
-import { getCategoryDisplayName, getSchemaCategory } from '../utils/categoryMappingUtils';
 import { 
   generateOrganizationSchema, 
   generateWebSiteSchema, 
@@ -269,7 +268,7 @@ export function BlogLayout() {
     if (isLinkMode) {
       // Filter link cards
       let filtered;
-      if (selectedCategory === 'All Apps') {
+      if (selectedCategory === 'All') {
         filtered = linkCards;
       } else {
         // Convert display name back to schema category for filtering
