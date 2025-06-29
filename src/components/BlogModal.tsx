@@ -69,7 +69,7 @@ function InlineCodeBlock({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <span className="inline-code-wrapper inline-flex items-center group">
+    <span className="inline-code-wrapper relative inline-block group">
       <code 
         ref={codeRef}
         className={`px-2 py-1 rounded transition-all duration-200 cursor-pointer text-17px ${
@@ -79,18 +79,20 @@ function InlineCodeBlock({ children }: { children: React.ReactNode }) {
         }`}
         onClick={handleCopy}
         style={{ 
-          fontFamily: 'inherit'
+          fontFamily: 'inherit',
+          display: 'inline-block'
         }}
       >
         "{children}"
       </code>
       <button
         onClick={handleCopy}
-        className={`ml-1 opacity-0 group-hover:opacity-100 p-1 rounded transition-all duration-200 inline-flex items-center ${
+        className={`absolute opacity-0 group-hover:opacity-100 p-1 rounded transition-all duration-200 inline-flex items-center ${
           copied
             ? 'bg-green-200 dark:bg-green-400 text-green-700 dark:text-gray-900 opacity-100'
             : 'bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 text-gray-600 dark:text-gray-400'
         }`}
+        style={{ left: 'calc(100% + 4px)', top: '50%', transform: 'translateY(-50%)' }}
         title="Copy code"
       >
         {copied ? (
