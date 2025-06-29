@@ -29,27 +29,10 @@ export function generateMetaDescription(post) {
     return 'Learn more about Super Productive — a weekly newsletter for digital knowledge workers who want to save time and work smarter.';
   }
   
-  // For regular blog posts, use "title - excerpt" template
-  if (post && post.title) {
-    // Get the description content
-    const descriptionContent = post.excerpt || 
-                              post.subheader || 
-                              (post.content ? extractTextFromContent(post.content) : '') ||
-                              'A productivity tip from Super Productive';
-    
-    // Combine title and description with " - " separator
-    const combinedDescription = `${post.title} - ${descriptionContent}`;
-    
-    // Truncate to 160 characters with ellipsis if needed
-    if (combinedDescription.length > 160) {
-      return combinedDescription.substring(0, 157) + '...';
-    }
-    
-    return combinedDescription;
-  }
-  
-  // Default fallback for homepage
-  return 'Discover tools, tips, and AI prompts to boost your productivity, save time, and focus on what matters with the Super Productive newsletter.';
+  return post.excerpt || 
+         post.subheader || 
+         (post.content ? extractTextFromContent(post.content) : '') ||
+         'Discover tools, tips, and AI prompts to boost your productivity, save time, and focus on what matters with the Super Productive newsletter.';
 }
 
 // Generate page title
