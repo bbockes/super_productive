@@ -267,10 +267,11 @@ export function BlogLayout() {
   const filteredPosts = useMemo(() => {
     if (isLinkMode) {
       // Filter link cards
-      let filtered;
-      if (selectedCategory === 'All') {
-        filtered = linkCards;
-      } else {
+      let filtered = linkCards;
+      
+      // Only filter by category if the category exists in link categories
+      const linkCategoryExists = linkCategories.some(cat => cat.name === selectedCategory);
+      if (selectedCategory !== 'All' && linkCategoryExists) {
         // Convert display name back to schema category for filtering
         const schemaCategory = getSchemaCategory(selectedCategory);
         filtered = linkCards.filter((card: LinkCard) => card.category === schemaCategory);
@@ -289,7 +290,9 @@ export function BlogLayout() {
     }
     
     // Filter blog posts (existing logic)
-    let filtered = selectedCategory === 'All' 
+    // Only filter by category if the category exists in post categories
+    const postCategoryExists = categories.some(cat => cat.name === selectedCategory);
+    let filtered = selectedCategory === 'All' || !postCategoryExists
       ? posts 
       : posts.filter((post: Post) => post.category === selectedCategory);
     
@@ -331,18 +334,7 @@ export function BlogLayout() {
   };
 
   const handleToggleMode = () => {
-    const newIsLinkMode = !isLinkMode;
-    setIsLinkMode(newIsLinkMode);
-    
-    // Check if current category exists in the target mode's categories
-    const targetCategories = newIsLinkMode ? linkCategories : categories;
-    const categoryExists = targetCategories.some(cat => cat.name === selectedCategory);
-    
-    // Only reset category if it doesn't exist in the target mode
-    if (!categoryExists) {
-      setSelectedCategory('All');
-    }
-    
+    setIsLinkMode(!isLinkMode);
     setSearchQuery(''); // Clear search when switching modes
   };
 
