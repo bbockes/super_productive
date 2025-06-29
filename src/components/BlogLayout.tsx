@@ -14,6 +14,7 @@ import { sanityClient, POSTS_QUERY, CATEGORIES_QUERY, LINK_CARDS_QUERY, LINK_CAR
 import { slugify, findPostBySlug, filterPostsBySearchQuery } from '../utils/slugify';
 import { generateMetaDescription, generatePageTitle, DEFAULT_OG_IMAGE } from '../utils/seoUtils.js';
 import { getCategoryColor } from '../utils/categoryColorUtils';
+import { getCategoryDisplayName, getSchemaCategory } from '../utils/categoryMappingUtils';
 import { 
   generateOrganizationSchema, 
   generateWebSiteSchema, 
@@ -209,9 +210,9 @@ export function BlogLayout() {
         const uniqueLinkCategories = [...new Set(linkCategoriesData.map((item: any) => item.category).filter(Boolean))] as string[];
         const formattedLinkCategories: Category[] = [
           { name: 'All', color: getCategoryColor('All') },
-          ...uniqueLinkCategories.map((categoryName) => ({
-            name: categoryName,
-            color: getCategoryColor(categoryName)
+          ...uniqueLinkCategories.map((schemaCategory) => ({
+            name: getCategoryDisplayName(schemaCategory),
+            color: getCategoryColor(schemaCategory)
           }))
         ];
 
@@ -266,9 +267,14 @@ export function BlogLayout() {
   const filteredPosts = useMemo(() => {
     if (isLinkMode) {
       // Filter link cards
-      let filtered = selectedCategory === 'All' 
-        ? linkCards 
-        : linkCards.filter((card: LinkCard) => card.category === selectedCategory);
+      let filtered;
+      if (selectedCategory === 'All') {
+        filtered = linkCards;
+      } else {
+        // Convert display name back to schema category for filtering
+        const schemaCategory = getSchemaCategory(selectedCategory);
+        filtered = linkCards.filter((card: LinkCard) => card.category === schemaCategory);
+      }
       
       // Apply search filter if there's a search query
       if (searchQuery.trim()) {
