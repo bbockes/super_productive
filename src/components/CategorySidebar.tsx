@@ -80,6 +80,11 @@ export function CategorySidebar({
           )}
           
           <div className="space-y-2">
+            {isLinkMode && (
+              <div className="text-gray-600 dark:text-gray-400 text-sm font-medium mb-3">
+                Apps for...
+              </div>
+            )}
             {categories.map(category => (
               <button
                 key={category.name}
