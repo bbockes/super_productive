@@ -16,6 +16,7 @@ import { generateMetaDescription, generatePageTitle, DEFAULT_OG_IMAGE } from '..
 import { getCategoryColor } from '../utils/categoryColorUtils';
 import { getCategoryDisplayName, getSchemaCategory } from '../utils/categoryMappingUtils';
 import { getCategoryDisplayName, getSchemaCategory } from '../utils/categoryMappingUtils';
+import { getCategoryDisplayName, getSchemaCategory } from '../utils/categoryMappingUtils';
 import { 
   generateOrganizationSchema, 
   generateWebSiteSchema, 
