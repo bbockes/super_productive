@@ -387,26 +387,26 @@ export function BlogLayout() {
           <div className="max-w-7xl mx-auto w-full">
             {/* Desktop Header - shows on large screens and up only */}
             <div className="hidden lg:flex justify-between items-center mb-8">
-              {!isLinkMode ? (
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center overflow-hidden" style={{ width: '600px', maxWidth: '600px', minWidth: '600px' }}>
-                  <div className="px-4 py-4 w-full">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center overflow-hidden" style={{ width: '600px', maxWidth: '600px', minWidth: '600px' }}>
+                <div className="px-4 py-4 w-full">
+                  {!isLinkMode ? (
                     <SearchSubscribeToggle 
                       className="w-full" 
                       onSearch={handleSearch}
                       placeholder="Get 3 new tips in your inbox every Wednesday"
                     />
-                  </div>
+                  ) : (
+                    <div>
+                      <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                        <span className="text-[#7D1FF1] dark:text-[#AA75F0]">Apps you know.</span> <span className="text-gray-800 dark:text-gray-200">Apps you don't.</span>
+                      </h1>
+                      <p className="text-gray-600 dark:text-gray-400 mt-2">
+                        Every app on the blog—and then some.
+                      </p>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div style={{ width: '600px', maxWidth: '600px', minWidth: '600px' }}>
-                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                    <span className="text-[#7D1FF1] dark:text-[#AA75F0]">Apps you know.</span> <span className="text-gray-800 dark:text-gray-200">Apps you don't.</span>
-                  </h1>
-                  <p className="text-gray-600 dark:text-gray-400 mt-2">
-                    Every app on the blog—and then some.
-                  </p>
-                </div>
-              )}
+              </div>
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0">
                 <div className="flex items-center gap-3">
                   <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
