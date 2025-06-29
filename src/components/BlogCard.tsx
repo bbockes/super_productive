@@ -14,8 +14,6 @@ export function BlogCard({
   };
 
   const handleClick = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
     console.log('🖱️ BlogCard clicked:', post.title);
     if (onClick) {
       onClick();
