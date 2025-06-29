@@ -14,6 +14,21 @@ const staticColorMap: Record<string, string> = {
   'Shortcuts': 'bg-emerald-500'
 };
 
+// Color mapping for link categories (Apps view)
+const linkCategoryColorMap: Record<string, string> = {
+  '→ Every Use-Case': 'bg-gray-800', // "All" equivalent
+  '→ Saving Time': 'bg-blue-500',
+  '→ Creating and Designing': 'bg-pink-500',
+  '→ Building Faster': 'bg-purple-500',
+  '→ Working with AI': 'bg-yellow-500',
+  '→ Growing Your Audience': 'bg-green-500',
+  '→ Managing Money': 'bg-emerald-500',
+  '→ Feeling Better': 'bg-red-500',
+  '→ Learning New Skills': 'bg-orange-500',
+  '→ Working Together': 'bg-indigo-500',
+  '→ Everyday Life': 'bg-teal-500'
+};
+
 // Dynamic color palette for new categories
 const dynamicColorPalette: string[] = [
   'bg-cyan-500',
@@ -56,6 +71,11 @@ export function getCategoryColor(categoryName: string): string {
     return staticColorMap[categoryName];
   }
   
+  // Check if it's a link category display name
+  if (linkCategoryColorMap[categoryName]) {
+    return linkCategoryColorMap[categoryName];
+  }
+  
   // For new categories, use dynamic color palette
   const hash = stringToHash(categoryName);
   const colorIndex = hash % dynamicColorPalette.length;
@@ -71,6 +91,11 @@ export function getCategoryHoverClass(categoryName: string): string {
     return 'hover:bg-gray-800 hover:text-white dark:hover:bg-white dark:hover:text-gray-800';
   }
   
+  // Special handling for "→ Every Use-Case" button (All equivalent in Apps view)
+  if (categoryName === '→ Every Use-Case') {
+    return 'hover:bg-gray-800 hover:text-white dark:hover:bg-white dark:hover:text-gray-800';
+  }
+  
   // All other categories: reveal background color on hover
   // Light mode: white text on hover, Dark mode: keep current text color
   return `hover:${baseColor} hover:text-white dark:hover:text-gray-300`;
@@ -80,6 +105,10 @@ export function getCategoryHoverClass(categoryName: string): string {
 export function getCategorySelectedClass(category: { name: string; color: string }, isDarkMode: boolean = false): string {
   if (category.name === 'All') {
     // Special handling for "All" button - inverse colors in dark mode
+    return 'bg-gray-800 text-white dark:bg-white dark:text-gray-800';
+  }
+  if (category.name === '→ Every Use-Case') {
+    // Special handling for "→ Every Use-Case" button - same as All
     return 'bg-gray-800 text-white dark:bg-white dark:text-gray-800';
   }
   return category.color + ' text-white';
@@ -98,7 +127,19 @@ const staticHoverMap: Record<string, string> = {
   'Errors': 'hover:bg-orange-500 hover:text-white dark:hover:text-gray-300',
   'Communication': 'hover:bg-indigo-500 hover:text-white dark:hover:text-gray-300',
   'Thinking': 'hover:bg-teal-500 hover:text-white dark:hover:text-gray-300',
-  'Shortcuts': 'hover:bg-emerald-500 hover:text-white dark:hover:text-gray-300'
+  'Shortcuts': 'hover:bg-emerald-500 hover:text-white dark:hover:text-gray-300',
+  // Link category hover mappings
+  '→ Every Use-Case': 'hover:bg-gray-800 hover:text-white dark:hover:bg-white dark:hover:text-gray-800',
+  '→ Saving Time': 'hover:bg-blue-500 hover:text-white dark:hover:text-gray-300',
+  '→ Creating and Designing': 'hover:bg-pink-500 hover:text-white dark:hover:text-gray-300',
+  '→ Building Faster': 'hover:bg-purple-500 hover:text-white dark:hover:text-gray-300',
+  '→ Working with AI': 'hover:bg-yellow-500 hover:text-white dark:hover:text-gray-300',
+  '→ Growing Your Audience': 'hover:bg-green-500 hover:text-white dark:hover:text-gray-300',
+  '→ Managing Money': 'hover:bg-emerald-500 hover:text-white dark:hover:text-gray-300',
+  '→ Feeling Better': 'hover:bg-red-500 hover:text-white dark:hover:text-gray-300',
+  '→ Learning New Skills': 'hover:bg-orange-500 hover:text-white dark:hover:text-gray-300',
+  '→ Working Together': 'hover:bg-indigo-500 hover:text-white dark:hover:text-gray-300',
+  '→ Everyday Life': 'hover:bg-teal-500 hover:text-white dark:hover:text-gray-300'
 };
 
 // Optimized hover class function that uses static mapping when available
