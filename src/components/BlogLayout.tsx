@@ -39,7 +39,7 @@ interface Post {
 
 interface LinkCard {
   _id: string;
-  title: string;
+  hook: string;
   image: string;
   url: string;
   category?: string;
@@ -274,7 +274,7 @@ export function BlogLayout() {
       if (searchQuery.trim()) {
         const searchTerm = searchQuery.toLowerCase().trim();
         filtered = filtered.filter((card: LinkCard) => 
-          card.title.toLowerCase().includes(searchTerm) ||
+          card.hook.toLowerCase().includes(searchTerm) ||
           (card.category && card.category.toLowerCase().includes(searchTerm))
         );
       }

@@ -40,7 +40,7 @@ export const POST_BY_SLUG_QUERY = `*[_type == "post" && slug.current == $slug][0
 
 export const LINK_CARDS_QUERY = `*[_type == "linkCard"] | order(_createdAt desc) {
   _id,
-  title,
+  hook,
   "image": image.asset->url,
   url,
   category

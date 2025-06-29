@@ -7,8 +7,8 @@ export const linkCardType = defineType({
   type: 'document',
   fields: [
     defineField({
-      name: 'title',
-      title: 'Title',
+      name: 'hook',
+      title: 'Hook',
       type: 'string',
       description: 'The text that will appear on hover',
       validation: (rule) => rule.required().max(100),
@@ -59,7 +59,7 @@ export const linkCardType = defineType({
   ],
   preview: {
     select: {
-      title: 'title',
+      title: 'hook',
       media: 'image',
       subtitle: 'url'
     },

@@ -5,7 +5,7 @@ import { ResponsiveImage } from './ResponsiveImage';
 interface LinkCardProps {
   linkCard: {
     _id: string;
-    title: string;
+    hook: string;
     image: string;
     url: string;
     category?: string;
@@ -24,8 +24,8 @@ export function LinkCard({ linkCard }: LinkCardProps) {
     >
       <div className="aspect-video bg-gray-800 dark:bg-gray-700 relative">
         <ResponsiveImage
-          src={linkCard.image} 
-          alt={linkCard.title} 
+          src={linkCard.image}
+          alt={linkCard.hook}
           className="w-full h-full object-cover" 
         />
         
@@ -33,7 +33,7 @@ export function LinkCard({ linkCard }: LinkCardProps) {
         <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-85 transition-all duration-300 flex items-center justify-center">
           <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
             <span className="text-white text-17px text-center leading-relaxed block">
-              {linkCard.title}
+              {linkCard.hook}
             </span>
           </div>
         </div>
