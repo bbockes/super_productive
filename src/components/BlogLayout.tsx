@@ -412,7 +412,7 @@ export function BlogLayout() {
                 <div className="flex-1 flex justify-start">
                   <div>
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                      Apps <span className="text-[#7D1FF1] dark:text-[#AA75F0]">you know.</span> Apps you don't.
+                      <span className="text-[#7D1FF1] dark:text-[#AA75F0]">Apps you know.</span> Apps you don't.
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400 mt-2">
                       Every app on the blog—and then some.
@@ -460,7 +460,7 @@ export function BlogLayout() {
                 <div className="flex-1 flex justify-start">
                   <div>
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                      Apps <span className="text-[#7D1FF1] dark:text-[#AA75F0]">you know.</span> Apps you don't.
+                      <span className="text-[#7D1FF1] dark:text-[#AA75F0]">Apps you know.</span> Apps you don't.
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400 mt-1">
                       Every app on the blog—and then some.
@@ -500,7 +500,7 @@ export function BlogLayout() {
               <div className="md:hidden mb-6">
                 <div>
                   <h1 className="text-xl font-bold text-gray-900 dark:text-white text-left">
-                    Apps <span className="text-[#7D1FF1] dark:text-[#AA75F0]">you know.</span> Apps you don't.
+                    <span className="text-[#7D1FF1] dark:text-[#AA75F0]">Apps you know.</span> Apps you don't.
                   </h1>
                   <p className="text-gray-600 dark:text-gray-400 mt-1 text-left">
                     Every app on the blog—and then some.
