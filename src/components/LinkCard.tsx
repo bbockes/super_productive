@@ -20,7 +20,7 @@ export function LinkCard({ linkCard }: LinkCardProps) {
   return (
     <div 
       onClick={handleClick}
-      className="bg-gray-900 dark:bg-gray-800 rounded-xl overflow-hidden cursor-pointer hover:transform hover:scale-105 transition-all duration-200 group relative border-2 border-gray-200 dark:border-transparent"
+      className="bg-gray-900 dark:bg-gray-800 rounded-xl overflow-hidden cursor-pointer hover:transform hover:scale-105 transition-all duration-200 group relative border border-gray-200 dark:border-transparent"
     >
       <div className="aspect-video bg-gray-800 dark:bg-gray-700 relative">
         <ResponsiveImage
