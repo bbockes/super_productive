@@ -38,13 +38,12 @@ export const POST_BY_SLUG_QUERY = `*[_type == "post" && slug.current == $slug][0
   subheader
 }`;
 
-export const LINK_CARDS_QUERY = `*[_type == "linkCard"] | order(publishedAt desc) {
+export const LINK_CARDS_QUERY = `*[_type == "linkCard"] | order(_createdAt desc) {
   _id,
   title,
   "image": image.asset->url,
   url,
-  category,
-  publishedAt
+  category
 }`;
 
 export const LINK_CARD_CATEGORIES_QUERY = `*[_type == "linkCard" && defined(category)] | order(category asc) {
