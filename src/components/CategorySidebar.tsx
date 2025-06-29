@@ -82,12 +82,7 @@ export function CategorySidebar({
           <div className="space-y-2">
             {isLinkMode && (
               <div className="text-gray-600 dark:text-gray-400 text-sm font-medium mb-1">
-                <p className={`text-gray-600 dark:text-gray-400 text-sm ${isLinkMode ? 'opacity-0' : ''}`}>
-                  Bite-sized tech tips to level up your productivity
-                </p>
-                <p className={`text-gray-600 dark:text-gray-400 text-sm ${isLinkMode ? 'opacity-0' : ''}`}>
-                  Bite-sized tech tips to level up your productivity
-                </p>
+                Apps for...
               </div>
             )}
             {categories.map(category => (
