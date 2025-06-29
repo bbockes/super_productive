@@ -17,7 +17,6 @@ import { getCategoryColor } from '../utils/categoryColorUtils';
 import { getCategoryDisplayName, getSchemaCategory } from '../utils/categoryMappingUtils';
 import { getCategoryDisplayName, getSchemaCategory } from '../utils/categoryMappingUtils';
 import { getCategoryDisplayName, getSchemaCategory } from '../utils/categoryMappingUtils';
-import { getCategoryDisplayName, getSchemaCategory } from '../utils/categoryMappingUtils';
 import { 
   generateOrganizationSchema, 
   generateWebSiteSchema, 
