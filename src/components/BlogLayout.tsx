@@ -196,28 +196,14 @@ export function BlogLayout() {
     async function fetchLinkData() {
       console.log('🔗 Fetching link cards...');
       setLinkLoading(true);
-      setLinkError(null);
       
       try {
-        // First, test if linkCard document type exists by fetching count
-        const linkCardCount = await sanityClient.fetch(`count(*[_type == "linkCard"])`);
-        console.log('📊 Link card count:', linkCardCount);
-        
-        if (linkCardCount === 0) {
-          console.log('ℹ️ No link cards found in dataset');
-          setLinkCards([]);
-          setLinkCategories([{ name: 'All', color: getCategoryColor('All') }]);
-          return;
-        }
-
         // Fetch link cards from Sanity
         const linkCardsData = await sanityClient.fetch(LINK_CARDS_QUERY);
-        console.log('✅ Link cards fetched successfully:', linkCardsData.length);
         setLinkCards(linkCardsData);
 
         // Fetch link categories from Sanity
         const linkCategoriesData = await sanityClient.fetch(LINK_CARD_CATEGORIES_QUERY);
-        console.log('✅ Link categories fetched successfully:', linkCategoriesData.length);
         
         // Extract unique categories and format them with colors
         const uniqueLinkCategories = [...new Set(linkCategoriesData.map((item: any) => item.category).filter(Boolean))] as string[];
@@ -232,18 +218,7 @@ export function BlogLayout() {
         setLinkCategories(formattedLinkCategories);
       } catch (err: any) {
         console.error('❌ Error fetching link data:', err);
-        
-        // Check if this is a document type error
-        if (err.message && err.message.includes('linkCard')) {
-          console.log('💡 LinkCard document type may not exist in Sanity dataset');
-          setLinkError('Link cards not configured. Please add linkCard document type to your Sanity schema.');
-        } else {
-          setLinkError(err.message || 'Failed to load link data');
-        }
-        
-        // Set fallback data so the app doesn't break
-        setLinkCards([]);
-        setLinkCategories([{ name: 'All', color: getCategoryColor('All') }]);
+        setLinkError(err.message);
       } finally {
         setLinkLoading(false);
       }
@@ -537,34 +512,16 @@ export function BlogLayout() {
               </div>
             )}
 
-            {(isLinkMode && linkError) && (
-              <div className="flex justify-center items-center py-12">
-                <div className="text-center max-w-md">
-                  <div className="text-red-500 mb-2">
-                    Error loading links: {linkError}
-                  </div>
-                  {linkError.includes('linkCard document type') && (
-                    <div className="text-sm text-gray-600 dark:text-gray-400">
-                      <p>To enable link cards, add the linkCard schema to your Sanity studio:</p>
-                      <code className="block mt-2 p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs">
-                        studio-super-productive/schemaTypes/linkCardType.ts
-                      </code>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-            
-            {(!isLinkMode && error) && (
+            {(isLinkMode ? linkError : error) && (
               <div className="flex justify-center items-center py-12">
                 <div className="text-red-500">
-                  Error loading posts: {error}
+                  Error loading {isLinkMode ? 'links' : 'posts'}: {isLinkMode ? linkError : error}
                 </div>
               </div>
             )}
 
             {/* Content Grid */}
-            {!(isLinkMode ? linkLoading : loading) && !(isLinkMode && linkError) && !(!isLinkMode && error) && (
+            {!(isLinkMode ? linkLoading : loading) && !(isLinkMode ? linkError : error) && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
                 {isLinkMode ? (
                   filteredPosts.map((linkCard: any) => (
@@ -579,7 +536,7 @@ export function BlogLayout() {
             )}
 
             {/* No content message */}
-            {!(isLinkMode ? linkLoading : loading) && !(isLinkMode && linkError) && !(!isLinkMode && error) && filteredPosts.length === 0 && (
+            {!(isLinkMode ? linkLoading : loading) && !(isLinkMode ? linkError : error) && filteredPosts.length === 0 && (
               <div className="flex justify-center items-center py-12">
                 <div className="text-gray-600 dark:text-gray-400">
                   {isLinkMode ? (

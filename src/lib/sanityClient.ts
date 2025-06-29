@@ -4,9 +4,7 @@ export const sanityClient = createClient({
   projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
   dataset: import.meta.env.VITE_SANITY_DATASET,
   apiVersion: import.meta.env.VITE_SANITY_API_VERSION || '2023-12-01',
-  useCdn: false, // Disable CDN to avoid caching issues during development
-  perspective: 'published', // Only fetch published documents
-  ignoreBrowserTokenWarning: true // Suppress token warnings in development
+  useCdn: true, // Set to false if you want to ensure fresh content
 });
 
 // GROQ queries
