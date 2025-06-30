@@ -398,7 +398,7 @@ export function BlogModal({
                       src="/read_time.png" 
                       alt="Read time icon example" 
                       className="max-w-full h-auto rounded-lg"
-                      style={{ maxWidth: '400px' }}
+                      style={{ maxWidth: '500px' }}
                     />
                   </div>
                   <div className="w-full max-w-[530px] prose prose-lg max-w-none dark:prose-invert">
