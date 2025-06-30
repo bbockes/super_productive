@@ -432,16 +432,31 @@ export const aboutPost = {
         {
           _type: 'span',
           marks: ['strong'],
-          text: 'So you can get what you need and put it to work—as '
+          text: 'So you can get what you need'
         },
         {
           _type: 'span',
-          marks: ['strong', 'em'],
-          text: 'fast as possible'
+          marks: [],
+          text: ' and '
         },
         {
           _type: 'span',
           marks: ['strong'],
+          text: 'put it to work'
+        },
+        {
+          _type: 'span',
+          marks: [],
+          text: '—as '
+        },
+        {
+          _type: 'span',
+          marks: ['em'],
+          text: 'fast as possible'
+        },
+        {
+          _type: 'span',
+          marks: [],
           text: '.'
         }
       ]
