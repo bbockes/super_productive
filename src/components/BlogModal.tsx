@@ -393,12 +393,12 @@ export function BlogModal({
               {post.id === 'about' && post.psContent && (
                 <>
                   <div className="border-t border-gray-200 dark:border-gray-700 mt-8 mb-4"></div>
-                  <div className="w-full max-w-[530px] mb-4">
+                  <div className="mb-4">
                     <img 
                       src="/read%20time@2x.png" 
                       alt="Read time icon example showing 1 min with clock icon" 
                       className="h-auto max-w-full"
-                      style={{ maxHeight: '200px' }}
+                      style={{ maxHeight: '400px' }}
                     />
                   </div>
                   <div className="w-full max-w-[530px] prose prose-lg max-w-none dark:prose-invert">
