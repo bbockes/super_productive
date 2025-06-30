@@ -367,6 +367,7 @@ export const aboutPost = {
     {
       _type: 'block',
       style: 'normal',
+      listItem: 'bullet',
       children: [
         {
           _type: 'span',
@@ -383,16 +384,12 @@ export const aboutPost = {
     {
       _type: 'block',
       style: 'normal',
+      listItem: 'bullet',
       children: [
         {
           _type: 'span',
           marks: [],
           text: '⏱️ '
-        },
-        {
-          _type: 'span',
-          marks: [],
-          text: ''
         },
         {
           _type: 'span',
@@ -414,16 +411,12 @@ export const aboutPost = {
     {
       _type: 'block',
       style: 'normal',
+      listItem: 'bullet',
       children: [
         {
           _type: 'span',
           marks: [],
           text: '💡 Packed with '
-        },
-        {
-          _type: 'span',
-          marks: [],
-          text: ''
         },
         {
           _type: 'span',

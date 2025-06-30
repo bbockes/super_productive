@@ -409,6 +409,12 @@ export function BlogModal({
                           block: {
                             normal: ({children}) => <p className="text-gray-800 dark:text-gray-200 leading-relaxed mb-4 text-17px">{children}</p>,
                           },
+                          list: {
+                            bullet: ({children}) => <ul className="list-disc list-inside mb-4 space-y-2">{children}</ul>,
+                          },
+                          listItem: {
+                            bullet: ({children}) => <li className="text-gray-800 dark:text-gray-200 text-17px">{children}</li>,
+                          },
                           marks: {
                             strong: ({children}) => <strong className="font-bold text-gray-900 dark:text-white">{children}</strong>,
                             em: ({children}) => <em className="italic text-gray-800 dark:text-gray-200">{children}</em>,
