@@ -4,6 +4,7 @@ import { XIcon, ClockIcon, CopyIcon, CheckIcon, TwitterIcon, LinkedinIcon, Faceb
 import { NewsletterForm } from './NewsletterForm';
 import { getCategoryColor } from '../utils/categoryColorUtils';
 import { ResponsiveImage } from './ResponsiveImage';
+import { useTheme } from '../contexts/ThemeContext';
 import { 
   generateBlogPostSchema,
   generateContextualSchema,
@@ -109,6 +110,8 @@ export function BlogModal({
   post,
   onClose
 }) {
+  const { isDarkMode } = useTheme();
+
   // Add structured data when modal opens
   React.useEffect(() => {
     const schemas = [];
@@ -395,7 +398,7 @@ export function BlogModal({
                   <div className="border-t border-gray-200 dark:border-gray-700 mt-8 mb-4"></div>
                   <div className="w-full max-w-[530px] mb-4">
                     <img 
-                      src="/read_time.png" 
+                      src={isDarkMode ? "/read_time_dark-mode.png" : "/read_time_light-mode.png"}
                       alt="Read time icon example" 
                       className="max-w-full h-auto rounded-lg"
                       style={{ maxWidth: '500px' }}
