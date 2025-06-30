@@ -325,11 +325,17 @@ export const aboutPost = {
           _type: 'span',
           marks: ['strong'],
           text: 'P.S. A newsletter about saving time should respect yours.'
-        },
+        }
+      ]
+    },
+    {
+      _type: 'block',
+      style: 'normal',
+      children: [
         {
           _type: 'span',
           marks: [],
-          text: ' That\'s why each post is '
+          text: 'That\'s why each post is '
         },
         {
           _type: 'span',
