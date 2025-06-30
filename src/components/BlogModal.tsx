@@ -400,7 +400,7 @@ export function BlogModal({
                     <img 
                       src={isDarkMode ? "/read_time_dark-mode.png" : "/read_time.png"}
                       alt="Read time icon example" 
-                      className="w-full max-w-[450px] sm:max-w-[450px] md:max-w-[380px] lg:max-w-[420px] h-auto rounded-lg mx-auto"
+                      className="w-full max-w-[550px] sm:max-w-[550px] md:max-w-[380px] lg:max-w-[420px] h-auto rounded-lg mx-auto"
                     />
                   </div>
                   <div className="w-full max-w-[530px] prose prose-lg max-w-none dark:prose-invert">
