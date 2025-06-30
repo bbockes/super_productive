@@ -388,6 +388,29 @@ export function BlogModal({
                   </div>
                 </div>
               )}
+              
+              {/* P.S. section for About page */}
+              {post.id === 'about' && post.psContent && (
+                <>
+                  <div className="border-t border-gray-200 dark:border-gray-700 mt-8 mb-4"></div>
+                  <div className="w-full max-w-[530px] prose prose-lg max-w-none dark:prose-invert">
+                    <div className="markdown-content text-17px">
+                      <PortableText 
+                        value={post.psContent}
+                        components={{
+                          block: {
+                            normal: ({children}) => <p className="text-gray-800 dark:text-gray-200 leading-relaxed mb-4 text-17px">{children}</p>,
+                          },
+                          marks: {
+                            strong: ({children}) => <strong className="font-bold text-gray-900 dark:text-white">{children}</strong>,
+                            em: ({children}) => <em className="italic text-gray-800 dark:text-gray-200">{children}</em>,
+                          },
+                        }}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

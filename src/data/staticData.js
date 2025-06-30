@@ -315,5 +315,78 @@ export const aboutPost = {
         }
       ]
     }
+  ],
+  psContent: [
+    {
+      _type: 'block',
+      style: 'normal',
+      children: [
+        {
+          _type: 'span',
+          marks: ['strong'],
+          text: 'P.S. A newsletter about saving time should respect yours.'
+        },
+        {
+          _type: 'span',
+          marks: [],
+          text: ' That\'s why each post is '
+        },
+        {
+          _type: 'span',
+          marks: ['strong'],
+          text: 'bite-sized'
+        },
+        {
+          _type: 'span',
+          marks: [],
+          text: ' and '
+        },
+        {
+          _type: 'span',
+          marks: ['strong'],
+          text: 'super short'
+        },
+        {
+          _type: 'span',
+          marks: [],
+          text: '—just look for the '
+        },
+        {
+          _type: 'span',
+          marks: ['strong'],
+          text: 'read-time icon'
+        },
+        {
+          _type: 'span',
+          marks: [],
+          text: '—so you can '
+        },
+        {
+          _type: 'span',
+          marks: ['strong'],
+          text: 'get the insights you need'
+        },
+        {
+          _type: 'span',
+          marks: [],
+          text: ' and '
+        },
+        {
+          _type: 'span',
+          marks: ['strong'],
+          text: 'put them to work'
+        },
+        {
+          _type: 'span',
+          marks: [],
+          text: ' '
+        },
+        {
+          _type: 'span',
+          marks: ['em'],
+          text: 'as fast as possible!'
+        }
+      ]
+    }
   ]
 };
