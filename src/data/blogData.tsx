@@ -320,7 +320,32 @@ export const aboutPost = {
         {
           _type: 'span',
           marks: ['strong'],
-          text: 'P.S. A newsletter about saving time should respect yours.'
+          text: 'P.S.'
+        },
+        {
+          _type: 'span',
+          marks: [],
+          text: ' A newsletter about '
+        },
+        {
+          _type: 'span',
+          marks: ['em'],
+          text: 'saving time'
+        },
+        {
+          _type: 'span',
+          marks: [],
+          text: ' should '
+        },
+        {
+          _type: 'span',
+          marks: ['strong'],
+          text: 'respect yours'
+        },
+        {
+          _type: 'span',
+          marks: [],
+          text: '.'
         }
       ]
     },
@@ -331,42 +356,96 @@ export const aboutPost = {
         {
           _type: 'span',
           marks: [],
-          text: 'That\'s why each post is '
+          text: 'That\'s why each post is:'
+        }
+      ]
+    },
+    {
+      _type: 'block',
+      style: 'normal',
+      children: [
+        {
+          _type: 'span',
+          marks: [],
+          text: '✅ '
         },
         {
           _type: 'span',
           marks: ['strong'],
-          text: 'bite-sized'
+          text: 'Bite-sized'
+        }
+      ]
+    },
+    {
+      _type: 'block',
+      style: 'normal',
+      children: [
+        {
+          _type: 'span',
+          marks: [],
+          text: '⏱️ '
         },
         {
           _type: 'span',
           marks: [],
-          text: ' and '
+          text: ''
         },
         {
           _type: 'span',
           marks: ['strong'],
-          text: 'super short'
+          text: 'Super short'
         },
         {
           _type: 'span',
           marks: [],
-          text: '—just look for the '
+          text: ' — just look for the '
         },
         {
           _type: 'span',
           marks: ['strong'],
           text: 'read-time icon'
+        }
+      ]
+    },
+    {
+      _type: 'block',
+      style: 'normal',
+      children: [
+        {
+          _type: 'span',
+          marks: [],
+          text: '💡 Packed with '
         },
         {
           _type: 'span',
           marks: [],
-          text: '—so you can '
+          text: ''
         },
         {
           _type: 'span',
           marks: ['strong'],
-          text: 'get the insights you need'
+          text: 'insights you can use immediately'
+        }
+      ]
+    },
+    {
+      _type: 'block',
+      style: 'normal',
+      children: [
+        {
+          _type: 'span',
+          marks: [],
+          text: 'So you can '
+        },
+        {
+          _type: 'span',
+          marks: [],
+          text: ''
+        },
+        {
+          _type: 'span',
+          marks: ['strong'],
+          text: 'get what you need'
         },
         {
           _type: 'span',
@@ -376,17 +455,7 @@ export const aboutPost = {
         {
           _type: 'span',
           marks: ['strong'],
-          text: 'put them to work'
-        },
-        {
-          _type: 'span',
-          marks: [],
-          text: ' '
-        },
-        {
-          _type: 'span',
-          marks: ['em'],
-          text: 'as fast as possible!'
+          text: 'put it to work as fast as possible.'
         }
       ]
     }
