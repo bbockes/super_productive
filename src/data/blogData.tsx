@@ -417,7 +417,12 @@ export const aboutPost = {
         {
           _type: 'span',
           marks: ['strong'],
-          text: 'insights you can use immediately'
+          text: 'insights you can use '
+        },
+        {
+          _type: 'span',
+          marks: ['strong', 'em'],
+          text: 'immediately'
         }
       ]
     }
