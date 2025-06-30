@@ -431,28 +431,18 @@ export const aboutPost = {
       children: [
         {
           _type: 'span',
-          marks: [],
-          text: 'So you can '
+          marks: ['strong'],
+          text: 'So you can get what you need and put it to work—as '
         },
         {
           _type: 'span',
-          marks: [],
-          text: ''
+          marks: ['strong', 'em'],
+          text: 'fast as possible'
         },
         {
           _type: 'span',
           marks: ['strong'],
-          text: 'get what you need'
-        },
-        {
-          _type: 'span',
-          marks: [],
-          text: ' and '
-        },
-        {
-          _type: 'span',
-          marks: ['strong'],
-          text: 'put it to work as fast as possible.'
+          text: '.'
         }
       ]
     }
