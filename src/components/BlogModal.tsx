@@ -393,6 +393,14 @@ export function BlogModal({
               {post.id === 'about' && post.psContent && (
                 <>
                   <div className="border-t border-gray-200 dark:border-gray-700 mt-8 mb-4"></div>
+                  <div className="w-full max-w-[530px] mb-4">
+                    <img 
+                      src="/read_time.png" 
+                      alt="Read time icon example" 
+                      className="max-w-full h-auto rounded-lg"
+                      style={{ maxWidth: '400px' }}
+                    />
+                  </div>
                   <div className="w-full max-w-[530px] prose prose-lg max-w-none dark:prose-invert">
                     <div className="markdown-content text-17px">
                       <PortableText 
