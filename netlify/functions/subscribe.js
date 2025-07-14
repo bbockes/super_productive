@@ -1,4 +1,6 @@
-exports.handler = async (event, context) => {
+import 'dotenv/config';
+
+export const handler = async (event, context) => {
   // Only allow POST requests
   if (event.httpMethod !== 'POST') {
     return {
@@ -29,7 +31,17 @@ exports.handler = async (event, context) => {
     const { email } = JSON.parse(event.body || '{}');
 
     // Validate email
-    if (!email || !email.includes('@')) {
+    if (!email) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: 'Email is required' })
+      };
+    }
+
+    const trimmedEmail = email.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
       return {
         statusCode: 400,
         headers,
@@ -40,82 +52,57 @@ exports.handler = async (event, context) => {
     // Get EmailOctopus credentials from environment variables
     const apiKey = process.env.EMAILOCTOPUS_API_KEY;
     const listId = process.env.EMAILOCTOPUS_LIST_ID;
-
-    // Debug logging
-    console.log('Environment variables check:', {
-      hasApiKey: !!apiKey,
-      hasListId: !!listId,
-      apiKeyPrefix: apiKey ? apiKey.substring(0, 5) + '...' : 'none',
-      listIdPrefix: listId ? listId.substring(0, 8) + '...' : 'none'
+    
+    console.log('Environment Variables:', {
+      EMAILOCTOPUS_API_KEY: apiKey ? `${apiKey.substring(0, 5)}...${apiKey.substring(apiKey.length - 3)}` : 'NOT FOUND',
+      EMAILOCTOPUS_LIST_ID: listId || 'NOT FOUND'
     });
 
     if (!apiKey || !listId) {
-      console.error('EmailOctopus credentials missing:', { 
-        hasApiKey: !!apiKey, 
-        hasListId: !!listId 
-      });
+      console.error('Missing EmailOctopus configuration');
       return {
         statusCode: 500,
         headers,
-        body: JSON.stringify({ error: 'Newsletter service configuration is missing' })
+        body: JSON.stringify({ error: 'Server configuration error' })
       };
     }
 
-    console.log('Attempting to subscribe email:', email, 'to list:', listId);
+    // Prepare the request body for EmailOctopus
+    const requestBody = new URLSearchParams();
+    requestBody.append('api_key', apiKey);
+    requestBody.append('email_address', trimmedEmail);
+    // Add any custom fields if needed
+    // requestBody.append('fields[FirstName]', 'John');
+    // requestBody.append('fields[LastName]', 'Doe');
 
-    // Make request to EmailOctopus API
+    console.log('Sending to EmailOctopus:', {
+      listId,
+      email: `${trimmedEmail.substring(0, 2)}...@...${trimmedEmail.split('@')[1]}`,
+      endpoint: `https://emailoctopus.com/api/1.6/lists/${listId}/contacts`
+    });
+
     const response = await fetch(`https://emailoctopus.com/api/1.6/lists/${listId}/contacts`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: JSON.stringify({
-        api_key: apiKey,
-        email_address: email,
-        status: 'PENDING'  // Will send a confirmation email
-      }),
+      body: requestBody.toString()
     });
 
-    let responseData;
-    try {
-      responseData = await response.json();
-    } catch (e) {
-      console.error('Failed to parse EmailOctopus response:', e);
-      return {
-        statusCode: 500,
-        headers,
-        body: JSON.stringify({ error: 'Failed to process response from newsletter service' })
-      };
-    }
-
-    console.log('EmailOctopus response status:', response.status);
-    console.log('EmailOctopus response body:', JSON.stringify(responseData, null, 2));
-
+    const responseData = await response.json().catch(() => ({}));
+    
     if (!response.ok) {
       console.error('EmailOctopus API error:', {
         status: response.status,
         statusText: response.statusText,
-        body: responseData
+        error: responseData.error
       });
 
-      // Handle specific EmailOctopus error messages
       let errorMessage = 'Failed to subscribe to newsletter';
-      
-      if (response.status === 400) {
-        // EmailOctopus returns 400 for invalid emails and already subscribed
-        if (responseData.error?.code === 'ALREADY_SUBSCRIBED') {
-          errorMessage = 'This email is already subscribed';
-        } else if (responseData.error?.code === 'INVALID_PARAMETERS') {
-          errorMessage = 'Invalid email address';
-        } else {
-          errorMessage = responseData.error?.message || 'Invalid request';
-        }
-      } else if (response.status === 401) {
-        errorMessage = 'Newsletter service authentication failed';
-      } else if (response.status === 422) {
-        errorMessage = responseData.error?.message || 'Invalid email address';
-      } else if (response.status >= 500) {
-        errorMessage = 'Newsletter service is currently unavailable. Please try again later.';
+      if (response.status === 401) {
+        errorMessage = 'Invalid API key';
+      } else if (responseData.error?.message) {
+        errorMessage = responseData.error.message;
       }
 
       return {
@@ -125,8 +112,7 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // Success response
-    console.log('✅ Successfully subscribed:', email);
+    console.log('✅ Successfully subscribed:', trimmedEmail);
     return {
       statusCode: 200,
       headers,
