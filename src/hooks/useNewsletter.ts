@@ -19,8 +19,9 @@ export function useNewsletter(): UseNewsletterReturn {
     setIsSuccess(false);
 
     try {
-      // Validate email on client side
-      if (!email || !email.includes('@')) {
+      // More permissive email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email || !emailRegex.test(email)) {
         throw new Error('Please enter a valid email address');
       }
 
@@ -31,7 +32,7 @@ export function useNewsletter(): UseNewsletterReturn {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: email,
+          email: email.trim(), // Trim whitespace from email
         }),
       });
 
@@ -47,25 +48,17 @@ export function useNewsletter(): UseNewsletterReturn {
       } else {
         throw new Error('Unexpected response from newsletter service');
       }
-
     } catch (err) {
       console.error('Newsletter subscription error:', err);
-      
-      // Handle network errors gracefully
-      if (err instanceof TypeError && err.message.includes('fetch')) {
-        setError('Unable to connect to newsletter service. Please try again.');
-      } else {
-        setError(err instanceof Error ? err.message : 'An unexpected error occurred');
-      }
+      setError(err instanceof Error ? err.message : 'An unknown error occurred');
     } finally {
       setIsLoading(false);
     }
   };
 
   const reset = () => {
-    setIsLoading(false);
-    setIsSuccess(false);
     setError(null);
+    setIsSuccess(false);
   };
 
   return {
