@@ -71,6 +71,9 @@ export const handler = async (event, context) => {
     const requestBody = new URLSearchParams();
     requestBody.append('api_key', apiKey);
     requestBody.append('email_address', trimmedEmail);
+    // Set status for double opt-in
+    requestBody.append('status', 'PENDING');
+    
     // Add any custom fields if needed
     // requestBody.append('fields[FirstName]', 'John');
     // requestBody.append('fields[LastName]', 'Doe');
