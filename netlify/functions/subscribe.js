@@ -37,33 +37,22 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // Get ConvertKit credentials from environment variables
-    const apiKey = process.env.CONVERTKIT_API_KEY;
-    const formId = process.env.CONVERTKIT_FORM_ID;
+    // Get EmailOctopus credentials from environment variables
+    const apiKey = process.env.EMAILOCTOPUS_API_KEY;
+    const listId = process.env.EMAILOCTOPUS_LIST_ID;
 
-    // Debug logging to help troubleshoot
+    // Debug logging
     console.log('Environment variables check:', {
       hasApiKey: !!apiKey,
-      hasFormId: !!formId,
-      apiKeyLength: apiKey ? apiKey.length : 0,
-      formIdValue: formId, // Form ID is not sensitive, safe to log
-      formIdType: typeof formId
+      hasListId: !!listId,
+      apiKeyPrefix: apiKey ? apiKey.substring(0, 5) + '...' : 'none',
+      listIdPrefix: listId ? listId.substring(0, 8) + '...' : 'none'
     });
 
-    // Validate form ID format (should be numeric)
-    if (formId && !/^\d+$/.test(formId)) {
-      console.error('Form ID should be numeric, got:', formId);
-      return {
-        statusCode: 500,
-        headers,
-        body: JSON.stringify({ error: 'Invalid form ID format - should be numeric' })
-      };
-    }
-
-    if (!apiKey || !formId) {
-      console.error('ConvertKit credentials missing:', { 
+    if (!apiKey || !listId) {
+      console.error('EmailOctopus credentials missing:', { 
         hasApiKey: !!apiKey, 
-        hasFormId: !!formId 
+        hasListId: !!listId 
       });
       return {
         statusCode: 500,
@@ -72,62 +61,61 @@ exports.handler = async (event, context) => {
       };
     }
 
-    console.log('Attempting to subscribe email:', email, 'to form:', formId);
+    console.log('Attempting to subscribe email:', email, 'to list:', listId);
 
-    // Make request to ConvertKit API
-    const response = await fetch(`https://api.convertkit.com/v3/forms/${formId}/subscribe`, {
+    // Make request to EmailOctopus API
+    const response = await fetch(`https://emailoctopus.com/api/1.6/lists/${listId}/contacts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         api_key: apiKey,
-        email: email,
+        email_address: email,
+        status: 'PENDING'  // Will send a confirmation email
       }),
     });
 
-    let responseText;
+    let responseData;
     try {
-      responseText = await response.text();
+      responseData = await response.json();
     } catch (e) {
-      console.error('Failed to get response from ConvertKit API:', e);
+      console.error('Failed to parse EmailOctopus response:', e);
       return {
         statusCode: 500,
         headers,
-        body: JSON.stringify({ error: 'Failed to get response from newsletter service' })
+        body: JSON.stringify({ error: 'Failed to process response from newsletter service' })
       };
     }
 
-    console.log('ConvertKit response status:', response.status);
-    console.log('ConvertKit response body:', responseText);
+    console.log('EmailOctopus response status:', response.status);
+    console.log('EmailOctopus response body:', JSON.stringify(responseData, null, 2));
 
     if (!response.ok) {
-      let errorData;
-      try {
-        errorData = JSON.parse(responseText);
-      } catch (e) {
-        errorData = { message: responseText };
-      }
-
-      console.error('ConvertKit API error:', {
+      console.error('EmailOctopus API error:', {
         status: response.status,
         statusText: response.statusText,
-        body: errorData
+        body: responseData
       });
 
-      // Handle specific ConvertKit error messages
+      // Handle specific EmailOctopus error messages
       let errorMessage = 'Failed to subscribe to newsletter';
       
       if (response.status === 400) {
-        errorMessage = 'Invalid email address or already subscribed';
+        // EmailOctopus returns 400 for invalid emails and already subscribed
+        if (responseData.error?.code === 'ALREADY_SUBSCRIBED') {
+          errorMessage = 'This email is already subscribed';
+        } else if (responseData.error?.code === 'INVALID_PARAMETERS') {
+          errorMessage = 'Invalid email address';
+        } else {
+          errorMessage = responseData.error?.message || 'Invalid request';
+        }
       } else if (response.status === 401) {
         errorMessage = 'Newsletter service authentication failed';
-      } else if (response.status === 404) {
-        errorMessage = 'Newsletter form not found - please check configuration';
       } else if (response.status === 422) {
-        errorMessage = 'Email address is invalid';
-      } else if (errorData.message) {
-        errorMessage = errorData.message;
+        errorMessage = responseData.error?.message || 'Invalid email address';
+      } else if (response.status >= 500) {
+        errorMessage = 'Newsletter service is currently unavailable. Please try again later.';
       }
 
       return {
@@ -137,34 +125,16 @@ exports.handler = async (event, context) => {
       };
     }
 
-    let result;
-    try {
-      result = JSON.parse(responseText);
-    } catch (e) {
-      console.error('Failed to parse ConvertKit response:', responseText);
-      return {
-        statusCode: 500,
-        headers,
-        body: JSON.stringify({ error: 'Unexpected response from newsletter service' })
-      };
-    }
-
-    // ConvertKit returns a subscription object on success
-    if (result.subscription) {
-      console.log('✅ Successfully subscribed:', email);
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({ success: true, message: 'Successfully subscribed!' })
-      };
-    } else {
-      console.error('Unexpected ConvertKit response structure:', result);
-      return {
-        statusCode: 500,
-        headers,
-        body: JSON.stringify({ error: 'Unexpected response from newsletter service' })
-      };
-    }
+    // Success response
+    console.log('✅ Successfully subscribed:', email);
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ 
+        success: true, 
+        message: 'Please check your email to confirm your subscription!' 
+      })
+    };
 
   } catch (err) {
     console.error('Newsletter subscription error:', err);
@@ -173,7 +143,7 @@ exports.handler = async (event, context) => {
       statusCode: 500,
       headers,
       body: JSON.stringify({ 
-        error: err.message || 'An unexpected error occurred' 
+        error: 'An unexpected error occurred. Please try again later.' 
       })
     };
   }
