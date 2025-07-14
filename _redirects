@@ -1,0 +1,6 @@
+# Redirect trailing slashes to non-trailing slash URLs for posts only
+/posts/*/ /posts/:splat 301
+
+# Fallback to SPA for client-side routing
+# React router will handle both /about and /about/ routes
+/* /index.html 200
