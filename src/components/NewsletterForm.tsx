@@ -40,7 +40,7 @@ export function NewsletterForm({
     return (
       <div className={`flex items-center gap-2 text-green-600 dark:text-green-400 ${className}`}>
         <CheckIcon className="w-5 h-5" />
-        <span className="font-medium">Nice! Now check your inbox to opt-in :)</span>
+        <span className="font-medium">Nice! Now check your inbox (or spam/promo folder) to confirm!</span>
       </div>
     );
   }
