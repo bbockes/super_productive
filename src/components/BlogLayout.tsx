@@ -499,10 +499,10 @@ export function BlogLayout() {
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0 ml-auto">
                 <div className="flex items-center gap-3">
                   <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
-                    <TwitterIcon className="w-5 h-5" />
+                    <TwitterIcon className="w-5 h-5 2xl:w-4 2xl:h-4" />
                   </a>
                   <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
-                    <LinkedinIcon className="w-5 h-5" />
+                    <LinkedinIcon className="w-5 h-5 2xl:w-4 2xl:h-4" />
                   </a>
                   <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
                   <DarkModeToggle />
@@ -552,10 +552,10 @@ export function BlogLayout() {
                 <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex-shrink-0">
                   <div className="flex items-center gap-3">
                     <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
-                      <TwitterIcon className="w-5 h-5" />
+                      <TwitterIcon className="w-5 h-5 2xl:w-4 2xl:h-4" />
                     </a>
                     <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
-                      <LinkedinIcon className="w-5 h-5" />
+                      <LinkedinIcon className="w-5 h-5 2xl:w-4 2xl:h-4" />
                     </a>
                     <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
                     <DarkModeToggle />
