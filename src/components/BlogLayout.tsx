@@ -9,7 +9,7 @@ import { DarkModeToggle } from './DarkModeToggle';
 import { NewsletterForm } from './NewsletterForm';
 import { SearchSubscribeToggle } from './SearchSubscribeToggle';
 import { fetchAboutPage, transformAboutPageToBlogPost } from '../lib/aboutPageService';
-import { LinkedinIcon } from 'lucide-react';
+import { LinkedinIcon, TwitterIcon } from 'lucide-react';
 import { sanityClient, POSTS_QUERY, CATEGORIES_QUERY, LINK_CARDS_QUERY, LINK_CARD_CATEGORIES_QUERY } from '../lib/sanityClient';
 import { slugify, findPostBySlug, filterPostsBySearchQuery } from '../utils/slugify';
 import { generateMetaDescription, generatePageTitle, DEFAULT_OG_IMAGE } from '../utils/seoUtils.js';
@@ -498,6 +498,9 @@ export function BlogLayout() {
               )}
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex items-center flex-shrink-0 ml-auto">
                 <div className="flex items-center gap-3">
+                  <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                    <TwitterIcon className="w-5 h-5" />
+                  </a>
                   <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
                     <LinkedinIcon className="w-5 h-5" />
                   </a>
@@ -522,6 +525,9 @@ export function BlogLayout() {
                   </div>
                   <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex-shrink-0 tablet-social-container">
                     <div className="flex items-center gap-3">
+                      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                        <TwitterIcon className="w-5 h-5" />
+                      </a>
                       <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
                         <LinkedinIcon className="w-5 h-5" />
                       </a>
@@ -545,6 +551,9 @@ export function BlogLayout() {
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm flex-shrink-0">
                   <div className="flex items-center gap-3">
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                      <TwitterIcon className="w-5 h-5" />
+                    </a>
                     <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
                       <LinkedinIcon className="w-5 h-5" />
                     </a>
