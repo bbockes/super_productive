@@ -195,6 +195,18 @@ export function CategorySidebar({
       </div>
 
       <div className="p-6 pt-0 flex-shrink-0">
+        {/* Mode Toggle Button */}
+        {onToggleLinkMode && (
+          <button
+            onClick={onToggleLinkMode}
+            className="w-full mb-3 px-3 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 transition-all duration-200 flex items-center justify-center gap-2"
+          >
+            <ArrowLeftRight className="w-4 h-4" />
+            {isLinkMode ? 'Posts' : 'Apps'}
+          </button>
+        )}
+        
+        {/* About Button */}
         <button 
           onClick={handleAboutClick}
           className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200"
