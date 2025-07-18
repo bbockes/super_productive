@@ -22,6 +22,50 @@ import {
   insertMultipleStructuredData 
 } from '../utils/schemaUtils';
 
+// Define the new blog category hierarchy
+const BLOG_CATEGORIES_HIERARCHY = [
+  {
+    name: 'Explore',
+    subCategories: [
+      { name: 'Discovery', slug: 'Discovery' },
+      { name: 'Research', slug: 'Research' },
+      { name: 'Ideation', slug: 'Ideation' },
+      { name: 'Validation', slug: 'Validation' },
+      { name: 'Feedback', slug: 'Feedback' }
+    ]
+  },
+  {
+    name: 'Shape',
+    subCategories: [
+      { name: 'Decision-making', slug: 'Decision-making' },
+      { name: 'Prototyping', slug: 'Prototyping' },
+      { name: 'Planning', slug: 'Planning' },
+      { name: 'Alignment', slug: 'Alignment' },
+      { name: 'Communication', slug: 'Communication' }
+    ]
+  },
+  {
+    name: 'Build',
+    subCategories: [
+      { name: 'Building', slug: 'Building' },
+      { name: 'Shortcuts', slug: 'Shortcuts' },
+      { name: 'Testing', slug: 'Testing' },
+      { name: 'Documentation', slug: 'Documentation' },
+      { name: 'Iteration', slug: 'Iteration' }
+    ]
+  },
+  {
+    name: 'Grow',
+    subCategories: [
+      { name: 'Marketing', slug: 'Marketing' },
+      { name: 'Onboarding', slug: 'Onboarding' },
+      { name: 'Measurement', slug: 'Measurement' },
+      { name: 'Scaling', slug: 'Scaling' },
+      { name: 'Retention', slug: 'Retention' }
+    ]
+  }
+];
+
 // Add type definitions for posts and categories
 interface Post {
   id: string;
@@ -111,7 +155,6 @@ export function BlogLayout() {
   
   const [posts, setPosts] = useState<Post[]>([]);
   const [linkCards, setLinkCards] = useState<LinkCard[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
   const [linkCategories, setLinkCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [linkLoading, setLinkLoading] = useState<boolean>(true);
@@ -169,20 +212,6 @@ export function BlogLayout() {
 
         setPosts(transformedPosts);
 
-        // Fetch categories from Sanity
-        const categoriesData = await sanityClient.fetch(CATEGORIES_QUERY);
-        
-        // Extract unique categories and format them with colors
-        const uniqueCategories = [...new Set(categoriesData.map(item => item.category).filter(Boolean))];
-        const formattedCategories = [
-          { name: 'All', color: getCategoryColor('All') },
-          ...uniqueCategories.map(categoryName => ({
-            name: categoryName,
-            color: getCategoryColor(categoryName)
-          }))
-        ];
-
-        setCategories(formattedCategories);
       } catch (err: any) {
         console.error('❌ Error fetching blog data:', err);
         setError(err.message);
@@ -437,7 +466,8 @@ export function BlogLayout() {
       {/* Desktop/Tablet Sidebar - shows on medium screens and up */}
       <div className="hidden md:block flex-shrink-0">
         <CategorySidebar 
-          categories={isLinkMode ? linkCategories : categories} 
+          categories={linkCategories}
+          blogCategoriesHierarchy={BLOG_CATEGORIES_HIERARCHY}
           selectedCategory={selectedCategory} 
           onCategorySelect={handleCategorySelect} 
           onAboutClick={handleAboutClick}
@@ -451,7 +481,8 @@ export function BlogLayout() {
         <div className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40" onClick={toggleMobileMenu}>
           <div className="fixed right-0 top-0 h-full w-80 bg-white dark:bg-gray-800 shadow-lg" onClick={(e) => e.stopPropagation()}>
             <CategorySidebar 
-              categories={isLinkMode ? linkCategories : categories} 
+              categories={linkCategories}
+              blogCategoriesHierarchy={BLOG_CATEGORIES_HIERARCHY}
               selectedCategory={selectedCategory} 
               onCategorySelect={handleCategorySelect} 
               onAboutClick={handleAboutClick}

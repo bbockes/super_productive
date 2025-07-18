@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
-import { XIcon, ArrowLeftRight } from 'lucide-react';
+import { XIcon, ArrowLeftRight, ChevronDownIcon, ChevronRightIcon } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { getCategoryColor, getCategoryHoverClassOptimized, getCategorySelectedClass } from '../utils/categoryColorUtils';
 
+interface SubCategory {
+  name: string;
+  slug: string;
+}
+
+interface BlogCategoryHierarchy {
+  name: string;
+  subCategories: SubCategory[];
+}
+
 interface CategorySidebarProps {
   categories: Array<{ name: string; color: string }>;
+  blogCategoriesHierarchy?: BlogCategoryHierarchy[];
   selectedCategory: string;
   onCategorySelect: (category: string) => void;
   onAboutClick: () => void;
@@ -16,6 +27,7 @@ interface CategorySidebarProps {
 
 export function CategorySidebar({
   categories,
+  blogCategoriesHierarchy,
   selectedCategory,
   onCategorySelect,
   onAboutClick,
@@ -26,6 +38,7 @@ export function CategorySidebar({
 }: CategorySidebarProps) {
   const { isDarkMode } = useTheme();
   const [logoError, setLogoError] = useState(false);
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['Explore', 'Shape', 'Build', 'Grow']));
 
   const handleAboutClick = () => {
     onAboutClick();
@@ -39,6 +52,15 @@ export function CategorySidebar({
     setLogoError(true);
   };
 
+  const toggleCategory = (categoryName: string) => {
+    const newExpanded = new Set(expandedCategories);
+    if (newExpanded.has(categoryName)) {
+      newExpanded.delete(categoryName);
+    } else {
+      newExpanded.add(categoryName);
+    }
+    setExpandedCategories(newExpanded);
+  };
   return (
     <aside className={`${isMobile ? 'w-full h-full' : 'w-64 h-full'} bg-white dark:bg-gray-800 ${!isMobile ? 'border-r border-gray-200 dark:border-gray-700' : ''} flex flex-col overflow-hidden`}>
       {isMobile && (
@@ -54,6 +76,12 @@ export function CategorySidebar({
         </div>
       )}
 
+  const handleCategorySelect = (category: string) => {
+    onCategorySelect(category);
+    if (isMobile && onClose) {
+      onClose();
+    }
+  };
       <div className="flex-1 overflow-y-auto">
         <div className="p-6">
           {!isMobile && (
@@ -99,27 +127,87 @@ export function CategorySidebar({
                     : `text-gray-700 dark:text-gray-300 ${getCategoryHoverClassOptimized(category.name)}`
                 }`}
               >
-                {category.name === 'All' && isLinkMode ? '→ Every Use-Case' : category.name}
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                {isLinkMode ? 'Categories' : 'Topics'}
+              </h2>
               </button>
             ))}
           </div>
         </div>
-      </div>
+            {isLinkMode ? (
       
       <div className="p-6 pt-0 flex-shrink-0">
         <button 
-          onClick={handleAboutClick}
-          className="w-full mb-3 px-6 py-2 bg-transparent border-2 border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-purple-50 hover:border-purple-500 dark:hover:bg-purple-900/20 dark:hover:border-purple-600 transition-all duration-200"
-        >
-          About
-        </button>
-        {onToggleLinkMode && (
-          <button 
-            onClick={onToggleLinkMode}
-            className="w-full px-6 py-2 bg-transparent border-2 border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-blue-50 hover:border-blue-500 dark:hover:bg-blue-900/20 dark:hover:border-blue-500 transition-all duration-200 flex items-center justify-center gap-2"
-          >
-            {isLinkMode ? 'Posts' : 'Apps'}
-            <ArrowLeftRight className="w-4 h-4" />
+            ) : (
+              <div className="text-gray-600 dark:text-gray-400 text-sm font-medium mb-1">
+                Posts for...
+              </div>
+            )}
+            
+            {/* All button */}
+            <button
+              onClick={() => handleCategorySelect('All')}
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                selectedCategory === 'All' 
+                  ? getCategorySelectedClass({ name: 'All', color: 'bg-gray-800' }, isDarkMode)
+                  : `text-gray-700 dark:text-gray-300 ${getCategoryHoverClassOptimized('All')}`
+              }`}
+            >
+              {isLinkMode ? '→ Every Use-Case' : '→ Every Topic'}
+            </button>
+            
+            {/* Blog categories hierarchy or link categories */}
+            {isLinkMode ? (
+              // Original link categories
+              categories.slice(1).map(category => (
+                <button
+                  key={category.name}
+                  onClick={() => handleCategorySelect(category.name)}
+                  className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    selectedCategory === category.name 
+                      ? getCategorySelectedClass(category, isDarkMode)
+                      : `text-gray-700 dark:text-gray-300 ${getCategoryHoverClassOptimized(category.name)}`
+                  }`}
+                >
+                  {category.name}
+                </button>
+              ))
+            ) : (
+              // Blog categories hierarchy
+              blogCategoriesHierarchy?.map(mainCategory => (
+                <div key={mainCategory.name} className="mb-2">
+                  <button
+                    onClick={() => toggleCategory(mainCategory.name)}
+                    className="w-full flex items-center justify-between px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm font-medium transition-all duration-200"
+                  >
+                    <span>{mainCategory.name}</span>
+                    {expandedCategories.has(mainCategory.name) ? (
+                      <ChevronDownIcon className="w-4 h-4" />
+                    ) : (
+                      <ChevronRightIcon className="w-4 h-4" />
+                    )}
+                  </button>
+                  
+                  {expandedCategories.has(mainCategory.name) && (
+                    <div className="ml-4 mt-1 space-y-1">
+                      {mainCategory.subCategories.map(subCategory => (
+                        <button
+                          key={subCategory.slug}
+                          onClick={() => handleCategorySelect(subCategory.slug)}
+                          className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                            selectedCategory === subCategory.slug 
+                              ? getCategorySelectedClass({ name: subCategory.name, color: getCategoryColor(subCategory.name) }, isDarkMode)
+                              : `text-gray-600 dark:text-gray-400 ${getCategoryHoverClassOptimized(subCategory.name)}`
+                          }`}
+                        >
+                          {subCategory.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
           </button>
         )}
       </div>

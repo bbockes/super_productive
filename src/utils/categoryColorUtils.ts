@@ -1,17 +1,44 @@
 // Static color mapping for existing categories to maintain their current colors
 const staticColorMap: Record<string, string> = {
   'All': 'bg-gray-800',
+  // Main categories
+  'Explore': 'bg-blue-600',
+  'Shape': 'bg-green-600', 
+  'Build': 'bg-purple-600',
+  'Grow': 'bg-orange-600',
+  // Explore sub-categories
+  'Discovery': 'bg-blue-500',
+  'Research': 'bg-blue-500',
+  'Ideation': 'bg-blue-500',
+  'Validation': 'bg-blue-500',
+  'Feedback': 'bg-blue-500',
+  // Shape sub-categories  
+  'Decision-making': 'bg-green-500',
+  'Prototyping': 'bg-green-500',
+  'Planning': 'bg-green-500',
+  'Alignment': 'bg-green-500',
+  'Communication': 'bg-green-500',
+  // Build sub-categories
+  'Building': 'bg-purple-500',
+  'Shortcuts': 'bg-purple-500',
+  'Testing': 'bg-purple-500',
+  'Documentation': 'bg-purple-500',
+  'Iteration': 'bg-purple-500',
+  // Grow sub-categories
+  'Marketing': 'bg-orange-500',
+  'Onboarding': 'bg-orange-500',
+  'Measurement': 'bg-orange-500',
+  'Scaling': 'bg-orange-500',
+  'Retention': 'bg-orange-500',
+  // Legacy categories (kept for backwards compatibility)
   'Writing': 'bg-blue-500',
   'Learning': 'bg-red-500',
-  'Planning': 'bg-green-500',
-  'Building': 'bg-pink-500',
   'Creativity': 'bg-yellow-500',
   'Growth': 'bg-purple-500',
   'Focus': 'bg-orange-500',
   'Errors': 'bg-orange-500',
-  'Communication': 'bg-indigo-500',
   'Thinking': 'bg-teal-500',
-  'Shortcuts': 'bg-emerald-500'
+  'Legacy': 'bg-gray-500'
 };
 
 // Color mapping for link categories (Apps view)
@@ -120,17 +147,44 @@ export function getCategorySelectedClass(category: { name: string; color: string
 // Static hover mapping for better performance (optional optimization)
 const staticHoverMap: Record<string, string> = {
   'All': 'hover:bg-gray-800 hover:text-white dark:hover:bg-white dark:hover:text-gray-800',
+  // Main categories
+  'Explore': 'hover:bg-blue-600 hover:text-white dark:hover:text-gray-300',
+  'Shape': 'hover:bg-green-600 hover:text-white dark:hover:text-gray-300',
+  'Build': 'hover:bg-purple-600 hover:text-white dark:hover:text-gray-300',
+  'Grow': 'hover:bg-orange-600 hover:text-white dark:hover:text-gray-300',
+  // Explore sub-categories
+  'Discovery': 'hover:bg-blue-500 hover:text-white dark:hover:text-gray-300',
+  'Research': 'hover:bg-blue-500 hover:text-white dark:hover:text-gray-300',
+  'Ideation': 'hover:bg-blue-500 hover:text-white dark:hover:text-gray-300',
+  'Validation': 'hover:bg-blue-500 hover:text-white dark:hover:text-gray-300',
+  'Feedback': 'hover:bg-blue-500 hover:text-white dark:hover:text-gray-300',
+  // Shape sub-categories
+  'Decision-making': 'hover:bg-green-500 hover:text-white dark:hover:text-gray-300',
+  'Prototyping': 'hover:bg-green-500 hover:text-white dark:hover:text-gray-300',
+  'Planning': 'hover:bg-green-500 hover:text-white dark:hover:text-gray-300',
+  'Alignment': 'hover:bg-green-500 hover:text-white dark:hover:text-gray-300',
+  'Communication': 'hover:bg-green-500 hover:text-white dark:hover:text-gray-300',
+  // Build sub-categories
+  'Building': 'hover:bg-purple-500 hover:text-white dark:hover:text-gray-300',
+  'Shortcuts': 'hover:bg-purple-500 hover:text-white dark:hover:text-gray-300',
+  'Testing': 'hover:bg-purple-500 hover:text-white dark:hover:text-gray-300',
+  'Documentation': 'hover:bg-purple-500 hover:text-white dark:hover:text-gray-300',
+  'Iteration': 'hover:bg-purple-500 hover:text-white dark:hover:text-gray-300',
+  // Grow sub-categories
+  'Marketing': 'hover:bg-orange-500 hover:text-white dark:hover:text-gray-300',
+  'Onboarding': 'hover:bg-orange-500 hover:text-white dark:hover:text-gray-300',
+  'Measurement': 'hover:bg-orange-500 hover:text-white dark:hover:text-gray-300',
+  'Scaling': 'hover:bg-orange-500 hover:text-white dark:hover:text-gray-300',
+  'Retention': 'hover:bg-orange-500 hover:text-white dark:hover:text-gray-300',
+  // Legacy categories (kept for backwards compatibility)
   'Writing': 'hover:bg-blue-500 hover:text-white dark:hover:text-gray-300',
   'Learning': 'hover:bg-red-500 hover:text-white dark:hover:text-gray-300',
-  'Planning': 'hover:bg-green-500 hover:text-white dark:hover:text-gray-300',
-  'Building': 'hover:bg-pink-500 hover:text-white dark:hover:text-gray-300',
   'Creativity': 'hover:bg-yellow-500 hover:text-white dark:hover:text-gray-300',
   'Growth': 'hover:bg-purple-500 hover:text-white dark:hover:text-gray-300',
   'Focus': 'hover:bg-orange-500 hover:text-white dark:hover:text-gray-300',
   'Errors': 'hover:bg-orange-500 hover:text-white dark:hover:text-gray-300',
-  'Communication': 'hover:bg-indigo-500 hover:text-white dark:hover:text-gray-300',
   'Thinking': 'hover:bg-teal-500 hover:text-white dark:hover:text-gray-300',
-  'Shortcuts': 'hover:bg-emerald-500 hover:text-white dark:hover:text-gray-300',
+  'Legacy': 'hover:bg-gray-500 hover:text-white dark:hover:text-gray-300',
   // Link category hover mappings
   '→ Every Use-Case': 'hover:bg-gray-800 hover:text-white dark:hover:bg-white dark:hover:text-gray-800',
   '→ Saving Time': 'hover:bg-blue-500 hover:text-white dark:hover:text-gray-300',
