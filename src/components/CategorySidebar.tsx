@@ -195,24 +195,24 @@ export function CategorySidebar({
       </div>
 
       <div className="p-6 pt-0 flex-shrink-0">
+        {/* About Button */}
+        <button 
+          onClick={handleAboutClick}
+          className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-purple-600 hover:text-white dark:hover:bg-purple-700 dark:hover:text-white transition-all duration-200"
+        >
+          About
+        </button>
+
         {/* Mode Toggle Button */}
         {onToggleLinkMode && (
           <button
             onClick={onToggleLinkMode}
-            className="w-full mb-3 px-3 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 transition-all duration-200 flex items-center justify-center gap-2"
+            className="w-full mt-3 px-3 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-700 dark:hover:text-white rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 transition-all duration-200 flex items-center justify-center gap-2"
           >
             <ArrowLeftRight className="w-4 h-4" />
             {isLinkMode ? 'Posts' : 'Apps'}
           </button>
         )}
-        
-        {/* About Button */}
-        <button 
-          onClick={handleAboutClick}
-          className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200"
-        >
-          About
-        </button>
       </div>
     </aside>
   );
