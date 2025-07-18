@@ -61,6 +61,14 @@ export function CategorySidebar({
     }
     setExpandedCategories(newExpanded);
   };
+
+  const handleCategorySelect = (category: string) => {
+    onCategorySelect(category);
+    if (isMobile && onClose) {
+      onClose();
+    }
+  };
+
   return (
     <aside className={`${isMobile ? 'w-full h-full' : 'w-64 h-full'} bg-white dark:bg-gray-800 ${!isMobile ? 'border-r border-gray-200 dark:border-gray-700' : ''} flex flex-col overflow-hidden`}>
       {isMobile && (
@@ -76,12 +84,6 @@ export function CategorySidebar({
         </div>
       )}
 
-  const handleCategorySelect = (category: string) => {
-    onCategorySelect(category);
-    if (isMobile && onClose) {
-      onClose();
-    }
-  };
       <div className="flex-1 overflow-y-auto">
         <div className="p-6">
           {!isMobile && (
@@ -107,37 +109,17 @@ export function CategorySidebar({
                   )}
                 </div>
               )}
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Categories</h2>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                {isLinkMode ? 'Categories' : 'Topics'}
+              </h2>
             </>
           )}
           
           <div className="space-y-2">
-            {isLinkMode && (
+            {isLinkMode ? (
               <div className="text-gray-600 dark:text-gray-400 text-sm font-medium mb-1">
                 Apps for...
               </div>
-            )}
-            {categories.map(category => (
-              <button
-                key={category.name}
-                onClick={() => onCategorySelect(category.name)}
-                className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  selectedCategory === category.name 
-                    ? getCategorySelectedClass(category, isDarkMode)
-                    : `text-gray-700 dark:text-gray-300 ${getCategoryHoverClassOptimized(category.name)}`
-                }`}
-              >
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                {isLinkMode ? 'Categories' : 'Topics'}
-              </h2>
-              </button>
-            ))}
-          </div>
-        </div>
-            {isLinkMode ? (
-      
-      <div className="p-6 pt-0 flex-shrink-0">
-        <button 
             ) : (
               <div className="text-gray-600 dark:text-gray-400 text-sm font-medium mb-1">
                 Posts for...
@@ -208,8 +190,17 @@ export function CategorySidebar({
                 </div>
               ))
             )}
-          </button>
-        )}
+          </div>
+        </div>
+      </div>
+
+      <div className="p-6 pt-0 flex-shrink-0">
+        <button 
+          onClick={handleAboutClick}
+          className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200"
+        >
+          About
+        </button>
       </div>
     </aside>
   );
