@@ -195,7 +195,7 @@ export function BlogModal({
               </span>
             </div>
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2 pt-[5px]">{post.title}</h1>
-            {(post.subheader || post.excerpt) && (
+            {(post.subheader || post.excerpt) && post.id !== 'about' && (
               <p className="text-gray-600 dark:text-gray-400 text-lg">{post.subheader || post.excerpt}</p>
             )}
           </div>
@@ -392,7 +392,7 @@ export function BlogModal({
                 </div>
               )}
               
-              {/* P.S. section for About page */}
+              {/* P.S. section for About page - now appears after subscribe form */}
               {post.id === 'about' && post.psContent && (
                 <>
                   <div className="border-t border-gray-200 dark:border-gray-700 mt-8 mb-4"></div>

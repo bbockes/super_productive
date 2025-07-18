@@ -109,20 +109,14 @@ export function CategorySidebar({
       <div className="p-6 pt-0 flex-shrink-0">
         <button 
           onClick={handleAboutClick}
-          className="w-full mb-3 px-6 py-2 bg-transparent border-2 border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:text-white hover:border-transparent dark:hover:border-transparent transition-colors"
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#7D1FF1';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
-          }}
+          className="w-full mb-3 px-6 py-2 bg-transparent border-2 border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-purple-50 hover:border-purple-500 dark:hover:bg-purple-900/20 dark:hover:border-purple-600 transition-all duration-200"
         >
           About
         </button>
         {onToggleLinkMode && (
           <button 
             onClick={onToggleLinkMode}
-            className="w-full px-6 py-2 bg-transparent border-2 border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-blue-50 hover:border-blue-300 dark:hover:bg-blue-900/20 dark:hover:border-blue-500 transition-all duration-200 flex items-center justify-center gap-2"
+            className="w-full px-6 py-2 bg-transparent border-2 border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-blue-50 hover:border-blue-500 dark:hover:bg-blue-900/20 dark:hover:border-blue-500 transition-all duration-200 flex items-center justify-center gap-2"
           >
             {isLinkMode ? 'Posts' : 'Apps'}
             <ArrowLeftRight className="w-4 h-4" />

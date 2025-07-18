@@ -8,7 +8,7 @@ import { MobileHeader } from './MobileHeader';
 import { DarkModeToggle } from './DarkModeToggle';
 import { NewsletterForm } from './NewsletterForm';
 import { SearchSubscribeToggle } from './SearchSubscribeToggle';
-import { aboutPost } from '../data/blogData';
+import { fetchAboutPage, transformAboutPageToBlogPost } from '../lib/aboutPageService';
 import { LinkedinIcon } from 'lucide-react';
 import { sanityClient, POSTS_QUERY, CATEGORIES_QUERY, LINK_CARDS_QUERY, LINK_CARD_CATEGORIES_QUERY } from '../lib/sanityClient';
 import { slugify, findPostBySlug, filterPostsBySearchQuery } from '../utils/slugify';
@@ -122,6 +122,8 @@ export function BlogLayout() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [isLinkMode, setIsLinkMode] = useState<boolean>(false);
+  const [aboutPageData, setAboutPageData] = useState<Post | null>(null);
+  const [aboutPageLoading, setAboutPageLoading] = useState<boolean>(false);
 
   // Function to get category color based on name
   const getCategoryColor = (categoryName) => {
@@ -302,9 +304,27 @@ export function BlogLayout() {
     
     // Check if we're on the about page
     if (location.pathname === '/about' || location.pathname === '/about/') {
-      console.log('✅ On about page, setting selectedPost to aboutPost');
-      setSelectedPost(aboutPost);
-      console.log('📄 aboutPost content:', aboutPost);
+      console.log('✅ On about page, loading aboutPage data');
+      if (!aboutPageData && !aboutPageLoading) {
+        setAboutPageLoading(true);
+        fetchAboutPage().then(data => {
+          if (data) {
+            const transformedData = transformAboutPageToBlogPost(data);
+            setAboutPageData(transformedData);
+            setSelectedPost(transformedData);
+            console.log('📄 aboutPage loaded:', transformedData);
+          } else {
+            console.error('❌ Failed to load about page data');
+          }
+          setAboutPageLoading(false);
+        }).catch(error => {
+          console.error('❌ Error loading about page:', error);
+          setAboutPageLoading(false);
+        });
+      } else if (aboutPageData) {
+        setSelectedPost(aboutPageData);
+        console.log('📄 Using cached aboutPage data:', aboutPageData);
+      }
     } else if (slug && posts.length > 0) {
       console.log('🔎 Looking for post with slug:', slug);
       const post = findPostBySlug(posts, slug);

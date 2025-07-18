@@ -49,3 +49,13 @@ export const LINK_CARDS_QUERY = `*[_type == "linkCard"] | order(_createdAt desc)
 export const LINK_CARD_CATEGORIES_QUERY = `*[_type == "linkCard" && defined(category)] | order(category asc) {
   category
 }`;
+
+export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0] {
+  _id,
+  title,
+  excerpt,
+  readTime,
+  content,
+  psContent,
+  "image": image.asset->url
+}`;
