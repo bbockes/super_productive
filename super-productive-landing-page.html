@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Productive – Smart Tools, Remarkable Results</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Work+Sans:wght@300;400;600&family=IBM+Plex+Mono:wght@300;400;600&display=swap');
+
+  :root {
+    --navy:   #1A1928;
+    --purple: #7B52E8;
+    --blue:   #5B9BD5;
+    --violet: #9B72FF;
+    --white:  #FFFFFF;
+    --off-white: #F7F6FC;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--off-white);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--navy);
+  }
+
+  /* ── TOP NAV BAR ── */
+  .topbar {
+    background: var(--navy);
+    padding: 14px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .topbar-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.08em;
+    background: linear-gradient(90deg, var(--purple), var(--violet));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .topbar-tag {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding-left: 120px;
+    padding-right: 120px;
+  }
+
+  /* ── HERO SECTION ── */
+  .hero {
+    background: var(--navy);
+    padding: 64px 60px 72px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: none;
+  }
+
+  .hero .container {
+    display: flex;
+    gap: 72px;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(123,82,232,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(123,82,232,0.06) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 18% 50%, rgba(123,82,232,0.12) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-book { flex-shrink: 0; position: relative; z-index: 1; }
+
+  .book-wrapper { perspective: 1200px; }
+
+  .book {
+    width: 340px;
+    height: 510px;
+    position: relative;
+    transform: rotateY(-8deg) rotateX(2deg);
+    transform-style: preserve-3d;
+    box-shadow:
+      -24px 24px 70px rgba(0,0,0,0.9),
+      -6px 6px 24px rgba(0,0,0,0.5),
+      0 0 60px rgba(123,82,232,0.2);
+    border-radius: 2px 6px 6px 2px;
+  }
+
+  .cover {
+    width: 100%; height: 100%;
+    position: relative; overflow: hidden;
+    background: var(--navy);
+    border-radius: 2px 6px 6px 2px;
+  }
+
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(123,82,232,0.09) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(123,82,232,0.09) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .bg-glow {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 90% 60% at 50% 35%, rgba(123,82,232,0.13) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(91,155,213,0.07) 0%, transparent 60%);
+  }
+
+  .spine-accent { position: absolute; left: 0; top: 0; width: 10px; height: 100%; background: var(--purple); }
+  .spine-accent-2 { position: absolute; left: 10px; top: 0; width: 2px; height: 100%; background: var(--violet); opacity: 0.4; }
+
+  .top-bar { position: absolute; top: 28px; left: 26px; right: 20px; display: flex; align-items: center; }
+
+  .category-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7.5px; font-weight: 600;
+    letter-spacing: 0.18em; color: var(--violet);
+    text-transform: uppercase;
+    border: 1px solid var(--purple);
+    padding: 3px 7px;
+  }
+
+  .keys-area {
+    position: absolute; top: 64px; left: 26px; right: 20px;
+    height: 210px; display: flex; flex-direction: column; gap: 5px;
+  }
+
+  .key-row { display: flex; gap: 4px; align-items: center; }
+
+  .key {
+    height: 30px; min-width: 30px; border-radius: 4px;
+    border: 1px solid rgba(123,82,232,0.2);
+    background: linear-gradient(160deg, rgba(123,82,232,0.1) 0%, rgba(26,25,40,0.8) 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 8.5px; font-weight: 600; color: rgba(255,255,255,0.35);
+    padding: 0 8px;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.6), inset 0 1px 0 rgba(123,82,232,0.08);
+    white-space: nowrap; flex-shrink: 0;
+  }
+
+  .key.lit-purple {
+    border-color: var(--purple); color: var(--violet);
+    background: linear-gradient(160deg, rgba(123,82,232,0.22) 0%, rgba(123,82,232,0.08) 100%);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.6), 0 0 12px rgba(123,82,232,0.35), inset 0 1px 0 rgba(155,114,255,0.15);
+    animation: glow-purple 2.4s ease-in-out infinite;
+  }
+
+  .key.lit-blue {
+    border-color: var(--blue); color: var(--blue);
+    background: linear-gradient(160deg, rgba(91,155,213,0.18) 0%, rgba(91,155,213,0.06) 100%);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.6), 0 0 10px rgba(91,155,213,0.3), inset 0 1px 0 rgba(91,155,213,0.12);
+    animation: glow-blue 2.8s ease-in-out infinite;
+  }
+
+  @keyframes glow-purple {
+    0%,100%{ box-shadow:0 2px 0 rgba(0,0,0,.6),0 0 12px rgba(123,82,232,.35),inset 0 1px 0 rgba(155,114,255,.15); }
+    50%    { box-shadow:0 2px 0 rgba(0,0,0,.6),0 0 22px rgba(123,82,232,.6), inset 0 1px 0 rgba(155,114,255,.2); }
+  }
+  @keyframes glow-blue {
+    0%,100%{ box-shadow:0 2px 0 rgba(0,0,0,.6),0 0 10px rgba(91,155,213,.3), inset 0 1px 0 rgba(91,155,213,.12); }
+    50%    { box-shadow:0 2px 0 rgba(0,0,0,.6),0 0 18px rgba(91,155,213,.55),inset 0 1px 0 rgba(91,155,213,.2); }
+  }
+
+  .key.lit-purple:nth-child(2){ animation-delay:.4s; }
+  .key.lit-purple:nth-child(3){ animation-delay:.8s; }
+  .key.lit-blue:nth-child(2)  { animation-delay:.6s; }
+  .key.wide  { min-width: 52px; }
+  .key.wider { min-width: 74px; }
+
+  .divider {
+    position: absolute; left: 26px; right: 20px; height: 1px; top: 284px;
+    background: linear-gradient(90deg, var(--purple), var(--blue), rgba(91,155,213,0.1));
+  }
+  .divider-glow {
+    position: absolute; left: 26px; right: 20px; height: 6px; top: 284px;
+    background: linear-gradient(90deg, rgba(123,82,232,0.25), rgba(91,155,213,0.15), transparent);
+    filter: blur(3px);
+  }
+
+  .title-block { position: absolute; top: 296px; left: 26px; right: 20px; }
+  .title-super { font-family:'Bebas Neue',sans-serif; font-size:48px; letter-spacing:0.04em; color:var(--white); line-height:0.95; display:block; }
+  .title-productive {
+    font-family:'Bebas Neue',sans-serif; font-size:48px; letter-spacing:0.04em; line-height:0.95; display:block;
+    background: linear-gradient(90deg, var(--purple) 0%, var(--violet) 60%, var(--blue) 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+
+  .subtitle {
+    margin-top:11px; font-family: 'Work Sans', sans-serif; font-size:7.5px; color:rgba(255,255,255,0.35);
+    letter-spacing:0.12em; text-transform:uppercase; line-height:1.7;
+  }
+
+  .progress-bar { position:absolute; bottom:42px; left:26px; right:20px; height:2px; background:rgba(123,82,232,0.12); }
+  .progress-fill { height:100%; width:73%; background:linear-gradient(90deg,var(--purple),var(--blue)); box-shadow:0 0 8px rgba(123,82,232,0.5); }
+
+  .author { position:absolute; bottom:22px; left:26px; right:20px; }
+  .author-name { font-family: 'Work Sans', sans-serif; font-size:9px; font-weight:600; color:rgba(255,255,255,0.45); letter-spacing:0.15em; text-transform:uppercase; }
+
+  .corner-coord { position:absolute; font-family:'Work Sans',sans-serif; letter-spacing:0.05em; }
+  .corner-coord.br { bottom:14px; right:14px; }
+
+  /* ── HERO TEXT ── */
+  .hero-text { flex:1; position:relative; z-index:1; }
+
+  .hero-eyebrow {
+    font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--violet); margin-bottom:16px; display:flex; align-items:center; gap:10px;
+  }
+  .hero-eyebrow::before {
+    content:''; display:inline-block; width:28px; height:2px;
+    background:linear-gradient(90deg,var(--purple),var(--violet));
+  }
+
+  .hero-title {
+    font-family:'Bebas Neue',sans-serif; font-size:60px; line-height:1.0;
+    letter-spacing:0.03em; color:var(--white); margin-bottom:6px;
+  }
+  .hero-title span {
+    background:linear-gradient(90deg,var(--purple),var(--violet) 60%,var(--blue));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+
+  .hero-subtitle-line {
+    font-size:17px; font-weight:400; font-style:italic;
+    color:rgba(255,255,255,0.4); margin-bottom:28px; letter-spacing:0.04em;
+  }
+
+  .hero-desc {
+    font-size:18px; font-weight:400; color:rgba(255,255,255,0.6);
+    line-height:1.75; margin-bottom:36px; max-width:480px;
+  }
+
+  .hero-author-line { display:flex; align-items:center; gap:14px; margin-bottom:36px; }
+
+  .author-avatar-wrap {
+    width:72px; height:72px; border-radius:50%;
+    overflow:hidden; flex-shrink:0;
+  }
+  .author-avatar {
+    width:100%; height:100%; object-fit:cover;
+    transform:scale(1.2); display:block;
+  }
+
+  .author-info .author-label { font-size:10px; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-bottom:2px; }
+  .author-info .author-full-name { font-size:15px; font-weight:600; color:rgba(255,255,255,0.85); }
+
+  .cta-row { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+
+  .btn-primary {
+    background:linear-gradient(135deg,var(--purple),var(--violet));
+    color:white; font-size:13px; font-weight:600;
+    letter-spacing:0.08em; text-transform:uppercase;
+    padding:14px 32px; border:none; cursor:pointer;
+    text-decoration:none; display:inline-block;
+    box-shadow:0 4px 20px rgba(123,82,232,0.4);
+    transition:opacity .2s, transform .2s;
+  }
+  .btn-primary:hover { opacity:.88; transform:translateY(-1px); }
+
+  .btn-secondary {
+    background:transparent; color:rgba(255,255,255,0.5);
+    font-size:13px; font-weight:500; letter-spacing:0.06em;
+    padding:14px 24px; border:1px solid rgba(255,255,255,0.15);
+    cursor:pointer; text-decoration:none; display:inline-block;
+    transition:border-color .2s, color .2s;
+  }
+  .btn-secondary:hover { border-color:var(--violet); color:var(--violet); }
+
+  /* ── STRIPE ── */
+  .stripe { height:4px; background:linear-gradient(90deg,var(--purple),var(--violet),var(--blue)); }
+
+  /* ── BODY SECTION ── */
+  .body-section {
+    background:var(--white);
+    padding:80px 60px;
+  }
+
+  .body-section .container {
+    display:grid;
+    grid-template-columns:3fr 2fr;
+    gap:80px;
+    align-items:start;
+    align-content:start;
+  }
+
+  .body-left { align-self:start; }
+  .body-left h2 {
+    font-family:'Bebas Neue',sans-serif; font-size:40px;
+    letter-spacing:0.04em; line-height:1.05;
+    color:var(--navy); margin-bottom:10px; margin-top:0;
+  }
+  .body-left h2 span {
+    background:linear-gradient(90deg,var(--purple),var(--violet));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+
+  .section-rule { width:48px; height:3px; background:linear-gradient(90deg,var(--purple),var(--blue)); margin-bottom:28px; }
+  .body-right .section-rule { margin-top:8px; }
+
+  .body-left p { font-size:17px; font-weight:400; color:#444; line-height:1.85; margin-bottom:16px; }
+  .body-left p strong { color:var(--navy); font-weight:600; }
+  .body-left p em { font-style:italic; color:var(--purple); }
+  .body-left p:last-child { font-weight:600; color:var(--navy); font-size:18px; }
+
+  .body-right { padding-top:0; align-self:start; }
+
+  .pull-quote {
+    border-left:3px solid var(--purple);
+    padding:20px 24px;
+    background:var(--off-white);
+    margin-bottom:24px;
+  }
+  .pull-quote p { font-size:17px; font-weight:500; font-style:italic; color:var(--navy); line-height:1.6; }
+
+  .features-header {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 16px;
+    margin-top: 4px;
+  }
+
+  .feature-list { list-style:none; display:flex; flex-direction:column; gap:14px; }
+  .feature-list li { display:flex; align-items:flex-start; gap:14px; font-size:15px; color:#444; line-height:1.5; padding-bottom: 4px; }
+  .feature-list li .icon {
+    width:28px; height:28px; border-radius:4px;
+    background:linear-gradient(135deg,rgba(123,82,232,0.1),rgba(91,155,213,0.07));
+    border:1px solid rgba(123,82,232,0.18);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; color: var(--purple);
+    margin-top: 0px;
+  }
+  .feature-list li strong { color:var(--navy); }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-section {
+    background: var(--off-white);
+    padding: 80px 60px;
+  }
+
+  .testimonials-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .testimonials-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--purple), var(--violet));
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .testimonial-card {
+    background: var(--white);
+    padding: 32px;
+    border: 1px solid rgba(123,82,232,0.1);
+    border-top: 3px solid var(--purple);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(123,82,232,0.1);
+  }
+
+  .testimonial-stars {
+    color: var(--purple);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+  }
+
+  .testimonial-text {
+    font-size: 16px;
+    font-weight: 400;
+    color: #444;
+    line-height: 1.8;
+    font-style: italic;
+    flex: 1;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .testimonial-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .testimonial-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  .testimonial-role {
+    font-size: 13px;
+    color: rgba(26,25,40,0.45);
+    letter-spacing: 0.04em;
+    margin-top: 2px;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background:var(--navy); padding:36px 60px;
+  }
+  .footer-brand {
+    font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:0.08em;
+    background:linear-gradient(90deg,var(--purple),var(--violet));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .footer-tag { font-family:'IBM Plex Mono',monospace; font-size:12px; color:rgba(155,114,255,0.55); letter-spacing:0.14em; text-transform:uppercase; }
+  .footer-copy { font-size:13px; color:rgba(255,255,255,0.35); letter-spacing:0.06em; }
+
+  /* ── ANIMATIONS ── */
+
+  /* Page load: fade up */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Book float */
+  @keyframes float {
+    0%, 100% { transform: rotateY(-8deg) rotateX(2deg) translateY(0px); }
+    50%       { transform: rotateY(-8deg) rotateX(2deg) translateY(-10px); }
+  }
+
+  /* Scroll fade-in (JS adds .visible) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Hero load animations */
+  .hero-book { animation: fadeUp 0.8s ease both; animation-delay: 0.1s; }
+  .hero-eyebrow { animation: fadeUp 0.7s ease both; animation-delay: 0.2s; }
+  .hero-title   { animation: fadeUp 0.7s ease both; animation-delay: 0.35s; }
+  .hero-subtitle-line { animation: fadeUp 0.7s ease both; animation-delay: 0.45s; }
+  .hero-desc    { animation: fadeUp 0.7s ease both; animation-delay: 0.55s; }
+  .hero-author-line { animation: fadeUp 0.7s ease both; animation-delay: 0.65s; }
+  .cta-row      { animation: fadeUp 0.7s ease both; animation-delay: 0.75s; }
+
+  /* Book float (after load animation settles) */
+  .book { animation: float 5s ease-in-out infinite; animation-delay: 1s; }
+
+  /* Stripe shimmer */
+  @keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+  .stripe {
+    background: linear-gradient(90deg, var(--purple), var(--violet), var(--blue), var(--violet), var(--purple));
+    background-size: 200% auto;
+    animation: shimmer 4s linear infinite;
+  }
+
+  /* ── RESPONSIVE ── */
+
+  /* Tablet */
+  @media (max-width: 900px) {
+    .container { padding-left: 0; padding-right: 0; }
+    .hero { padding: 48px 32px; }
+    .hero .container { flex-direction: column; gap: 48px; text-align: center; }
+    .hero-eyebrow { justify-content: center; }
+    .hero-author-line { justify-content: center; }
+    .cta-row { justify-content: center; }
+    .hero-desc { max-width: 100%; }
+    .hero-title { font-size: 48px; }
+
+    .body-section { padding: 60px 32px; }
+    .body-section .container { grid-template-columns: 1fr; gap: 48px; }
+
+    .testimonials-section { padding: 60px 32px; }
+    .testimonials-grid { grid-template-columns: 1fr; gap: 20px; }
+
+    .footer { padding: 32px; }
+    .footer .container { flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+
+    .hero-book { display: flex; justify-content: center; width: 100%; }
+    .book { width: 320px; height: 480px; }
+    .keys-area { top: 64px; height: 198px; gap: 5px; }
+    .key { height: 28px; font-size: 8px; padding: 0 7px; }
+    .key.wide { min-width: 50px; }
+    .key.wider { min-width: 72px; }
+    .top-bar { top: 28px; left: 26px; right: 20px; }
+    .category-tag { font-size: 7px; }
+    .divider { top: 269px; left: 26px; right: 20px; }
+    .divider-glow { top: 269px; left: 26px; right: 20px; }
+    .title-block { top: 280px; left: 26px; right: 20px; }
+    .title-super, .title-productive { font-size: 46px; }
+    .subtitle { font-size: 7px; }
+    .progress-bar { bottom: 42px; left: 26px; right: 20px; }
+    .author { bottom: 22px; left: 26px; right: 20px; }
+    .author-name { font-size: 8px; }
+  }
+
+  /* Mobile */
+  @media (max-width: 560px) {
+    .hero { padding: 32px 16px; }
+    .hero .container { gap: 28px; }
+    .hero-title { font-size: 34px; }
+    .hero-subtitle-line { font-size: 11px; }
+    .hero-desc { font-size: 15px; }
+    .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+    .cta-row { flex-direction: column; gap: 10px; }
+
+    .book { width: 240px; height: 360px; }
+    .keys-area { top: 48px; height: 148px; gap: 4px; }
+    .key { height: 21px; font-size: 6.5px; padding: 0 5px; min-width: 21px; }
+    .key.wide { min-width: 38px; }
+    .key.wider { min-width: 54px; }
+    .top-bar { top: 20px; left: 20px; right: 16px; }
+    .category-tag { font-size: 5.5px; padding: 2px 5px; }
+    .divider { top: 202px; left: 20px; right: 16px; }
+    .divider-glow { top: 202px; left: 20px; right: 16px; }
+    .title-block { top: 211px; left: 20px; right: 16px; }
+    .title-super, .title-productive { font-size: 34px; }
+    .subtitle { font-size: 5.5px; margin-top: 8px; }
+    .progress-bar { bottom: 34px; left: 20px; right: 16px; }
+    .author { bottom: 16px; left: 20px; right: 16px; }
+    .author-name { font-size: 7px; }
+    .spine-accent { width: 8px; }
+    .spine-accent-2 { left: 8px; }
+
+    .body-section { padding: 48px 20px; }
+    .body-left h2 { font-size: 30px; }
+    .body-left p { font-size: 15px; }
+
+    .testimonials-section { padding: 48px 20px; }
+    .testimonial-card { padding: 24px; }
+
+    .footer { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+  <div class="hero-book">
+    <div class="book-wrapper">
+      <div class="book">
+        <div class="cover">
+          <div class="grid"></div>
+          <div class="bg-glow"></div>
+          <div class="spine-accent"></div>
+          <div class="spine-accent-2"></div>
+          <div class="corner-coord br" style="color:rgba(155,114,255,0.6);font-size:8px;">v1.0</div>
+          <div class="top-bar">
+            <div class="category-tag">Smart Tools, Remarkable Results</div>
+          </div>
+          <div class="keys-area">
+            <div class="key-row">
+              <div class="key lit-purple">⌘</div>
+              <div class="key lit-blue wider">SHORTCUTS</div>
+              <div class="key">TAB</div>
+              <div class="key wide">ENTER</div>
+              <div class="key">ESC</div>
+            </div>
+            <div class="key-row">
+              <div class="key lit-blue wider">BOOKMARKS</div>
+              <div class="key lit-blue">C</div>
+              <div class="key lit-blue">V</div>
+              <div class="key">ALT</div>
+              <div class="key">→</div>
+            </div>
+            <div class="key-row">
+              <div class="key wider lit-purple">AUTOMATION</div>
+              <div class="key lit-blue">AI</div>
+              <div class="key wide">SPACE</div>
+              <div class="key">⏎</div>
+            </div>
+            <div class="key-row">
+              <div class="key wider">WORKFLOWS</div>
+              <div class="key lit-blue wider">SYSTEMS</div>
+              <div class="key lit-blue wider">LEVERAGE</div>
+            </div>
+            <div class="key-row">
+              <div class="key">F1</div>
+              <div class="key">F2</div>
+              <div class="key lit-purple">FOCUS</div>
+              <div class="key lit-blue wider">OPTIMIZE</div>
+              <div class="key">^</div>
+            </div>
+          </div>
+          <div class="divider-glow"></div>
+          <div class="divider"></div>
+          <div class="title-block">
+            <span class="title-super">SUPER</span>
+            <span class="title-productive">PRODUCTIVE</span>
+            <div class="subtitle">
+              Hacks · Apps · AI · Automation · Deep Work<br>
+              The complete stack for knowledge workers
+            </div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill"></div></div>
+          <div class="author"><div class="author-name">Brendan Bockes</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Text -->
+  <div class="hero-text">
+    <div class="hero-eyebrow">Now Available</div>
+    <div class="hero-title">Introducing<br><span>Super Productive</span></div>
+    <div class="hero-subtitle-line">A Practical Guide to Modern Productivity</div>
+    <div class="hero-desc">
+      The tools you use determine your speed. They shape your output. They decide how much friction you feel every single day. This book shows you the right ones.
+    </div>
+    <div class="hero-author-line">
+      <div class="author-avatar-wrap">
+        <img src="/headshot.jpeg" alt="Brendan Bockes" class="author-avatar" />
+      </div>
+      <div class="author-info">
+        <div class="author-label">Written by</div>
+        <div class="author-full-name">Brendan Bockes</div>
+      </div>
+    </div>
+    <div class="cta-row">
+      <a href="#" class="btn-primary">Get Your Copy</a>
+      <a href="#learn-more" class="btn-secondary">Learn More ↓</a>
+    </div>
+  </div><!-- end hero-text -->
+  </div><!-- end container -->
+</div>
+
+<!-- BODY -->
+<div class="body-section" id="learn-more">
+  <div class="container">
+  <div class="body-left reveal">
+    <h2>Most People Work Harder Than They Need To. <span>You Don't Have To.</span></h2>
+    <div class="section-rule"></div>
+    <p>An F1 racecar is always going to beat a Prius in a drag race. That's obvious.</p>
+    <p>What's less obvious is that the same thing happens at work.</p>
+    <p>The tools you use determine your speed, your output, and how much friction you feel every day.</p>
+    <p>Most people don't choose their tools—they inherit them. Company defaults. Outdated software. "What we've always used." And then they wonder why work feels harder than it should.</p>
+    <p>Here's the uncomfortable truth: <strong>effort can't compensate for bad tools.</strong> You can work longer hours. You can care more. But if your systems are clunky and your workflows inefficient, you're capped.</p>
+    <p>The right tools don't just save time—they remove friction, reduce mental load, and let you operate at a higher level.</p>
+    <p><strong><em>Super Productive</em></strong> is a practical guide to using better tools and building smarter systems. Each chapter gives you a simple framework for getting more done in less time, plus a small set of tools you can use to put it into practice—so you can work smarter, move faster, and stop making work harder than it needs to be.</p>
+    <p><strong>Get your copy and start leveling up today.</strong></p>
+    <a href="#" class="btn-primary" style="margin-top: 24px; display: inline-block;">Get Your Copy</a>
+  </div>
+
+  <div class="body-right reveal" style="transition-delay: 0.15s;">
+    <div class="pull-quote">
+      <p>"Effort can't compensate for bad tools. The right ones don't just save time—they expand what's possible."</p>
+    </div>
+    <div class="section-rule body-right-rule"></div>
+    <div class="features-header">What's Inside</div>
+    <ul class="feature-list">
+      <li>
+        <div class="icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <span><strong>Shortcuts &amp; Hacks</strong><br>Cut repetitive work and reclaim hours every week.</span>
+      </li>
+      <li>
+        <div class="icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <span><strong>Systems &amp; Leverage</strong><br>Build workflows that compound over time.</span>
+      </li>
+      <li>
+        <div class="icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <span><strong>Deep Work</strong><br>Create the conditions to do your best work.</span>
+      </li>
+      <li>
+        <div class="icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <span><strong>Automation &amp; AI</strong><br>Frameworks for the new era of work.</span>
+      </li>
+      <li>
+        <div class="icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <span><strong>Practical Tools</strong><br>No theory — just tools you can use today.</span>
+      </li>
+    </ul>
+  </div><!-- end body-right -->
+  </div><!-- end container -->
+</div>
+<div class="testimonials-section reveal">
+  <div class="container">
+  <div class="testimonials-eyebrow">What Readers Are Saying</div>
+  <div class="testimonials-grid">
+
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"I've read a dozen productivity books. This is the first one that actually changed how I work. The tools Brendan recommends are practical, specific, and immediately useful. I implemented three things from chapter one and saved two hours that same week."</p>
+      <div class="testimonial-author">
+        <img src="/testimonials/james.png" alt="James M." class="testimonial-avatar" />
+        <div>
+          <div class="testimonial-name">James M.</div>
+          <div class="testimonial-role">Product Manager, SaaS startup</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"I've tried a lot of productivity systems over the years and most of them require you to completely overhaul how you work. This book is different. Clear, no-fluff, and refreshingly honest. I picked up three tools I now use every single day."</p>
+      <div class="testimonial-author">
+        <img src="/testimonials/sarah.png" alt="Sarah R." class="testimonial-avatar" />
+        <div>
+          <div class="testimonial-name">Sarah R.</div>
+          <div class="testimonial-role">Freelance Designer</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"Most productivity advice tells you to wake up earlier or work harder. This book told me to work differently. The tools and leverage chapter reframed how I think about my whole workday. Genuinely one of the most useful things I've read recently."</p>
+      <div class="testimonial-author">
+        <img src="/testimonials/daniel.png" alt="Daniel K." class="testimonial-avatar" />
+        <div>
+          <div class="testimonial-name">Daniel K.</div>
+          <div class="testimonial-role">Founder & CEO</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end testimonials-grid -->
+  </div><!-- end container -->
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="container" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px;">
+  <div class="footer-brand">Super Productive</div>
+  <div class="footer-tag">Smart Tools, Remarkable Results</div>
+  <div class="footer-copy">© Brendan Bockes. All rights reserved.</div>
+  </div>
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
