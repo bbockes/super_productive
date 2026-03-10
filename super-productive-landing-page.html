@@ -64,10 +64,11 @@
   /* ── HERO SECTION ── */
   .hero {
     background: var(--navy);
-    padding: 64px 60px 72px;
+    padding: 80px 60px;
     position: relative;
     overflow: hidden;
     border-bottom: none;
+    min-height: 95vh;
   }
 
   .hero .container {
@@ -230,11 +231,11 @@
   .corner-coord.br { bottom:14px; right:14px; }
 
   /* ── HERO TEXT ── */
-  .hero-text { flex:1; position:relative; z-index:1; }
+  .hero-text { flex:1; position:relative; z-index:1; margin-left:10px; }
 
   .hero-eyebrow {
-    font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase;
-    color:var(--violet); margin-bottom:16px; display:flex; align-items:center; gap:10px;
+    font-size:13px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--violet); margin-bottom:18px; display:flex; align-items:center; gap:10px;
   }
   .hero-eyebrow::before {
     content:''; display:inline-block; width:28px; height:2px;
@@ -271,7 +272,7 @@
     transform:scale(1.2); display:block;
   }
 
-  .author-info .author-label { font-size:10px; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-bottom:2px; }
+  .author-info .author-label { font-size:11px; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-bottom:3px; }
   .author-info .author-full-name { font-size:15px; font-weight:600; color:rgba(255,255,255,0.85); }
 
   .cta-row { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
@@ -283,18 +284,39 @@
     padding:14px 32px; border:none; cursor:pointer;
     text-decoration:none; display:inline-block;
     box-shadow:0 4px 20px rgba(123,82,232,0.4);
-    transition:opacity .2s, transform .2s;
+    transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
   }
-  .btn-primary:hover { opacity:.88; transform:translateY(-1px); }
+  .btn-primary:hover {
+    transform:translateY(-1px);
+    filter:brightness(1.08);
+    box-shadow:0 6px 26px rgba(123,82,232,0.55);
+  }
+  .btn-primary:active {
+    transform:translateY(0) scale(0.98);
+    filter:brightness(0.96);
+    box-shadow:0 2px 12px rgba(123,82,232,0.4);
+  }
 
   .btn-secondary {
-    background:transparent; color:rgba(255,255,255,0.5);
+    background:rgba(123,82,232,0.08);
+    color:rgba(255,255,255,0.6);
     font-size:13px; font-weight:500; letter-spacing:0.06em;
-    padding:14px 24px; border:1px solid rgba(255,255,255,0.15);
+    padding:14px 24px; border:1px solid rgba(155,114,255,0.35);
     cursor:pointer; text-decoration:none; display:inline-block;
-    transition:border-color .2s, color .2s;
+    box-shadow:0 0 0 rgba(123,82,232,0);
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease, color .18s ease, background .18s ease;
   }
-  .btn-secondary:hover { border-color:var(--violet); color:var(--violet); }
+  .btn-secondary:hover {
+    background:rgba(123,82,232,0.18);
+    border-color:var(--violet);
+    color:var(--violet);
+    box-shadow:0 0 18px rgba(123,82,232,0.45);
+    transform:translateY(-1px);
+  }
+  .btn-secondary:active {
+    transform:translateY(0) scale(0.98);
+    box-shadow:0 0 10px rgba(123,82,232,0.3);
+  }
 
   /* ── STRIPE ── */
   .stripe { height:4px; background:linear-gradient(90deg,var(--purple),var(--violet),var(--blue)); }
@@ -343,7 +365,7 @@
   .pull-quote p { font-size:17px; font-weight:500; font-style:italic; color:var(--navy); line-height:1.6; }
 
   .features-header {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -371,7 +393,7 @@
   }
 
   .testimonials-eyebrow {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.22em;
     text-transform: uppercase;
@@ -405,9 +427,16 @@
     flex-direction: column;
     gap: 20px;
     transition: transform 0.25s, box-shadow 0.25s;
+    outline: none;
   }
 
   .testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(123,82,232,0.1);
+  }
+  .testimonial-card:focus-visible {
+    outline: 2px solid var(--violet);
+    outline-offset: 2px;
     transform: translateY(-4px);
     box-shadow: 0 12px 40px rgba(123,82,232,0.1);
   }
@@ -502,7 +531,7 @@
   .cta-row      { animation: fadeUp 0.7s ease both; animation-delay: 0.75s; }
 
   /* Book float (after load animation settles) */
-  .book { animation: float 5s ease-in-out infinite; animation-delay: 1s; }
+  .book { animation: float 9s ease-in-out infinite; animation-delay: 1s; }
 
   /* Stripe shimmer */
   @keyframes shimmer {
@@ -521,7 +550,8 @@
   @media (max-width: 900px) {
     .container { padding-left: 0; padding-right: 0; }
     .hero { padding: 48px 32px; }
-    .hero .container { flex-direction: column; gap: 48px; text-align: center; }
+    .hero .container { flex-direction: column; gap: 32px; text-align: center; }
+    .hero-text { margin-left: 0; }
     .hero-eyebrow { justify-content: center; }
     .hero-author-line { justify-content: center; }
     .cta-row { justify-content: center; }
@@ -534,8 +564,8 @@
     .testimonials-section { padding: 60px 32px; }
     .testimonials-grid { grid-template-columns: 1fr; gap: 20px; }
 
-    .footer { padding: 32px; }
-    .footer .container { flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+    .footer { padding: 40px 32px; }
+    .footer .container { flex-direction: column; align-items: center; text-align: center; gap: 20px; }
 
     .hero-book { display: flex; justify-content: center; width: 100%; }
     .book { width: 320px; height: 480px; }
@@ -555,42 +585,45 @@
     .author-name { font-size: 8px; }
   }
 
-  /* Mobile */
+  /* Mobile — font sizes match tablet (max-width: 900px) so text stays readable */
   @media (max-width: 560px) {
     .hero { padding: 32px 16px; }
     .hero .container { gap: 28px; }
-    .hero-title { font-size: 34px; }
-    .hero-subtitle-line { font-size: 11px; }
-    .hero-desc { font-size: 15px; }
+    .hero-title { font-size: 48px; }
+    .hero-subtitle-line { font-size: 17px; }
+    .hero-desc { font-size: 18px; }
     .btn-primary, .btn-secondary { width: 100%; text-align: center; }
     .cta-row { flex-direction: column; gap: 10px; }
 
-    .book { width: 240px; height: 360px; }
-    .keys-area { top: 48px; height: 148px; gap: 4px; }
-    .key { height: 21px; font-size: 6.5px; padding: 0 5px; min-width: 21px; }
+    .book { width: 240px; height: 400px; }
+    .keys-area { top: 48px; height: 160px; gap: 4px; }
+    .key { height: 21px; font-size: 8px; padding: 0 5px; min-width: 21px; }
     .key.wide { min-width: 38px; }
     .key.wider { min-width: 54px; }
     .top-bar { top: 20px; left: 20px; right: 16px; }
-    .category-tag { font-size: 5.5px; padding: 2px 5px; }
+    .category-tag { font-size: 7px; padding: 2px 5px; }
     .divider { top: 202px; left: 20px; right: 16px; }
     .divider-glow { top: 202px; left: 20px; right: 16px; }
     .title-block { top: 211px; left: 20px; right: 16px; }
-    .title-super, .title-productive { font-size: 34px; }
-    .subtitle { font-size: 5.5px; margin-top: 8px; }
+    .title-super, .title-productive { font-size: 46px; }
+    .subtitle { font-size: 7px; margin-top: 8px; }
     .progress-bar { bottom: 34px; left: 20px; right: 16px; }
     .author { bottom: 16px; left: 20px; right: 16px; }
-    .author-name { font-size: 7px; }
+    .author-name { font-size: 8px; }
     .spine-accent { width: 8px; }
     .spine-accent-2 { left: 8px; }
 
     .body-section { padding: 48px 20px; }
-    .body-left h2 { font-size: 30px; }
-    .body-left p { font-size: 15px; }
+    .body-left h2 { font-size: 40px; }
+    .body-left p { font-size: 17px; }
 
     .testimonials-section { padding: 48px 20px; }
     .testimonial-card { padding: 24px; }
 
-    .footer { padding: 28px 20px; }
+    .footer { padding: 36px 20px; }
+    .footer .container { gap: 24px; }
+
+    .book { animation: none; }
   }
 </style>
 </head>
@@ -664,8 +697,8 @@
 
   <!-- Hero Text -->
   <div class="hero-text">
-    <div class="hero-eyebrow">Now Available</div>
-    <div class="hero-title">Introducing<br><span>Super Productive</span></div>
+    <div class="hero-eyebrow">Introducing</div>
+    <div class="hero-title">SUPER <span>PRODUCTIVE</span></div>
     <div class="hero-subtitle-line">A Practical Guide to Modern Productivity</div>
     <div class="hero-desc">
       The tools you use determine your speed. They shape your output. They decide how much friction you feel every single day. This book shows you the right ones.
@@ -750,7 +783,7 @@
   <div class="testimonials-eyebrow">What Readers Are Saying</div>
   <div class="testimonials-grid">
 
-    <div class="testimonial-card">
+    <div class="testimonial-card" tabindex="0">
       <div class="testimonial-stars">★★★★★</div>
       <p class="testimonial-text">"I've read a dozen productivity books. This is the first one that actually changed how I work. The tools Brendan recommends are practical, specific, and immediately useful. I implemented three things from chapter one and saved two hours that same week."</p>
       <div class="testimonial-author">
@@ -762,7 +795,7 @@
       </div>
     </div>
 
-    <div class="testimonial-card">
+    <div class="testimonial-card" tabindex="0">
       <div class="testimonial-stars">★★★★★</div>
       <p class="testimonial-text">"I've tried a lot of productivity systems over the years and most of them require you to completely overhaul how you work. This book is different. Clear, no-fluff, and refreshingly honest. I picked up three tools I now use every single day."</p>
       <div class="testimonial-author">
@@ -774,7 +807,7 @@
       </div>
     </div>
 
-    <div class="testimonial-card">
+    <div class="testimonial-card" tabindex="0">
       <div class="testimonial-stars">★★★★★</div>
       <p class="testimonial-text">"Most productivity advice tells you to wake up earlier or work harder. This book told me to work differently. The tools and leverage chapter reframed how I think about my whole workday. Genuinely one of the most useful things I've read recently."</p>
       <div class="testimonial-author">
