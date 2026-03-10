@@ -322,6 +322,10 @@
   .stripe { height:4px; background:linear-gradient(90deg,var(--purple),var(--violet),var(--blue)); }
 
   /* ── BODY SECTION ── */
+  #learn-more {
+    scroll-margin-top: -30px;
+  }
+
   .body-section {
     background:var(--white);
     padding:80px 60px;
@@ -385,6 +389,78 @@
     margin-top: 0px;
   }
   .feature-list li strong { color:var(--navy); }
+
+  /* ── ABOUT AUTHOR ── */
+  .about-section {
+    background: var(--navy);
+    padding: 80px 60px;
+  }
+
+  .about-section .container {
+    display: grid;
+    grid-template-columns: 1.1fr 1.6fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .about-photo-wrap {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+  }
+
+  .about-photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .about-copy {
+    color: var(--white);
+  }
+
+  .about-copy-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin-bottom: 10px;
+  }
+
+  .about-copy-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    margin-bottom: 18px;
+  }
+
+  .about-copy-body p {
+    font-size: 17px;
+    line-height: 1.85;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 16px;
+  }
+
+  .about-copy-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .about-copy-body strong {
+    color: var(--white);
+  }
+
+  .body-left p .book-title {
+    color: var(--purple);
+    font-style: italic;
+  }
+
+  .about-copy-body .book-title {
+    color: var(--violet);
+    font-style: italic;
+  }
 
   /* ── TESTIMONIALS ── */
   .testimonials-section {
@@ -561,6 +637,9 @@
     .body-section { padding: 60px 32px; }
     .body-section .container { grid-template-columns: 1fr; gap: 48px; }
 
+    .about-section { padding: 60px 32px; }
+    .about-section .container { grid-template-columns: 1fr; gap: 32px; }
+
     .testimonials-section { padding: 60px 32px; }
     .testimonials-grid { grid-template-columns: 1fr; gap: 20px; }
 
@@ -614,6 +693,7 @@
     .spine-accent-2 { left: 8px; }
 
     .body-section { padding: 48px 20px; }
+    .about-section { padding: 48px 20px; }
     .body-left h2 { font-size: 40px; }
     .body-left p { font-size: 17px; }
 
@@ -705,7 +785,7 @@
     </div>
     <div class="hero-author-line">
       <div class="author-avatar-wrap">
-        <img src="/headshot.jpeg" alt="Brendan Bockes" class="author-avatar" />
+        <img src="/headshot.jpg" alt="Brendan Bockes" class="author-avatar" />
       </div>
       <div class="author-info">
         <div class="author-label">Written by</div>
@@ -726,14 +806,14 @@
   <div class="body-left reveal">
     <h2>Most People Work Harder Than They Need To. <span>You Don't Have To.</span></h2>
     <div class="section-rule"></div>
-    <p>An F1 racecar is always going to beat a Prius in a drag race. That's obvious.</p>
-    <p>What's less obvious is that the same thing happens at work.</p>
-    <p>The tools you use determine your speed, your output, and how much friction you feel every day.</p>
-    <p>Most people don't choose their tools—they inherit them. Company defaults. Outdated software. "What we've always used." And then they wonder why work feels harder than it should.</p>
-    <p>Here's the uncomfortable truth: <strong>effort can't compensate for bad tools.</strong> You can work longer hours. You can care more. But if your systems are clunky and your workflows inefficient, you're capped.</p>
-    <p>The right tools don't just save time—they remove friction, reduce mental load, and let you operate at a higher level.</p>
-    <p><strong><em>Super Productive</em></strong> is a practical guide to using better tools and building smarter systems. Each chapter gives you a simple framework for getting more done in less time, plus a small set of tools you can use to put it into practice—so you can work smarter, move faster, and stop making work harder than it needs to be.</p>
-    <p><strong>Get your copy and start leveling up today.</strong></p>
+    <p>An F1 racecar is always going to beat a Prius in a drag race. That’s obvious.</p>
+    <p>What’s less obvious is that the same thing happens at work.</p>
+    <p><strong>The tools you use determine your speed, your output, and how much friction you feel every day.</strong></p>
+    <p>Most people don’t choose their tools — they inherit them. Company defaults. Outdated software. “What we’ve always used.” And then they wonder why work feels harder than it should.</p>
+    <p>Here’s the uncomfortable truth: <strong>effort can’t compensate for bad tools.</strong> You can work longer hours. You can care more. But if your systems are clunky and your workflows inefficient, you’re capped.</p>
+    <p><strong>The right tools don’t just save time — they remove friction, reduce mental load, and let you operate at a higher level.</strong></p>
+    <p><strong class="book-title">Super Productive</strong> is a practical guide to better tools and smarter systems. Each chapter gives you a simple framework to save time and a small set of tools you can use to apply it — so you can work faster, think clearer, and get more done with less effort.</p>
+    <p><strong>Get your copy to start leveling up today.</strong></p>
     <a href="http://buy.super-productive.com/" class="btn-primary" style="margin-top: 24px; display: inline-block;">Get Your Copy</a>
   </div>
 
@@ -760,7 +840,7 @@
         <div class="icon">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
         </div>
-        <span><strong>Deep Work</strong><br>Create the conditions to do your best work.</span>
+        <span><strong>Deep Work</strong><br>Create the conditions to perform at your highest level.</span>
       </li>
       <li>
         <div class="icon">
@@ -778,6 +858,28 @@
   </div><!-- end body-right -->
   </div><!-- end container -->
 </div>
+
+<!-- ABOUT AUTHOR -->
+<div class="about-section reveal">
+  <div class="container">
+    <div class="about-photo-wrap">
+      <img src="/headshot.jpg" alt="Brendan Bockes" class="about-photo" />
+    </div>
+    <div class="about-copy">
+      <div class="about-copy-eyebrow">About the Author</div>
+      <div class="about-copy-title">Brendan Bockes</div>
+      <div class="about-copy-body">
+        <p>Hi, I’m Brendan Bockes — a web strategist, writer, and productivity nerd who’s been working remotely since 2019.</p>
+        <p>Over the years, I’ve worked with teams of all sizes, and I’ve seen the same pattern: smart, talented people either fighting their tools or failing to use the ones that could save them time.</p>
+        <p>I wrote <strong class="book-title">Super Productive</strong> to help knowledge workers simplify their digital workflows, eliminate unnecessary friction, and build systems that actually support deep, meaningful work.</p>
+        <p>Being productive isn’t about cramming more into your day. It’s about working with clarity, using the right tools the right way, and creating leverage so your effort goes further.</p>
+        <p>If that resonates with you, I hope you’ll get your copy of <strong class="book-title">Super Productive</strong> and see what’s possible when your tools finally work for you — not against you.</p>
+        <a href="http://buy.super-productive.com/" class="btn-primary" style="margin-top: 24px; display: inline-block;">Get Your Copy</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="testimonials-section reveal">
   <div class="container">
   <div class="testimonials-eyebrow">What Readers Are Saying</div>
