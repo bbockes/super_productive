@@ -7,13 +7,13 @@
         xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
     <loc>https://superproductive.magic-patterns.com</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-03-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://superproductive.magic-patterns.com/about</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-03-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

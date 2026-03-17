@@ -64,17 +64,21 @@
   /* ── HERO SECTION ── */
   .hero {
     background: var(--navy);
-    padding: 80px 60px;
+    /* Responsive padding while keeping vertical centering */
+    padding: clamp(48px, 8vh, 96px) 60px;
     position: relative;
     overflow: hidden;
     border-bottom: none;
-    min-height: 95vh;
+    /* Slightly less than full height so the white section below peeks through */
+    min-height: 92svh;
+    display: flex;
+    align-items: center;
   }
 
   .hero .container {
     display: flex;
     gap: 72px;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
   }
 
@@ -93,7 +97,9 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 70% 80% at 18% 50%, rgba(123,82,232,0.12) 0%, transparent 65%);
+    background:
+      radial-gradient(ellipse 70% 80% at 18% 50%, rgba(123,82,232,0.12) 0%, transparent 65%),
+      linear-gradient(to bottom, transparent 65%, rgba(0,0,0,0.26) 100%);
     pointer-events: none;
   }
 
