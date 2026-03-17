@@ -552,6 +552,45 @@
     margin-top: 2px;
   }
 
+  /* ── BACK TO TOP ── */
+  .back-to-top-wrap {
+    background: var(--off-white);
+    padding: 0 60px 48px;
+  }
+  .back-to-top-wrap .container {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .back-to-top-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--purple);
+    text-decoration: none;
+    padding: 12px 20px;
+    border: 1px solid rgba(123,82,232,0.3);
+    border-radius: 6px;
+    background: var(--white);
+    transition: color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  }
+  .back-to-top-btn:hover {
+    color: var(--violet);
+    border-color: var(--purple);
+    box-shadow: 0 4px 16px rgba(123,82,232,0.15);
+    transform: translateY(-1px);
+  }
+  .back-to-top-btn:focus-visible {
+    outline: 2px solid var(--violet);
+    outline-offset: 2px;
+  }
+  .back-to-top-btn::before {
+    content: '↑';
+    font-size: 16px;
+  }
+
   /* ── FOOTER ── */
   .footer {
     background:var(--navy); padding:36px 60px;
@@ -633,6 +672,7 @@
     .about-section .container { grid-template-columns: 1fr; gap: 32px; }
 
     .testimonials-section { padding: 60px 32px; }
+    .back-to-top-wrap { padding: 0 32px 48px; }
     .testimonials-grid { grid-template-columns: 1fr; gap: 20px; }
 
     .footer { padding: 40px 32px; }
@@ -690,6 +730,7 @@
     .body-left p { font-size: 17px; }
 
     .testimonials-section { padding: 48px 20px; }
+    .back-to-top-wrap { padding: 0 20px 40px; }
     .testimonial-card { padding: 24px; }
 
     .footer { padding: 36px 20px; }
@@ -699,7 +740,7 @@
   }
 </style>
 </head>
-<body>
+<body id="top">
 
 <!-- HERO -->
 <div class="hero">
@@ -916,6 +957,12 @@
 
   </div><!-- end testimonials-grid -->
   </div><!-- end container -->
+</div>
+
+<div class="back-to-top-wrap">
+  <div class="container">
+    <a href="#top" class="back-to-top-btn">Back to top</a>
+  </div>
 </div>
 
 <!-- FOOTER -->
