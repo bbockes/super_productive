@@ -382,8 +382,8 @@
   .body-left p { font-size:17px; font-weight:400; color:#444; line-height:1.85; margin-bottom:16px; }
   .body-left p strong { color:var(--navy); font-weight:600; }
   .body-left p em { font-style: italic; }
-  .body-left p .book-title,
-  .about-copy-body .book-title { font-style: italic; color: var(--purple); }
+  .body-left p .book-title { font-style: italic; color: var(--purple); }
+  .about-copy-body .book-title { font-style: italic; color: var(--violet); }
   .body-left p:last-child { font-weight:600; color:var(--navy); font-size:18px; }
 
   .body-right { padding-top:0; align-self:start; }
@@ -627,7 +627,37 @@
     -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
   }
   .footer-tag { font-family:'IBM Plex Mono',monospace; font-size:12px; color:rgba(155,114,255,0.55); letter-spacing:0.14em; text-transform:uppercase; }
+  .footer-copy-wrap { display:inline-flex; align-items:center; gap:10px; }
   .footer-copy { font-size:13px; color:rgba(255,255,255,0.35); letter-spacing:0.06em; }
+  .footer-top-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+    border: 1px solid rgba(155,114,255,0.55);
+    border-radius: 999px;
+    background: rgba(123,82,232,0.2);
+    box-shadow: 0 0 0 rgba(123,82,232,0);
+    transition: color 0.2s ease, transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .footer-top-link:hover {
+    color: var(--white);
+    background: rgba(123,82,232,0.38);
+    border-color: var(--violet);
+    box-shadow: 0 0 16px rgba(123,82,232,0.45);
+    transform: translateY(-1px);
+  }
+  .footer-top-link:focus-visible {
+    outline: 2px solid var(--violet);
+    outline-offset: 3px;
+    border-radius: 999px;
+  }
 
   /* ── ANIMATIONS ── */
 
@@ -872,7 +902,7 @@
     <p>Most people don’t choose their tools — they inherit them. Company defaults. Outdated software. “What I've always used.” And then they wonder why work feels harder than it should.</p>
     <p>Here’s the uncomfortable truth: <strong>effort can’t compensate for bad tools.</strong> You can work longer hours. You can care more. But if your systems are clunky and your workflows inefficient, you’re capped.</p>
     <p><strong>The right tools don’t just save time — they remove friction, reduce mental load, and let you operate at a higher level.</strong></p>
-    <p><strong class="book-title">Super Productive</strong> is a practical guide to better tools and smarter systems. Each chapter gives you a simple framework to save time and a small set of tools you can use to apply it — so you can work faster, think clearer, and get more done with less effort.</p>
+    <p><strong class="book-title">Super Productive</strong> is a practical guide to better tools and smarter systems. Each chapter focuses on a key category of tools and highlights a few specific ones worth exploring — so you can work faster, think clearer, and get more done with less effort.</p>
     <p><strong>Get your copy and start leveling up today.</strong></p>
     <a href="http://buy.super-productive.com/" class="btn-primary" style="margin-top: 24px; display: inline-block;">Get Your Copy</a>
   </div>
@@ -940,6 +970,7 @@
   </div>
 </div>
 
+<!-- Testimonials are temporarily hidden. Re-enable by uncommenting this section.
 <div class="testimonials-section reveal">
   <div class="container">
   <div class="testimonials-eyebrow">What Readers Are Saying</div>
@@ -981,22 +1012,20 @@
       </div>
     </div>
 
-  </div><!-- end testimonials-grid -->
-  </div><!-- end container -->
-</div>
-
-<div class="back-to-top-wrap">
-  <div class="container">
-    <a href="#top" class="back-to-top-btn">Back to top</a>
+  </div>
   </div>
 </div>
+-->
 
 <!-- FOOTER -->
 <div class="footer">
   <div class="container" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px;">
   <div class="footer-brand">Super Productive</div>
   <div class="footer-tag">Smart Tools, Remarkable Results</div>
-  <div class="footer-copy">© Brendan Bockes. All rights reserved.</div>
+  <div class="footer-copy-wrap">
+    <div class="footer-copy">© Brendan Bockes. All rights reserved.</div>
+    <a href="#top" class="footer-top-link" aria-label="Back to top">↑</a>
+  </div>
   </div>
 </div>
 
