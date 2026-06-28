@@ -1,5 +1,5 @@
 # Robots.txt for Super Productive Blog
-# https://superproductive.magic-patterns.com
+# https://super-productive.netlify.app
 
 User-agent: *
 Allow: /
@@ -16,7 +16,7 @@ Allow: /posts/
 Allow: /about
 
 # Sitemap location
-Sitemap: https://superproductive.magic-patterns.com/sitemap.xml
+Sitemap: https://super-productive.netlify.app/sitemap.xml
 
 # Crawl delay (optional - be respectful to search engines)
 Crawl-delay: 1

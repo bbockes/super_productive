@@ -60,7 +60,7 @@ export function generatePageTitle(post) {
 }
 
 // Default OG image URL
-export const DEFAULT_OG_IMAGE = 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&h=630&fit=crop';
+export const DEFAULT_OG_IMAGE = 'https://super-productive.netlify.app/OG-image.png';
 
 // Generate Open Graph meta tags HTML
 export function generateOGMetaTags(post, url) {

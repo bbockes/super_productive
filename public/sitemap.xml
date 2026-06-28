@@ -6,61 +6,61 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
-    <loc>https://superproductive.magic-patterns.com</loc>
+    <loc>https://super-productive.netlify.app</loc>
     <lastmod>2026-03-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://superproductive.magic-patterns.com/about</loc>
+    <loc>https://super-productive.netlify.app/about</loc>
     <lastmod>2026-03-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://superproductive.magic-patterns.com/posts/clean-this-up</loc>
+    <loc>https://super-productive.netlify.app/posts/clean-this-up</loc>
     <lastmod>2025-07-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://superproductive.magic-patterns.com/posts/from-brainstorm-to-breakthrough</loc>
+    <loc>https://super-productive.netlify.app/posts/from-brainstorm-to-breakthrough</loc>
     <lastmod>2025-07-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://superproductive.magic-patterns.com/posts/the-password-hack</loc>
+    <loc>https://super-productive.netlify.app/posts/the-password-hack</loc>
     <lastmod>2025-07-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://superproductive.magic-patterns.com/posts/nav-shortcuts</loc>
+    <loc>https://super-productive.netlify.app/posts/nav-shortcuts</loc>
     <lastmod>2025-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://superproductive.magic-patterns.com/posts/clipboard-managers</loc>
+    <loc>https://super-productive.netlify.app/posts/clipboard-managers</loc>
     <lastmod>2025-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://superproductive.magic-patterns.com/posts/summarize-this</loc>
+    <loc>https://super-productive.netlify.app/posts/summarize-this</loc>
     <lastmod>2025-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://superproductive.magic-patterns.com/posts/laymans-terms</loc>
+    <loc>https://super-productive.netlify.app/posts/laymans-terms</loc>
     <lastmod>2025-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://superproductive.magic-patterns.com/posts/complete-this</loc>
+    <loc>https://super-productive.netlify.app/posts/complete-this</loc>
     <lastmod>2025-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

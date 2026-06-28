@@ -93,9 +93,9 @@ interface BlogSchema {
 // Default organization data
 const ORGANIZATION_DATA = {
   name: "Super Productive",
-  url: "https://superproductive.magic-patterns.com",
+  url: "https://super-productive.netlify.app",
   description: "Bite-sized tech tips to level up your productivity. Weekly newsletter with AI prompts, productivity tools, and smart workflows.",
-  logo: "https://superproductive.magic-patterns.com/logo.png",
+  logo: "https://super-productive.netlify.app/logo.png",
   sameAs: [
     "https://linkedin.com/company/super-productive" // Update with actual social media URLs
   ]

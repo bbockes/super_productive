@@ -35,7 +35,7 @@ const POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(publish
 }`;
 
 // Base URL - update this to match your actual domain
-const BASE_URL = 'https://superproductive.magic-patterns.com';
+const BASE_URL = 'https://super-productive.netlify.app';
 
 // Generate XML sitemap content
 function generateSitemapXML(urls) {

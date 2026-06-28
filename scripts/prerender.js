@@ -111,7 +111,7 @@ async function prerender() {
       slug: post.slug?.current || slugify(post.title)
     }));
     
-    const baseUrl = 'https://superproductive.magic-patterns.com'; // Update this to your actual domain
+    const baseUrl = 'https://super-productive.netlify.app';
     
     console.log('📝 Generating static HTML files...');
     
